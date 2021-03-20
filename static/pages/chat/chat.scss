@@ -153,6 +153,11 @@
 
 		.contacts-item {
 		  border: none;
+
+		  ._counter {
+			background-color: $color_dark_grey;
+			color: $color_white;
+		  }
 		}
 
 		& + li {
@@ -166,6 +171,8 @@
 
   .chat-header {
 	grid-area: header;
+	box-shadow: 0 6px 20px 4px #1e1e1eb0;
+	z-index: 1;
 
 	.content {
 	  display: flex;
@@ -191,6 +198,7 @@
 	grid-area: messages;
 
 	.messages {
+	  padding-top: 50px;
 	  padding-bottom: 50px;
 	  margin: 0 20px;
 	  height: calc(100vh - 135px);
@@ -198,7 +206,7 @@
 
 	  .chat-message {
 		background-color: $color_primary;
-		max-width: 40%;
+		max-width: 400px;
 		padding: 20px;
 		border-radius: 0 10px 10px 10px;
 		margin-bottom: 10px;
@@ -234,6 +242,8 @@
 
   .chat-input-message {
 	grid-area: input-message;
+	box-shadow: 0 -6px 20px 4px #1e1e1eb0;
+	z-index: 1;
 
 	.content {
 	  border-top: 1px solid $color_chat_border;

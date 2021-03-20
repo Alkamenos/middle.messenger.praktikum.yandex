@@ -1,0 +1,52 @@
+extends ../../main.pug
+
+mixin menuItem(name, icon, active)
+    li(class=active ? "_menu-item _active" : "_menu-item")
+        div._icon
+            i(class=icon)
+        div._title=name
+        div._chevron
+            ii(class="fa fa-chevron-right")
+
+
+block content
+    div.profile
+        div.settings
+            div.settings-title
+                a(href="/pages/chat/chat.pug").back-button
+                    i(class="fa fa-chevron-left")
+                span="Настройки"
+            div.settings-user
+                div.settings-user_avatar
+                    img(src="/images/avatars/lake.svg")
+                div.settings-user_info
+                    div._name="Вася Пупкин"
+                    div._email="pupkintheone@yandex.ru"
+            nav.settings-menu
+                ul.settings-menu-items
+                    +menuItem("Основные", "fa fa-cog", true)
+                    +menuItem("Безопасность", "fa fa-shield")
+
+
+        div.content
+            form(class="settings-general-form settings-form")
+                div.user-avatar
+                    img(src="/images/avatars/lake.svg")
+                div.settings-general-form_fields
+                    input(placeholder="Имя" value="Вася").form-input
+                    input(placeholder="Фамилия" value="Пупкин").form-input
+                    input(placeholder="Email" value="pupkintheone@yandex.ru").form-input
+                    input(placeholder="Телефон" value="+70001212312").form-input
+                    input(placeholder="Имя в чате" value="@masha18").form-input
+
+
+            form(class="settings-security-form settings-form")
+                div.settings-general-form_fields
+                    input(placeholder="Текущий пароль" type="password").form-input
+                    input(placeholder="Новый пароль" type="password").form-input
+                    input(placeholder="Повторите пароль" type="password").form-input
+
+
+
+append scripts
+    script(src="./profile.js")

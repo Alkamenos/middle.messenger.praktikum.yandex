@@ -32,7 +32,7 @@ block content
                     span
                         i(class="fa fa-chevron-right")._icon
             div.contacts-search
-                input(placeholder='Поиск').search-input
+                input(placeholder= '  Поиск').search-input
             ul.contacts-list
                 +contact("Tomas Wayne","The strength of this country isn’t in buildings of brick and steel. It’s in the hearts of those who have sworn to fight for its freedom!", "10:30", "/images/avatars/doctor.svg",1)
                 +contact("Peter Parker","No man can win every battle, but no man should fall without a struggle.", "пт", "/images/avatars/exercise.svg")
@@ -63,5 +63,5 @@ block content
                     i(class="fa fa-long-arrow-right")
 
 
-    block append scrips
-        script(src="./chat.js")
+append scripts
+    script(src="./chat.js")

@@ -3,7 +3,7 @@
 //$color_h1: tomato;
 
 body {
-  font-family: Roboto, Arial, FontAwesome, serif;
+  font-family: Gilroy, Roboto, Arial, FontAwesome, serif;
 }
 
 * {
@@ -16,6 +16,10 @@ a {
 
   &:hover {
     text-decoration: underline;
+  }
+
+  &:visited {
+    color: inherit;
   }
 }
 
