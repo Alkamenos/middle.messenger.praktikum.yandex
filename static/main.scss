@@ -1,6 +1,39 @@
 @import 'components/input';
+@import 'styles/colors';
 //$color_h1: tomato;
+
+body {
+  font-family: Roboto, Arial, FontAwesome, serif;
+}
 
 * {
   box-sizing: border-box;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  background-color: transparent;
+}
+
+
+
+
