@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/server.js",
-    "dev": "parcel ./static/index.pug --open"
+    "dev": "parcel ./static/index.pug --open",
+    "build": "parcel build ./static/index.pug"
   },
   "repository": {
     "type": "git",
