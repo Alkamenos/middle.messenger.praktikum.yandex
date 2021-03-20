@@ -1,0 +1,20 @@
+extends ../../main.pug
+mixin contact(name)
+    li.contatcts-item= name
+block content
+    div.chat
+        section.chat-contacts
+            div.contacts-profile-link
+                a(href="/pages/profile")._link
+                    span._text Профиль
+                    i(class="fa fa-chevron-right")._icon
+            ul.contacts
+                +contact("vasya")
+                +contact("vasya2")
+                +contact("vasya3")
+        section.chat-messages
+        section.chat-header
+        section.chat-input-message
+
+    block append scrips
+        script(src="./chat.js")

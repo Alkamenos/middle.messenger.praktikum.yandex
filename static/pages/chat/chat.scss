@@ -1,0 +1,43 @@
+.chat {
+  display: grid;
+  grid-template-columns: 310px auto;
+  grid-template-rows: 65px auto 60px;
+  grid-template-areas:
+    "contacts header"
+    "contacts messages"
+    "contacts input-message";
+  height: 100vh;
+  max-height: 100vh;
+  min-height: 100vh;
+  gap: 0 0;
+
+  .chat-contacts {
+	grid-area: contacts;
+  }
+
+  .chat-header {
+	grid-area: header;
+  }
+
+  .chat-messages {
+	grid-area: messages;
+  }
+
+  .chat-input-message {
+	grid-area: input-message;
+  }
+
+  .contacts-profile-link {
+	._link {
+
+	}
+
+	._icon {
+
+	}
+
+	._text {
+
+	}
+  }
+}
