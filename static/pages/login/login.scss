@@ -1,3 +1,49 @@
-.login {
-  color: red;
+@import "/static/styles/colors";
+
+.login-page {
+  display: grid;
+  grid-template-columns: auto 500px;
+  grid-template-rows: auto;
+  grid-template-areas: "login registration";
+  height: 100vh;
+  max-height: 100vh;
+  min-height: 100vh;
+  gap: 0 0;
+  color: $color_white;
+  font-size: 12px;
+  overflow: hidden;
+
+  .login-form {
+	grid-area: login;
+	padding: 0 10px;
+	color: $color_dark_grey;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+
+	.form-input {
+	  min-width: 355px;
+	}
+
+	.button {
+	  margin-top: 50px;
+	  width: 355px;
+	}
+  }
+
+  .registration {
+	grid-area: registration;
+	display: flex;
+	flex-direction: column;
+	background-color: $color_dark_grey;
+	padding: 0 10px;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 2px 0 18px 9px #1e1e1e63;
+
+	.button {
+	  width: 355px;
+	}
+  }
 }
