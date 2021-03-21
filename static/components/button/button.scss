@@ -1,0 +1,21 @@
+@import "/static/styles/colors";
+
+.button {
+  width: 284px;
+  height: 60px;
+  background-color: $color_dark_grey;
+  color: $color_white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+
+
+  &._secondary {
+    color: $color_dark_grey;
+    background-color: $color_white;
+  }
+
+}

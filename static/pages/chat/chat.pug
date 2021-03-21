@@ -1,0 +1,67 @@
+extends ../../main.pug
+
+mixin contact(name, message, time, ava, counter)
+    li
+        div.contacts-item
+            div._avatar
+                img(src=ava)
+            div._info
+                div._name=name
+                div._message-preview=message
+                div._time=time
+                if counter
+                    div._counter=counter
+
+mixin message(message, time,my)
+    li(class=my ? "chat-message _my" : "chat-message")
+        div._text=message
+        div._time=time
+
+
+mixin imageMessage(url, my)
+    li(class=my ? "chat-message _image _my" : "chat-message _image")
+        img(src=url)
+
+
+block content
+    div.chat
+        section.chat-contacts
+            div.contacts-profile-link
+                a(href="~/static/pages/profile/profile.pug")._link
+                    span._text Профиль
+                    span
+                        i(class="fa fa-chevron-right")._icon
+            div.contacts-search
+                input(placeholder= '  Поиск').search-input
+            ul.contacts-list
+                +contact("Tomas Wayne","The strength of this country isn’t in buildings of brick and steel. It’s in the hearts of those who have sworn to fight for its freedom!", "10:30", "~/static/images/avatars/doctor.svg",1)
+                +contact("Peter Parker","No man can win every battle, but no man should fall without a struggle.", "пт", "~/static/images/avatars/exercise.svg")
+                +contact("Alfred Penyworth","🤣🤣🤣🤣", "10.02.2021", "~/static/images/avatars/lake.svg")
+                +contact("Tony Stark","http://ironman.com", "23.02.2020", "~/static/images/avatars/reindeer.svg")
+
+        section.chat-messages
+            ul.messages
+                +message("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, at culpa dignissimos et facilis inventore natus reprehenderit similique temporibus vel. Animi culpa et eum iste mollitia necessitatibus odit provident, repellat! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, at culpa dignissimos et facilis inventore natus reprehenderit similique temporibus vel. Animi culpa et eum iste mollitia necessitatibus odit provident, repellat!","10:30")
+                +imageMessage("~/static/images/chat/image.jpg")
+                +message("No man can win every battle, but no man should fall without a struggle.","10:31",true)
+
+
+        section.chat-header
+            div.content
+                img(src="~/static/images/avatars/lake.svg")
+                span="Вася Пупкин"
+                div.menu
+                    i(class="fa fa-ellipsis-v")
+
+
+        section.chat-input-message
+            div.content
+                button._attach
+                    i(class="fa fa-paperclip")
+                input(placeholder="Сообщение")._input
+                button._send
+                    i(class="fa fa-long-arrow-right")
+
+
+append scripts
+    script(src="./chat.js")

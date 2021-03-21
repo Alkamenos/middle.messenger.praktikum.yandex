@@ -1,0 +1,12 @@
+extends ../../main.pug
+include ../../components/button/button.pug
+
+block content
+    div.error-page
+        div.error-page-content
+            h1.form-title="доступ запрещен"
+            h3.form-sub-title="попробуйте зайти чуть позже"
+            +primaryLink('На главную страницу')(href="/")
+
+append scripts
+    script(src="./errors.js")

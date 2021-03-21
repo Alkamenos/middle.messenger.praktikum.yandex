@@ -1,0 +1,32 @@
+{
+  "name": "middle.messenger.praktikum.yandex",
+  "version": "1.0.0",
+  "description": "Даже законченный проект остаётся только заготовкой, пока им не начнут пользоваться. Но сначала пользователь должен понять, зачем ему пользоваться вашим кодом. В этом помогает файл README.",
+
+  "scripts": {
+    "start": "parcel build ./static/index.pug && node ./server.js",
+    "dev": "parcel ./static/index.pug --open",
+    "build": "parcel build ./static/index.pug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alkamenos/middle.messenger.praktikum.yandex.git"
+  },
+  "author": "Leonid Artemev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alkamenos/middle.messenger.praktikum.yandex/issues"
+  },
+  "homepage": "https://github.com/Alkamenos/middle.messenger.praktikum.yandex#readme",
+  "devDependencies": {
+    "@parcel/transformer-pug": "^2.0.0-beta.2",
+    "@parcel/transformer-sass": "^2.0.0-beta.2",
+    "express": "^4.17.1",
+    "parcel": "^2.0.0-beta.2",
+    "pug": "^3.0.2",
+    "sass": "^1.32.8"
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1"
+  }
+}

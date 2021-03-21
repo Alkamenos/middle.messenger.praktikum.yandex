@@ -1,0 +1,23 @@
+extends ../../main.pug
+include ../../components/input/input.pug
+include ../../components/button/button.pug
+
+block content
+    div.login-page
+        div.login-form
+            div
+                h1.form-title="вход"
+                +formInput("Email","pupkintheone@yandex.ru")(name='email')
+                +formInput("Пароль")(type="password", name="password")
+                +primaryLink('Войти')(href="~/static/pages/chat/chat.pug")
+
+
+        div.registration
+            div
+                h3.form-title="регистрация"
+                h5.form-sub-title="Создайте аккаунт"
+                +primaryLink('Зарегистрироваться', "_secondary")(href="~/static/pages/registration/registration.pug")
+
+
+append scripts
+    script(src="./login.js")
