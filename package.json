@@ -4,7 +4,9 @@
   "description": "Даже законченный проект остаётся только заготовкой, пока им не начнут пользоваться. Но сначала пользователь должен понять, зачем ему пользоваться вашим кодом. В этом помогает файл README.",
 
   "scripts": {
-    "start": "node ./server.js"
+    "start": "node ./server.js",
+    "dev": "parcel ./static/index.pug --open",
+    "build": "parcel build ./static/index.pug"
   },
   "repository": {
     "type": "git",
