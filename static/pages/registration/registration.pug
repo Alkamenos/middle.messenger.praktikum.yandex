@@ -6,8 +6,8 @@ block content
     div.registration-page
         div.registration-form
             div
-                div.form-title="регистрация"
-                div.form-sub-title="Создайте учетную запись пользователя"
+                h1.form-title="регистрация"
+                h3.form-sub-title="Создайте учетную запись пользователя"
                 +formInput("Имя", "Вася")(name='firstname')
                 +formInput("Фамилия","Пупкин", "Пупкин придуманный персонаж", true)(name='lastname')
                 +formInput("Email","pupkintheone@yandex.ru")(name='email')
@@ -18,8 +18,8 @@ block content
 
         div.login
             div
-                div.form-title="вход"
-                div.form-sub-title="Если есть аккаунт"
+                h4.form-title="вход"
+                h5.form-sub-title="Если есть аккаунт"
                 +primaryLink('Войти', "_secondary")(href="~/static/pages/login/login.pug")
 
 append scripts

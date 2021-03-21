@@ -6,16 +6,16 @@ block content
     div.login-page
         div.login-form
             div
-                div.form-title="вход"
-                    +formInput("Email","pupkintheone@yandex.ru")(name='email')
-                    +formInput("Пароль")(type="password", name="password")
-                    +primaryLink('Войти')(href="~/static/pages/chat/chat.pug")
+                h1.form-title="вход"
+                +formInput("Email","pupkintheone@yandex.ru")(name='email')
+                +formInput("Пароль")(type="password", name="password")
+                +primaryLink('Войти')(href="~/static/pages/chat/chat.pug")
 
 
         div.registration
             div
-                div.form-title="регистрация"
-                div.form-sub-title="Создайте аккаунт"
+                h3.form-title="регистрация"
+                h5.form-sub-title="Создайте аккаунт"
                 +primaryLink('Зарегистрироваться', "_secondary")(href="~/static/pages/registration/registration.pug")
 
 
