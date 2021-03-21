@@ -13,12 +13,12 @@ block content
     div.profile
         div.settings
             div.settings-title
-                a(href="/pages/chat/chat.pug").back-button
+                a(href="~/static/pages/chat/chat.pug").back-button
                     i(class="fa fa-chevron-left")
                 span="Настройки"
             div.settings-user
                 div.settings-user_avatar
-                    img(src="/images/avatars/lake.svg")
+                    img(src="~/static/images/avatars/lake.svg")
                 div.settings-user_info
                     div._name="Вася Пупкин"
                     div._email="pupkintheone@yandex.ru"
@@ -31,7 +31,7 @@ block content
         div.content
             form(class="settings-general-form settings-form")
                 div.user-avatar
-                    img(src="/images/avatars/lake.svg")
+                    img(src="~/static/images/avatars/lake.svg")
                 div.settings-general-form_fields
                     input(placeholder="Имя" value="Вася").form-input
                     input(placeholder="Фамилия" value="Пупкин").form-input
