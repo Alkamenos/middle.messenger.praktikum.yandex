@@ -1,0 +1,24 @@
+.avatar-wrapper {
+  position: relative;
+  height: 120px;
+  width: 120px;
+  margin-right: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 1px 1px 15px -5px black;
+
+  .file-upload {
+	width: 0;
+  }
+
+  .profile-pic {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	cursor: pointer;
+
+  }
+
+}

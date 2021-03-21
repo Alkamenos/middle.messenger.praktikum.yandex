@@ -1,4 +1,6 @@
-@import 'components/input';
+@import 'components/input/input';
+@import 'components/button/button';
+@import 'components/avatarUpload/avatarUpload';
 @import 'styles/colors';
 //$color_h1: tomato;
 
@@ -36,6 +38,14 @@ button {
   cursor: pointer;
   outline: none;
   background-color: transparent;
+}
+
+._visible {
+  display: block;
+}
+
+._hidden {
+  display: none !important;
 }
 
 

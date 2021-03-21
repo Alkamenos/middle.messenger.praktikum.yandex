@@ -1,0 +1,5 @@
+mixin formInput(placeholder, value, helper="", err=false)
+    div(class=`form-input ${err ? "_error" : ""}`)
+        input(placeholder=placeholder value=value)&attributes(attributes)
+        div.form-input-line
+        span.form-input-helper=helper

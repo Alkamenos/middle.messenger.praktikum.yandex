@@ -64,33 +64,37 @@
 	}
 
 	.settings-menu {
-	  ._menu-item {
-		height: 52px;
-		padding: 10px 20px;
-		display: flex;
-		align-items: center;
-		font-size: 16px;
-		cursor: pointer;
+	  .menu-item {
+		.menu-item-button {
+		  height: 52px;
+		  padding: 10px 20px;
+		  font-size: 16px;
+		  cursor: pointer;
+		  color: inherit;
+		  display: flex;
+		  align-items: center;
+		  width: 100%;
 
-		._icon {
-		  margin-right: 10px;
-		  width: 25px;
-		  text-align: center;
+		  ._icon {
+			margin-right: 10px;
+			width: 25px;
+			text-align: center;
 
-		  i {
-			font-size: 24px;
+			i {
+			  font-size: 24px;
+			}
 		  }
-		}
 
-		._title {
-		}
+		  ._title {
+		  }
 
-		._chevron {
-		  margin-left: auto;
-		}
+		  ._chevron {
+			margin-left: auto;
+		  }
 
-		&:hover, &._active {
-		  background-color: $color_primary;
+		  &:hover, &._active {
+			background-color: $color_primary;
+		  }
 		}
 	  }
 	}
@@ -111,20 +115,18 @@
 	  display: flex;
 
 
-	  .user-avatar {
-		margin-right: 40px;
-
-		img {
-		  width: 90px;
-		}
-	  }
-
 	  .settings-general-form_fields {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
 	  }
 
+	}
+
+	.form_controls {
+	  display: flex;
+	  justify-content: flex-end;
+	  margin-top: 50px;
 	}
   }
 }

@@ -1,0 +1,5 @@
+mixin avatar(src)
+    div.avatar-wrapper
+        input.file-upload(type="file" accept="image/*" id="upload")
+        label(for="upload")
+            img.profile-pic(src=src)

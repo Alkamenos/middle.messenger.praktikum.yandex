@@ -1,0 +1,48 @@
+@import "/static/styles/colors";
+
+.form-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  height: 60px;
+  min-height: 60px;
+  max-height: 60px;
+  font-size: 18px;
+  margin-bottom: 8px;
+
+  input {
+	border: none;
+	outline: none;
+	width: 100%;
+	margin-bottom: 5px;
+	background-color: transparent;
+  }
+
+  .form-input-line {
+	border-bottom: 1px solid $color_dark_grey;
+	width: 100%;
+  }
+
+  &._error {
+	.form-input-helper {
+	  color: $color_error;
+	}
+
+	.form-input-line {
+	  border-bottom-color: $color_error;
+	}
+
+	input {
+	  color: $color_error;
+	}
+  }
+
+  .form-input-helper {
+	width: 100%;
+	margin-top: 3px;
+	font-size: 9px;
+	color: $color_dark_grey;
+  }
+}
+
