@@ -1,0 +1,12 @@
+extends ../../main.pug
+include ../../components/button/button.pug
+
+block content
+    div.error-page
+        div.error-page-content
+            div.form-title="сервис недоступен"
+            div.form-sub-title="сервис временно недоступен, попробуйте зайти чуть позже"
+            +primaryLink('На главную страницу')(href="~/static/pages/login/login.pug")
+
+append scripts
+    script(src="./errors.js")
