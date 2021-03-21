@@ -1,7 +1,26 @@
 extends ../../main.pug
+include ../../components/input/input.pug
+include ../../components/button/button.pug
 
 block content
     div.registration-page
+        div.registration-form
+            div
+                div.form-title="регистрация"
+                div.form-sub-title="Создайте учетную запись пользователя"
+                +formInput("Имя", "Вася")(name='firstname')
+                +formInput("Фамилия","Пупкин", "Пупкин придуманный персонаж", true)(name='lastname')
+                +formInput("Email","pupkintheone@yandex.ru")(name='email')
+                +formInput("Телефон", "+70001212312")(name='phone')
+                +formInput("Имя в чате", "@masha18", "Имя обязательно должно быть классное")(name='username')
+                +primaryLink('Создать аккаунт')(href="~/static/pages/chat/chat.pug")
+
+
+        div.login
+            div
+                div.form-title="вход"
+                div.form-sub-title="Если есть аккаунт"
+                +primaryLink('Войти', "_secondary")(href="~/static/pages/login/login.pug")
 
 append scripts
     script(src="./registration.js")

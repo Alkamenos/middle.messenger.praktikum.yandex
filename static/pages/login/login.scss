@@ -29,6 +29,7 @@
 	.button {
 	  margin-top: 50px;
 	  width: 355px;
+	  color: $color_white; //todo странное поведение. Возможно из-за того Pracel очень криво собирает если в верстке есть ссылки на *.pug файлы
 	}
   }
 
