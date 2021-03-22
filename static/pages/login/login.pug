@@ -4,12 +4,12 @@ include ../../components/button/button.pug
 
 block content
     div.login-page
-        div.login-form
+        form.login-form
             div
                 h1.form-title="вход"
                 +formInput("Email","pupkintheone@yandex.ru")(name='email')
                 +formInput("Пароль")(type="password", name="password")
-                +primaryLink('Войти')(href="~/static/pages/chat/chat.pug")
+                +primaryButton('Войти')
 
 
         div.registration

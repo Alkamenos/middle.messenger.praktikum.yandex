@@ -38,18 +38,18 @@ block content
                 div.user-avatar
                     +avatar("~/static/images/avatars/lake.svg")
                 div.settings-general-form_fields
-                    +formInput("Имя", "Вася")(name='firstname')
-                    +formInput("Фамилия","Пупкин", "Пупкин придуманный персонаж", true)(name='lastname')
+                    +formInput("Имя", "Вася")(name='first_name')
+                    +formInput("Фамилия","Пупкин", "Пупкин придуманный персонаж", true)(name='second_name')
                     +formInput("Email","pupkintheone@yandex.ru")(name='email')
                     +formInput("Телефон", "+70001212312")(name='phone')
-                    +formInput("Имя в чате", "@masha18", "Имя обязательно должно быть классное")(name='username')
+                    +formInput("Имя в чате", "@masha18", "Имя обязательно должно быть классное")(name='display_name')
                     div.form_controls
                         +primaryButton('Сохранить')
 
 
             form(class="settings-security-form settings-form")
                 div.settings-general-form_fields
-                    +formInput("Текущий пароль")(type="password", name="currentPassword")
+                    +formInput("Текущий пароль")(type="password", name="oldPassword")
                     +formInput("Новый пароль")(type="password", name="newPassword")
                     +formInput("Повторите пароль")(type="password", name="retypedPassword")
                     div.form_controls
