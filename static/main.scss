@@ -1,13 +1,13 @@
-@import 'components/input/input';
-@import 'components/button/button';
-@import 'components/avatarUpload/avatarUpload';
-@import 'styles/colors';
+@import "components/input/input";
+@import "components/button/button";
+@import "components/avatarUpload/avatarUpload";
+@import "styles/colors";
 
 @font-face {
-  font-family: 'Gilroy';
-  src: url('fonts/gilroy/Gilroy-Medium.ttf') format('truetype');
-  font-weight: normal;
+  font-family: "Gilroy";
   font-style: normal;
+  font-weight: normal;
+  src: url("fonts/gilroy/Gilroy-Medium.ttf") format("truetype");
 }
 
 body {
@@ -40,12 +40,12 @@ ul {
 }
 
 button {
-  border: none;
-  margin: 0;
-  padding: 0;
-  cursor: pointer;
-  outline: none;
   background-color: transparent;
+  border-style: none;
+  cursor: pointer;
+  margin: 0;
+  outline: none;
+  padding: 0;
 }
 
 ._visible {
@@ -67,17 +67,14 @@ button {
 }
 
 .index-main-menu {
-  display: flex;
   align-items: center;
-  justify-content: center;
+  display: flex;
   flex-direction: column;
   font-size: 40px;
   height: 100vh;
+  justify-content: center;
 
   li + li {
     margin-top: 20px;
   }
 }
-
-
-

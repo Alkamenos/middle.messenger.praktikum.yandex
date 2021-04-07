@@ -21,21 +21,21 @@
   }
 
   .form-input-line {
-	border-bottom: 1px solid $color_dark_grey;
+	border-bottom: 1px solid $color-dark-grey;
 	width: 100%;
   }
 
   &._error {
 	.form-input-helper {
-	  color: $color_error;
+	  color: $color-error;
 	}
 
 	.form-input-line {
-	  border-bottom-color: $color_error;
+	  border-bottom-color: $color-error;
 	}
 
 	input {
-	  color: $color_error;
+	  color: $color-error;
 	}
   }
 
@@ -43,7 +43,7 @@
 	width: 100%;
 	margin-top: 3px;
 	font-size: 9px;
-	color: $color_dark_grey;
+	color: $color-dark-grey;
   }
 }
 

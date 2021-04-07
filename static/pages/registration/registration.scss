@@ -1,29 +1,29 @@
 @import "/static/styles/colors";
 .registration-page {
+  color: $color-white;
   display: grid;
+  font-size: 12px;
+  gap: 0 0;
+  grid-template-areas: "login registration";
   grid-template-columns: 500px auto;
   grid-template-rows: auto;
-  grid-template-areas: "login registration";
   height: 100vh;
   max-height: 100vh;
   min-height: 100vh;
-  gap: 0 0;
-  color: $color_white;
-  font-size: 12px;
   overflow: hidden;
 
   .registration-form {
-	grid-area: registration;
-	padding: 0 10px;
-	color: $color_dark_grey;
-	justify-content: center;
 	align-items: center;
+	color: $color-dark-grey;
 	display: flex;
 	flex-direction: column;
+	grid-area: registration;
+	justify-content: center;
+	padding: 0 10px;
 
 	.form-input {
-	  min-width: 355px;
 	  max-width: 355px;
+	  min-width: 355px;
 	}
 
 	.form-sub-title {
@@ -32,21 +32,21 @@
 	}
 
 	.button {
+	  color: $color-white;
 	  margin-top: 50px;
 	  width: 355px;
-	  color: $color_white;
 	}
   }
 
   .login {
-	grid-area: login;
+	align-items: center;
+	background-color: $color-dark-grey;
+	box-shadow: 2px 0 18px 9px #1e1e1e63;
 	display: flex;
 	flex-direction: column;
-	background-color: $color_dark_grey;
-	padding: 0 10px;
+	grid-area: login;
 	justify-content: center;
-	align-items: center;
-	box-shadow: 2px 0 18px 9px #1e1e1e63;
+	padding: 0 10px;
 
 	.button {
 	  width: 355px;
