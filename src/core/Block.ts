@@ -1,11 +1,13 @@
 import EventBus from "./EventBus";
-
+import { IComponent, IComponentProps } from "./interfaces";
+import EventDispatcher from "./EventDispatcher";
+import { v4 } from "uuid";
 export interface Meta {
   tagName: string;
   props: any;
 }
 
-export default abstract class Block {
+export default abstract class Block implements IComponent {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -15,46 +17,43 @@ export default abstract class Block {
 
   protected props: any;
   protected eventBus: () => EventBus;
-  private readonly _meta: Meta;
-  private _element: HTMLElement;
+  protected eventDispatcher: EventDispatcher;
 
-  get element() {
-    return this._element;
+  protected node: HTMLElement;
+
+  get content(): HTMLElement {
+    return this.node;
   }
 
-  /** JSDoc
-   * @param {string} tagName
-   * @param {Object} props
-   *
-   * @returns {void}
-   */
-  protected constructor(tagName: string, props: any) {
+  constructor(props: IComponentProps) {
     const eventBus = new EventBus();
-    this._meta = {
-      tagName,
-      props,
-    };
+    this.eventDispatcher = new EventDispatcher();
 
     this.props = this._makePropsProxy(props);
-
     this.eventBus = () => eventBus;
-
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  init() {
-    this._createResources();
+  componentDidMount(oldProps: IComponentProps): void {
+    console.log(oldProps);
+  }
+
+  abstract render(): string;
+
+  protected init() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  componentDidMount(oldProps: any) {}
-
-  componentDidUpdate(oldProps, newProps) {
+  protected componentDidUpdate(
+    oldProps: IComponentProps,
+    newProps: IComponentProps
+  ) {
+    console.log(oldProps, newProps);
     return true;
   }
 
-  setProps = (nextProps) => {
+  setProps = (nextProps: IComponentProps) => {
     if (!nextProps) {
       return;
     }
@@ -63,12 +62,6 @@ export default abstract class Block {
     this.eventBus().emit(Block.EVENTS.FLOW_CDU);
   };
 
-  render() {}
-
-  getContent() {
-    return this.element;
-  }
-
   private _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
@@ -76,33 +69,66 @@ export default abstract class Block {
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  private _createResources() {
-    const { tagName } = this._meta;
-    this._element = document.createElement(tagName);
-  }
+  // private _createResources() {
+  // const { tagName } = this._meta;
+  // this.node = document.createElement(tagName);
+  // }
 
-  private _componentDidMount() {
-    // @ts-ignore
-    this.componentDidMount();
+  private _componentDidMount(props: IComponentProps) {
+    this.componentDidMount(props);
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  private _componentDidUpdate(oldProps: object, newProps: object) {
+  private _componentDidUpdate(
+    oldProps: IComponentProps,
+    newProps: IComponentProps
+  ) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (response) {
       this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
   }
 
-  private _render() {
-    // Этот небезопасный метод для упрощения логики
-    // Используйте шаблонизатор из npm или напишите свой безопасный
-    // Нужно не в строку компилировать (или делать это правильно),
-    // либо сразу в DOM-элементы возвращать из compile DOM-ноду
-    this._element.innerHTML = this.render();
+  private _render(): void {
+    let renderedNode = null;
+    if (this.node) {
+      const nodeId = this.node.getAttribute("id");
+
+      if (nodeId) {
+        renderedNode = document.getElementById(nodeId);
+      }
+    }
+
+    const html = this.render();
+    const div = document.createElement("div");
+    div.innerHTML = html.trim();
+    div.querySelectorAll("[data-child]").forEach((el) => {
+      const name = el.getAttribute("data-child");
+      if (this.props.children && name) {
+        el.replaceWith(this.props.children[name]);
+      }
+    });
+    this.node = <HTMLElement>div.firstChild;
+    const id = v4();
+    this.node.setAttribute("id", id);
+
+    if (renderedNode) {
+      renderedNode.replaceWith(this.node);
+    }
+
+    this.eventDispatcher.clear();
+
+    if (this.props?.events) {
+      this.eventDispatcher.node = this.node;
+      Object.entries(this.props.events).forEach(
+        ([eventName, callback]: [string, () => void]) => {
+          this.eventDispatcher.add(eventName, callback);
+        }
+      );
+    }
   }
 
-  private _makePropsProxy(props: object) {
+  private _makePropsProxy(props: IComponentProps) {
     // Можно и так передать this
     // Такой способ больше не применяется с приходом ES6+
     const self = this;
