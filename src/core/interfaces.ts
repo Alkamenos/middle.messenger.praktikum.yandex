@@ -11,10 +11,18 @@ interface IChild {
   node: HTMLElement;
 }
 
-export interface IComponent {}
-
 export interface IComponentProps {
+  className?: string;
   children?: {};
   child?: IChild | HTMLElement | string;
   events?: Record<string, ((...args: any) => void)[]>;
 }
+
+export interface IButtonProps extends IComponentProps {
+  primary?: boolean;
+  secondary?: boolean;
+  link?: boolean;
+  href?: string;
+}
+
+export interface IComponent {}

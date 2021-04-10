@@ -2,6 +2,7 @@ import EventBus from "./EventBus";
 import { IComponent, IComponentProps } from "./interfaces";
 import EventDispatcher from "./EventDispatcher";
 import { v4 } from "uuid";
+
 export interface Meta {
   tagName: string;
   props: any;
@@ -15,7 +16,7 @@ export default abstract class Block implements IComponent {
     FLOW_RENDER: "flow:render",
   };
 
-  protected props: any;
+  protected props: IComponentProps;
   protected eventBus: () => EventBus;
   protected eventDispatcher: EventDispatcher;
 
@@ -23,6 +24,10 @@ export default abstract class Block implements IComponent {
 
   get content(): HTMLElement {
     return this.node;
+  }
+
+  protected get className(): string {
+    return this.props.className || "";
   }
 
   constructor(props: IComponentProps) {
@@ -41,6 +46,15 @@ export default abstract class Block implements IComponent {
 
   abstract render(): string;
 
+  setProps = (nextProps: IComponentProps) => {
+    if (!nextProps) {
+      return;
+    }
+
+    Object.assign(this.props, nextProps);
+    this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+  };
+
   protected init() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
@@ -52,15 +66,6 @@ export default abstract class Block implements IComponent {
     console.log(oldProps, newProps);
     return true;
   }
-
-  setProps = (nextProps: IComponentProps) => {
-    if (!nextProps) {
-      return;
-    }
-
-    Object.assign(this.props, nextProps);
-    this.eventBus().emit(Block.EVENTS.FLOW_CDU);
-  };
 
   private _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
@@ -111,6 +116,10 @@ export default abstract class Block implements IComponent {
     this.node = <HTMLElement>div.firstChild;
     const id = v4();
     this.node.setAttribute("id", id);
+
+    if (this.className) {
+      this.node.setAttribute("class", this.className);
+    }
 
     if (renderedNode) {
       renderedNode.replaceWith(this.node);

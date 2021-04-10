@@ -14,17 +14,17 @@ import "./IndexPage.scss";
 export default class IndexPage extends Block {
   constructor(props: IComponentProps) {
     const chatButton = new Button({
-      child: "Login",
+      child: "Chat",
       secondary: true,
       link: true,
-      href: "/login",
+      href: "/pages/chat/chat.pug",
     });
 
     const profileButton = new Button({
       child: "Profile",
       secondary: true,
       link: true,
-      href: "/profile",
+      href: "/pages/profile/profile.pug",
     });
 
     super({
