@@ -4,7 +4,7 @@
   "description": "Даже законченный проект остаётся только заготовкой, пока им не начнут пользоваться. Но сначала пользователь должен понять, зачем ему пользоваться вашим кодом. В этом помогает файл README.",
   "scripts": {
     "start": "parcel build ./static/index.pug && node ./server.js",
-    "dev": "parcel ./static/index.pug --open",
+    "dev": "parcel ./src/index.html --open",
     "build": "parcel build ./static/index.pug",
     "stylelint-check": "stylelint-config-prettier-check"
   },
@@ -21,6 +21,7 @@
   "devDependencies": {
     "@parcel/transformer-pug": "^2.0.0-beta.2",
     "@parcel/transformer-sass": "^2.0.0-beta.2",
+    "@types/pug": "^2.0.4",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/parser": "^4.21.0",
     "eslint": "^7.23.0",

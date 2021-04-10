@@ -12,10 +12,8 @@
   user-select: none;
   width: 284px;
 
-
-  &._secondary {
+  &.button-secondary {
     background-color: $color-white;
     color: $color-dark-grey;
   }
-
 }

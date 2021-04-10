@@ -3,47 +3,46 @@
 .form-input {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  position: relative;
-  height: 60px;
-  min-height: 60px;
-  max-height: 60px;
   font-size: 18px;
+  height: 60px;
+  justify-content: center;
   margin-bottom: 8px;
+  max-height: 60px;
+  min-height: 60px;
+  position: relative;
   width: 100%;
 
   input {
-	border: none;
-	outline: none;
-	width: 100%;
-	margin-bottom: 5px;
-	background-color: transparent;
+    background-color: transparent;
+    border-style: none;
+    margin-bottom: 5px;
+    outline: none;
+    width: 100%;
   }
 
   .form-input-line {
-	border-bottom: 1px solid $color-dark-grey;
-	width: 100%;
+    border-bottom: 1px solid $color-dark-grey;
+    width: 100%;
   }
 
   &._error {
-	.form-input-helper {
-	  color: $color-error;
-	}
+    .form-input-helper {
+      color: $color-error;
+    }
 
-	.form-input-line {
-	  border-bottom-color: $color-error;
-	}
+    .form-input-line {
+      border-bottom-color: $color-error;
+    }
 
-	input {
-	  color: $color-error;
-	}
+    input {
+      color: $color-error;
+    }
   }
 
   .form-input-helper {
-	width: 100%;
-	margin-top: 3px;
-	font-size: 9px;
-	color: $color-dark-grey;
+    color: $color-dark-grey;
+    font-size: 9px;
+    margin-top: 3px;
+    width: 100%;
   }
 }
-
