@@ -12,18 +12,23 @@
   user-select: none;
   width: 284px;
 
+  &.button-link {
+    background-color: $color-white;
+    border-style: none;
+    color: $color-dark-grey;
+    font-size: 18px;
+  }
+  &.button-link:hover {
+    text-decoration: underline;
+  }
+
   &.button-secondary {
     background-color: $color-white;
     color: $color-dark-grey;
   }
 
-  &.button-link {
-    background-color: $color-white;
-    border-style: none;
-    color: $color-dark-grey;
-    font-size: inherit;
-  }
-  &.button-link:hover {
-    text-decoration: underline;
+  &.button-primary {
+    background-color: $color-dark-grey;
+    color: $color-white;
   }
 }

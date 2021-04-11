@@ -25,4 +25,10 @@ export interface IButtonProps extends IComponentProps {
   href?: string;
 }
 
+export interface IInputProps extends IComponentProps {
+  value?: string;
+  placeholder?: string;
+  type?: string;
+}
+
 export interface IComponent {}

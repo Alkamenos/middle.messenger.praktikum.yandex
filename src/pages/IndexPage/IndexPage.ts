@@ -4,12 +4,6 @@ import { IComponentProps } from "../../core/interfaces";
 import { Button } from "../../components/Button";
 import template from "./IndexPage.template";
 import "./IndexPage.scss";
-// const template = `
-// nav
-//   ul
-//     button(data-child="testButton")
-//     button(data-child="testButton2")
-// `;
 
 export default class IndexPage extends Block {
   constructor(props: IComponentProps) {
@@ -17,14 +11,22 @@ export default class IndexPage extends Block {
       child: "Login",
       secondary: true,
       link: true,
-      href: "/login",
+      events: {
+        click: () => {
+          window.history.pushState({}, "Login", "/login");
+        },
+      },
     });
 
     const profileButton = new Button({
       child: "Profile",
       secondary: true,
       link: true,
-      href: "/profile",
+      events: {
+        click: () => {
+          window.history.pushState({}, "Profile", "/profile");
+        },
+      },
     });
 
     super({

@@ -59,6 +59,8 @@ export default abstract class Block implements IComponent {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
+  protected customiseComponent() {}
+
   protected componentDidUpdate(
     oldProps: IComponentProps,
     newProps: IComponentProps
@@ -116,6 +118,8 @@ export default abstract class Block implements IComponent {
     this.node = <HTMLElement>div.firstChild;
     const id = v4();
     this.node.setAttribute("id", id);
+
+    this.customiseComponent();
 
     if (this.className) {
       this.node.setAttribute("class", this.className);

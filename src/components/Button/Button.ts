@@ -1,7 +1,6 @@
 import Block from "../../core/Block";
 import { compile } from "pug";
 import "./button.scss";
-// import template from "./button.template";
 import clsx from "clsx";
 import { IButtonProps } from "../../core/interfaces";
 
@@ -12,6 +11,7 @@ export default class Button extends Block implements IButtonProps {
   get className(): string {
     return clsx("button", this.props.className, {
       "button-secondary": this.props.secondary,
+      "button-primary": this.props.primary,
       "button-link": this.props.link,
     });
   }
