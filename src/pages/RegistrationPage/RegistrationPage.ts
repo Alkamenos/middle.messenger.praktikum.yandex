@@ -18,6 +18,12 @@ export default class RegistrationPage extends Block {
     const loginButton = new Button({
       child: "Войти",
       secondary: true,
+      events: {
+        click: () => {
+          // @ts-ignore
+          window.renderPage("login"); // временно вместо роутера
+        },
+      },
     });
 
     const firstNameField = new Input({
@@ -87,7 +93,6 @@ export default class RegistrationPage extends Block {
         }
 
         if (isValid) {
-          history.pushState({}, "chat", "/chat");
           // @ts-ignore
           window.renderPage("chat"); // временно вместо роутера
         }

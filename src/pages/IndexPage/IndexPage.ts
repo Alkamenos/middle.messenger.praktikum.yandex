@@ -12,7 +12,6 @@ export default class IndexPage extends Block {
       secondary: true,
       events: {
         click: () => {
-          window.history.pushState({}, "Login", "/login");
           // @ts-ignore
           window.renderPage("login"); // временно вместо роутера
         },
@@ -24,7 +23,6 @@ export default class IndexPage extends Block {
       secondary: true,
       events: {
         click: () => {
-          window.history.pushState({}, "Registration", "/registration");
           // @ts-ignore
           window.renderPage("registration"); // временно вместо роутера
         },
@@ -36,7 +34,6 @@ export default class IndexPage extends Block {
       secondary: true,
       events: {
         click: () => {
-          window.history.pushState({}, "404", "/404");
           // @ts-ignore
           window.renderPage("404"); // временно вместо роутера
         },
@@ -48,7 +45,6 @@ export default class IndexPage extends Block {
       secondary: true,
       events: {
         click: () => {
-          window.history.pushState({}, "500", "/500");
           // @ts-ignore
           window.renderPage("500"); // временно вместо роутера
         },
@@ -60,7 +56,6 @@ export default class IndexPage extends Block {
       secondary: true,
       events: {
         click: () => {
-          window.history.pushState({}, "Chat", "/chat");
           // @ts-ignore
           window.renderPage("chat"); // временно вместо роутера
         },

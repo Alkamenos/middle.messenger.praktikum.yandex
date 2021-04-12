@@ -12,16 +12,18 @@ export default class LoginPage extends Block {
   constructor(props: IComponentProps) {
     const submitButton = new Button({
       child: "Войти",
-      link: true,
       primary: true,
-      href: "/pages/chat",
     });
 
     const registrationButton = new Button({
       child: "Зарегистрироваться",
       secondary: true,
-      link: true,
-      href: "/pages/registration",
+      events: {
+        click: () => {
+          // @ts-ignore
+          window.renderPage("registration"); // временно вместо роутера
+        },
+      },
     });
 
     const emailField = new Input({
@@ -74,7 +76,6 @@ export default class LoginPage extends Block {
         }
 
         if (isValid) {
-          history.pushState({ page: 2 }, "title 2", "/chat");
           // @ts-ignore
           window.renderPage("chat"); // временно вместо роутера
         }

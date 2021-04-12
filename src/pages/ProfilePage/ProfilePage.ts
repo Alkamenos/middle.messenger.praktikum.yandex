@@ -106,7 +106,6 @@ export default class ProfilePage extends Block {
           checkEmail(<string>email, this.emailField);
         }
 
-        history.pushState({}, "chat", "/chat");
         // @ts-ignore
         window.renderPage("chat"); // временно вместо роутера
       });
@@ -117,7 +116,6 @@ export default class ProfilePage extends Block {
         e.preventDefault();
         const formData = new FormData(securityForm);
         console.log(Object.fromEntries(formData.entries()));
-        history.pushState({}, "chat", "/chat");
         // @ts-ignore
         window.renderPage("chat"); // временно вместо роутера
       });
