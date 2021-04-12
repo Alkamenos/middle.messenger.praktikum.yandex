@@ -9,13 +9,13 @@ div.registration-page
             input(data-child="emailField")
             input(data-child="phoneField")
             input(data-child="chatNameField")
-            a(data-child="submitButton") 
+            button(data-child="submitButton") 
 
     div.login
         div
             h4.form-title="вход"
             h5.form-sub-title="Если есть аккаунт"
-            a(data-child="loginButton") 
+            button(data-child="loginButton") 
          
 
        

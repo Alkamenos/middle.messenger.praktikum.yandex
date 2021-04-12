@@ -6,6 +6,10 @@
   height: 100vh;
   justify-content: center;
 
+  button {
+    font-size: 40px;
+  }
+
   li + li {
     margin-top: 20px;
   }

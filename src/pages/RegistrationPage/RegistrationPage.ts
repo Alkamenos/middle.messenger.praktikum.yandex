@@ -5,38 +5,50 @@ import { Button } from "../../components/Button";
 import template from "./RegistrationPage.template";
 import "./RegistrationPage.scss";
 import { Input } from "../../components/Input";
+import { checkEmail } from "../../utils/validation";
 
 export default class RegistrationPage extends Block {
+  private emailField: Input;
+
   constructor(props: IComponentProps) {
     const submitButton = new Button({
       child: "Создать аккаунт",
-      link: true,
-      primary: true,
-      href: "/pages/chat/chat.pug",
     });
 
     const loginButton = new Button({
       child: "Войти",
       secondary: true,
-      link: true,
-      href: "/pages/profile/profile.pug",
     });
 
     const firstNameField = new Input({
       placeholder: "Имя",
+      name: "first_name",
     });
 
     const lastNameField = new Input({
       placeholder: "Фамилия",
+      name: "last_name",
     });
     const phoneField = new Input({
       placeholder: "Телефон",
+      name: "phone",
     });
     const emailField = new Input({
       placeholder: "Email",
+      name: "email",
+      value: "какой-то неправильный email",
+      events: {
+        blur: (e) => {
+          checkEmail(e.currentTarget.value, emailField);
+        },
+        focus: () => {
+          console.log("focus");
+        },
+      },
     });
     const chatNameField = new Input({
       placeholder: "Имя в чате",
+      name: "chat_name",
     });
 
     super({
@@ -51,9 +63,35 @@ export default class RegistrationPage extends Block {
         chatNameField: chatNameField.content,
       },
     });
+    this.emailField = emailField;
   }
 
   render() {
     return compile(template)();
+  }
+
+  protected customiseComponent() {
+    const form: HTMLFormElement = <HTMLFormElement>(
+      this.node.querySelector("form.registration-form")
+    );
+
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        console.log(Object.fromEntries(formData.entries()));
+        const email = formData.get("email");
+        let isValid = true;
+        if (email) {
+          isValid = checkEmail(<string>email, this.emailField);
+        }
+
+        if (isValid) {
+          history.pushState({}, "chat", "/chat");
+          // @ts-ignore
+          window.renderPage("chat"); // временно вместо роутера
+        }
+      });
+    }
   }
 }

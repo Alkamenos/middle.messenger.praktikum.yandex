@@ -47,9 +47,7 @@ export default abstract class Block implements IComponent {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  componentDidMount(oldProps: IComponentProps): void {
-    console.log(oldProps);
-  }
+  componentDidMount(): void {}
 
   abstract render(): string;
 
@@ -85,11 +83,8 @@ export default abstract class Block implements IComponent {
     });
   }
 
-  protected componentDidUpdate(
-    oldProps: IComponentProps,
-    newProps: IComponentProps
-  ) {
-    console.log(oldProps, newProps);
+  protected componentDidUpdate() {
+    // console.log(oldProps, newProps);
     return true;
   }
 
@@ -100,21 +95,13 @@ export default abstract class Block implements IComponent {
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  // private _createResources() {
-  // const { tagName } = this._meta;
-  // this.node = document.createElement(tagName);
-  // }
-
-  private _componentDidMount(props: IComponentProps) {
-    this.componentDidMount(props);
+  private _componentDidMount() {
+    this.componentDidMount();
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  private _componentDidUpdate(
-    oldProps: IComponentProps,
-    newProps: IComponentProps
-  ) {
-    const response = this.componentDidUpdate(oldProps, newProps);
+  private _componentDidUpdate() {
+    const response = this.componentDidUpdate();
     if (response) {
       this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
@@ -144,6 +131,8 @@ export default abstract class Block implements IComponent {
     const id = v4();
     this.node.setAttribute("id", id);
 
+    this.eventDispatcher.clear();
+    this.eventDispatcher.node = this.node;
     this.bindProps();
     this.customiseComponent();
 
@@ -155,10 +144,8 @@ export default abstract class Block implements IComponent {
       renderedNode.replaceWith(this.node);
     }
 
-    this.eventDispatcher.clear();
-
     if (this.props?.events) {
-      this.eventDispatcher.node = this.node;
+      // this.eventDispatcher.node = this.node;
       Object.entries(this.props.events).forEach(
         ([eventName, callback]: [string, () => void]) => {
           this.eventDispatcher.add(eventName, callback);
@@ -168,8 +155,6 @@ export default abstract class Block implements IComponent {
   }
 
   private _makePropsProxy(props: IComponentProps) {
-    // Можно и так передать this
-    // Такой способ больше не применяется с приходом ES6+
     const self = this;
     return new Proxy(props, {
       set(target, prop, value) {
@@ -179,7 +164,6 @@ export default abstract class Block implements IComponent {
         return true;
       },
       deleteProperty() {
-        // перехватываем удаление свойства
         throw new Error("Отказано в доступе");
       },
     });

@@ -1,15 +1,15 @@
 export default `
 ul.index-main-menu
         li
-            a(data-child="chat" href='pages/chat/chat.pug') Chat
+            button(data-child="chat") Chat
         li
-            a(data-child="profile" href='pages/profile/profile.pug') Profile
+            button(data-child="profile" ) Profile
         li
-            a(data-child="login" href='pages/login/login.pug') Login
+            button(data-child="login" ) Login
         li
-            a(data-child="registration" href='pages/registration/registration.pug') Registration
+            button(data-child="registration" ) Registration
         li
-            a(data-child="500" href='pages/errors/500.pug') 500
+            button(data-child="500" ) 500
         li
-            a(data-child="404" href='pages/errors/404.pug') 404
+            button(data-child="404" ) 404
 `;

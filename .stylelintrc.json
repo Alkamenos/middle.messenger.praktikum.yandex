@@ -4,6 +4,7 @@
     "stylelint-config-prettier"
     ],
   "rules": {
-    "max-nesting-depth": 5
+    "max-nesting-depth": 5,
+    "selector-class-pattern": null
   }
 }

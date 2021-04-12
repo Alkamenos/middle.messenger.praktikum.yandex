@@ -19,7 +19,6 @@ export default class EventDispatcher implements IEventDispatcher {
 
   add(eventName: string, callback: (e: Event) => void): void {
     this.checkNode();
-    console.log(eventName, this._node);
     this._node.addEventListener(eventName, callback);
     this.events.add({ eventName, callback });
   }

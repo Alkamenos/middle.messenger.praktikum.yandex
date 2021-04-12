@@ -30,6 +30,7 @@ export interface IInputProps extends IComponentProps {
   value?: string;
   placeholder?: string;
   type?: string;
+  name?: string;
 }
 export interface IChatContactProps extends IComponentProps {
   img?: string;
