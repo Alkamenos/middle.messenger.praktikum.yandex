@@ -8,7 +8,7 @@ div
                 span="Настройки"
             div.settings-user
                 div.settings-user_avatar
-                    img(src="~/static/images/avatars/lake.svg")
+                    div
                 div.settings-user_info
                     div._name="Вася Пупкин"
                     div._email="pupkintheone@yandex.ru"
