@@ -12,14 +12,14 @@ export default class LoginPage extends Block {
       child: "Войти",
       link: true,
       primary: true,
-      href: "/pages/chat/chat.pug",
+      href: "/pages/chat",
     });
 
-    const loginButton = new Button({
+    const registrationButton = new Button({
       child: "Зарегистрироваться",
       secondary: true,
       link: true,
-      href: "/pages/profile/profile.pug",
+      href: "/pages/registration",
     });
 
     const emailField = new Input({
@@ -35,7 +35,7 @@ export default class LoginPage extends Block {
       ...props,
       children: {
         submitButton: submitButton.content,
-        loginButton: loginButton.content,
+        registrationButton: registrationButton.content,
         emailField: emailField.content,
         passwordField: passwordField.content,
       },

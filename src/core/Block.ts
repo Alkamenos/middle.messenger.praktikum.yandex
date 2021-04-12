@@ -3,10 +3,12 @@ import { IComponent, IComponentProps } from "./interfaces";
 import EventDispatcher from "./EventDispatcher";
 import { v4 } from "uuid";
 
-export interface Meta {
-  tagName: string;
-  props: any;
-}
+type Proplist = {
+  name: string;
+  selector: string;
+  attribute: string;
+  isValue?: boolean;
+}[];
 
 export default abstract class Block implements IComponent {
   static EVENTS = {
@@ -21,9 +23,14 @@ export default abstract class Block implements IComponent {
   protected eventDispatcher: EventDispatcher;
 
   protected node: HTMLElement;
+  protected _proplist: Proplist = [];
 
   get content(): HTMLElement {
     return this.node;
+  }
+
+  protected get proplist(): Proplist {
+    return this._proplist;
   }
 
   protected get className(): string {
@@ -60,6 +67,23 @@ export default abstract class Block implements IComponent {
   }
 
   protected customiseComponent() {}
+
+  bindProps() {
+    this.proplist.forEach(({ name, selector, attribute, isValue }) => {
+      const prop = this.props[name];
+      if (prop) {
+        const element = this.node.querySelector(selector);
+        if (element) {
+          if (isValue) {
+            // @ts-ignore
+            element[attribute] = prop;
+          } else {
+            element.setAttribute(attribute, prop);
+          }
+        }
+      }
+    });
+  }
 
   protected componentDidUpdate(
     oldProps: IComponentProps,
@@ -112,6 +136,7 @@ export default abstract class Block implements IComponent {
     div.querySelectorAll("[data-child]").forEach((el) => {
       const name = el.getAttribute("data-child");
       if (this.props.children && name) {
+        // @ts-ignore
         el.replaceWith(this.props.children[name]);
       }
     });
@@ -119,6 +144,7 @@ export default abstract class Block implements IComponent {
     const id = v4();
     this.node.setAttribute("id", id);
 
+    this.bindProps();
     this.customiseComponent();
 
     if (this.className) {
@@ -147,6 +173,7 @@ export default abstract class Block implements IComponent {
     const self = this;
     return new Proxy(props, {
       set(target, prop, value) {
+        // @ts-ignore
         target[prop] = value;
         self.eventBus().emit(Block.EVENTS.FLOW_CDU);
         return true;

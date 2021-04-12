@@ -1,8 +1,12 @@
-// import { Button } from "./components/Button";
 import { render } from "./utils/renderDOM";
-import { LoginPage } from "./pages/LoginPage";
+import { ChatPage } from "./pages/ChatPage";
 import "./index.scss";
 
-const index = new LoginPage({});
+const index = new ChatPage({
+  text: "sdfsdfsdfsdf",
+  time: "10:22",
+  my: true,
+  img: "chat-demo-image",
+});
 
 render("#root", index);

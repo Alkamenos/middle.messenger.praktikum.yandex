@@ -12,10 +12,11 @@ interface IChild {
 }
 
 export interface IComponentProps {
+  [key: string]: any;
   className?: string;
   children?: {};
   child?: IChild | HTMLElement | string;
-  events?: Record<string, ((...args: any) => void)[]>;
+  events?: Record<string, (...args: any) => void>;
 }
 
 export interface IButtonProps extends IComponentProps {
@@ -29,6 +30,17 @@ export interface IInputProps extends IComponentProps {
   value?: string;
   placeholder?: string;
   type?: string;
+}
+export interface IChatContactProps extends IComponentProps {
+  img?: string;
+  name?: string;
+  messagePreview?: string;
+  time?: string;
+  count?: number;
+}
+
+export interface IErrorProps extends IComponentProps {
+  code?: string | number;
 }
 
 export interface IComponent {}

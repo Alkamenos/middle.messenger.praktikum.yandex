@@ -10,7 +10,7 @@ div.login-page
         div
             h3.form-title="регистрация"
             h5.form-sub-title="Создайте аккаунт"
-            a(data-child="loginButton") 
+            a(data-child="registrationButton") 
             
 
        

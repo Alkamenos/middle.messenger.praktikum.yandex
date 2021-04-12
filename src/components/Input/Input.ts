@@ -13,28 +13,16 @@ div
 
 export default class Input extends Block implements IInputProps {
   protected props: IInputProps;
+
   get className(): string {
-    return clsx("form-input", this.props.className, {
-      // "button-secondary": this.props.secondary,
-      // "button-primary": this.props.primary,
-      // "button-link": this.props.link,
-    });
+    return clsx("form-input", this.props.className);
   }
 
-  constructor(props: IInputProps) {
-    super(props);
-  }
-
-  customiseComponent() {
-    if (this.props.type) {
-      this.node.querySelector("input").setAttribute("type", this.props.type);
-    }
-
-    if (this.props.placeholder) {
-      this.node
-        .querySelector("input")
-        .setAttribute("placeholder", this.props.placeholder);
-    }
+  protected get proplist() {
+    return [
+      { name: "type", selector: "input", attribute: "type" },
+      { name: "placeholder", selector: "input", attribute: "placeholder" },
+    ];
   }
 
   render() {

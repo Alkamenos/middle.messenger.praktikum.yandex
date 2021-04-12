@@ -1,0 +1,49 @@
+@import "/static/styles/colors";
+
+.chat-message {
+  background-color: $color-primary;
+  border-radius: 0 10px 10px;
+  line-height: 140%;
+  margin-bottom: 10px;
+  max-width: 400px;
+  padding: 20px;
+
+  &.my-message {
+    border-radius: 10px 0 10px 10px;
+    margin-left: auto;
+  }
+
+  .message-image {
+    display: none;
+  }
+
+  .message-time {
+    color: $color-white;
+    text-align: end;
+  }
+}
+
+.chat-message.image-message {
+  background-color: $color-white;
+  border-radius: 10px;
+  display: flex;
+  padding: 0;
+
+  .message-time {
+    display: none;
+  }
+
+  .message-text {
+    display: none;
+  }
+}
+
+.chat-message.image-message .message-image {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 10px;
+  display: block;
+  height: 500px;
+  width: 500px;
+}
