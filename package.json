@@ -2,11 +2,11 @@
   "name": "middle.messenger.praktikum.yandex",
   "version": "1.0.0",
   "description": "Даже законченный проект остаётся только заготовкой, пока им не начнут пользоваться. Но сначала пользователь должен понять, зачем ему пользоваться вашим кодом. В этом помогает файл README.",
-
   "scripts": {
-    "start": "parcel build ./static/index.pug && node ./server.js",
-    "dev": "parcel ./static/index.pug --open",
-    "build": "parcel build ./static/index.pug"
+    "start": "parcel build ./src/index.html && node ./server.js",
+    "dev": "parcel ./src/index.html --open",
+    "build": "parcel build ./src/index.html",
+    "stylelint-check": "stylelint-config-prettier-check"
   },
   "repository": {
     "type": "git",
@@ -21,12 +21,32 @@
   "devDependencies": {
     "@parcel/transformer-pug": "^2.0.0-beta.2",
     "@parcel/transformer-sass": "^2.0.0-beta.2",
+    "@types/pug": "^2.0.4",
+    "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "@typescript-eslint/parser": "^4.21.0",
+    "eslint": "^7.23.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-react": "^7.23.1",
     "express": "^4.17.1",
     "parcel": "^2.0.0-beta.2",
+    "prettier": "2.2.1",
     "pug": "^3.0.2",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "stylelint": "^13.12.0",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-sass-guidelines": "^8.0.0",
+    "stylelint-config-standard": "^21.0.0",
+    "typescript": "^4.2.3"
   },
   "dependencies": {
-    "normalize.css": "^8.0.1"
+    "@svgr/parcel-plugin-svgr": "^5.5.0",
+    "clsx": "^1.1.1",
+    "normalize.css": "^8.0.1",
+    "uuid": "^8.3.2"
   }
 }

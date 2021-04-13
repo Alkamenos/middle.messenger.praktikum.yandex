@@ -1,0 +1,221 @@
+@import "/src/styles/colors";
+
+.chat {
+  background-color: $color-dark-grey;
+  color: $color-white;
+  display: grid;
+  font-size: 12px;
+  gap: 0 0;
+  grid-template-areas:
+    "contacts header"
+    "contacts messages"
+    "contacts input-message";
+  grid-template-columns: 310px auto;
+  grid-template-rows: 75px auto 60px;
+  height: 100vh;
+  max-height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+
+  .chat-contacts {
+    grid-area: contacts;
+    padding: 0 10px;
+
+    .contacts-profile-link {
+      color: $color-light-grey;
+      display: flex;
+      justify-content: flex-end;
+      margin: 20px 0;
+
+      ._link {
+        align-items: center;
+        display: flex;
+      }
+
+      ._icon {
+        font-size: smaller;
+      }
+
+      ._text {
+        margin-right: 5px;
+      }
+    }
+
+    .contacts-search {
+      .search-input {
+        background-color: $color-grey;
+        border: none;
+        border-radius: 5px;
+        color: inherit;
+        height: 40px;
+        outline: none;
+        padding: 0 20px;
+        width: 100%;
+
+        &:focus::input-placeholder {
+          visibility: hidden;
+        }
+
+        &::input-placeholder {
+          color: $color-light-grey;
+          text-align: center;
+        }
+      }
+    }
+
+    .contacts-list {
+      margin-left: -10px;
+      margin-right: -10px;
+      margin-top: 20px;
+      max-height: calc(100vh - 120px);
+      overflow: auto;
+
+      li:first-child {
+        .contacts-item {
+          border-top: 1px solid $color-chat-border;
+        }
+      }
+
+      li:last-child {
+        .contacts-item {
+          border-bottom: 1px solid $color-chat-border;
+        }
+      }
+
+      li + li {
+        .contacts-item {
+          border-top: 1px solid $color-chat-border;
+        }
+      }
+
+      li:hover {
+        background-color: $color-primary;
+
+        .contacts-item {
+          border: none;
+
+          ._counter {
+            background-color: $color-dark-grey;
+            color: $color-white;
+          }
+        }
+
+        & + li {
+          .contacts-item {
+            border-top: none;
+          }
+        }
+      }
+    }
+  }
+
+  .chat-header {
+    box-shadow: 0 6px 20px 4px #1e1e1eb0;
+    grid-area: header;
+    z-index: 1;
+
+    .content {
+      align-items: center;
+      border-bottom: 1px solid $color-chat-border;
+      display: flex;
+      margin: 0 20px;
+      padding: 15px 0;
+
+      .avatar {
+        height: 47px;
+        margin-right: 15px;
+        max-width: 42px;
+        width: 47px;
+        background-repeat: no-repeat;
+      }
+
+      .menu {
+        cursor: pointer;
+        font-size: 18px;
+        margin-left: auto;
+      }
+    }
+  }
+
+  .chat-messages {
+    grid-area: messages;
+
+    .messages {
+      height: calc(100vh - 135px);
+      margin: 0 20px;
+      overflow: auto;
+      padding-bottom: 50px;
+      padding-top: 50px;
+
+      .chat-message {
+        background-color: $color-primary;
+        border-radius: 0 10px 10px;
+        line-height: 140%;
+        margin-bottom: 10px;
+        max-width: 400px;
+        padding: 20px;
+
+        &._my {
+          border-radius: 10px 0 10px 10px;
+          margin-left: auto;
+        }
+
+        &._image {
+          background-color: $color-white;
+          border-radius: 10px;
+          display: flex;
+          padding: 0;
+
+          img {
+            border-radius: 10px;
+            max-width: 100%;
+          }
+        }
+
+        ._time {
+          color: $color-light-grey;
+          text-align: end;
+        }
+      }
+    }
+  }
+
+  .chat-input-message {
+    box-shadow: 0 -6px 20px 4px #1e1e1eb0;
+    grid-area: input-message;
+    z-index: 1;
+
+    .content {
+      align-items: center;
+      border-top: 1px solid $color-chat-border;
+      display: flex;
+      justify-content: space-between;
+      margin: 0 20px;
+      padding: 10px 0;
+
+      ._attach {
+        color: $color-light-grey;
+        font-size: 32px;
+      }
+
+      ._input {
+        border-radius: 30px;
+        border-style: none;
+        font-size: 18px;
+        height: 100%;
+        margin: 0 20px;
+        outline: none;
+        padding: 10px 30px;
+        width: 100%;
+      }
+
+      ._send {
+        background-color: $color-primary;
+        border-radius: 50%;
+        color: $color-white;
+        height: 42px;
+        width: 42px;
+      }
+    }
+  }
+}

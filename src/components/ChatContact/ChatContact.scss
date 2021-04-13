@@ -1,0 +1,70 @@
+@import "/src/styles/colors";
+
+.contacts-item {
+  align-items: center;
+  display: flex;
+  font-size: 12px;
+  height: 96px;
+  margin-left: 10px;
+  max-height: 96px;
+  padding: 20px 0;
+  position: relative;
+  user-select: none;
+  width: calc(100% - 20px);
+
+  .contacts-item-avatar {
+    background-color: $color-light-grey;
+    border-radius: 50%;
+    height: 47px;
+    margin-right: 15px;
+    width: 47px;
+
+    > div {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .contacts-item-info {
+    height: 100%;
+
+    .info-name {
+      margin-bottom: 5px;
+    }
+
+    .info-message-preview {
+      //box-orient: vertical;
+      color: $color-light-grey;
+      //display: box;
+      -webkit-line-clamp: 2;
+      max-width: 180px;
+      overflow: hidden;
+    }
+
+    .info-time {
+      color: $color-light-grey;
+      font-size: 9px;
+      position: absolute;
+      right: 5px;
+      top: 20px;
+    }
+
+    .info-counter {
+      align-items: center;
+      background-color: $color-primary;
+      border-radius: 50%;
+      display: none;
+      font-size: 11px;
+      height: 20px;
+      justify-content: center;
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      width: 20px;
+    }
+
+    .info-counter.show {
+      display: flex;
+    }
+  }
+}

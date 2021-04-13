@@ -1,0 +1,84 @@
+@import "styles/colors";
+
+@font-face {
+  font-family: "Gilroy";
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/gilroy/Gilroy-Medium.ttf") format("truetype");
+}
+
+body {
+  font-family: Gilroy, Roboto, Arial, FontAwesome, serif;
+}
+
+* {
+  box-sizing: border-box;
+  font-weight: normal;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:visited {
+    color: inherit;
+  }
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  background-color: transparent;
+  border-style: none;
+  cursor: pointer;
+  margin: 0;
+  outline: none;
+  padding: 0;
+}
+
+._visible {
+  display: block;
+}
+
+._hidden {
+  display: none !important;
+}
+
+.form-title {
+  font-size: 40px;
+  margin-bottom: 2px;
+}
+
+.form-sub-title {
+  font-size: 24px;
+  margin-bottom: 40px;
+}
+
+.doctor {
+  background-image: url("/src/images/avatars/doctor.svg");
+}
+
+.lake {
+  background-image: url("/src/images/avatars/lake.svg");
+}
+
+.deer {
+  background-image: url("/src/images/avatars/reindeer.svg");
+}
+
+.exercise {
+  background-image: url("/src/images/avatars/exercise.svg");
+}
+
+.chat-demo-image {
+  background-image: url("/src/images/chat/image.jpg");
+}
