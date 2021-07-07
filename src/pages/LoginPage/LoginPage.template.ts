@@ -3,7 +3,7 @@ div.login-page
     form.login-form
         div
             h1.form-title="вход"
-            input(data-child="emailField")
+            input(data-child="loginField")
             input(data-child="passwordField")
             a(data-child="submitButton")
     div.registration

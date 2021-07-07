@@ -45,3 +45,8 @@ export interface IErrorProps extends IComponentProps {
 }
 
 export interface IComponent {}
+
+export interface IRouterProps {
+  rootQuery: string;
+  exact:boolean;
+}

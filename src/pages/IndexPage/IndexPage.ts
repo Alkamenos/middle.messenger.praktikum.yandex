@@ -4,6 +4,7 @@ import { IComponentProps } from "../../core/interfaces";
 import { Button } from "../../components/Button";
 import template from "./IndexPage.template";
 import "./IndexPage.scss";
+import Router from "../../utils/Router";
 
 export default class IndexPage extends Block {
   constructor(props: IComponentProps) {
@@ -12,8 +13,7 @@ export default class IndexPage extends Block {
       secondary: true,
       events: {
         click: () => {
-          // @ts-ignore
-          window.renderPage("login"); // временно вместо роутера
+          Router.getInstance().go("/login");
         },
       },
     });
@@ -23,8 +23,7 @@ export default class IndexPage extends Block {
       secondary: true,
       events: {
         click: () => {
-          // @ts-ignore
-          window.renderPage("registration"); // временно вместо роутера
+          Router.getInstance().go("/registration");
         },
       },
     });
@@ -34,8 +33,7 @@ export default class IndexPage extends Block {
       secondary: true,
       events: {
         click: () => {
-          // @ts-ignore
-          window.renderPage("404"); // временно вместо роутера
+          Router.getInstance().go("/404");
         },
       },
     });
@@ -45,8 +43,7 @@ export default class IndexPage extends Block {
       secondary: true,
       events: {
         click: () => {
-          // @ts-ignore
-          window.renderPage("500"); // временно вместо роутера
+          Router.getInstance().go("/500");
         },
       },
     });
@@ -56,8 +53,7 @@ export default class IndexPage extends Block {
       secondary: true,
       events: {
         click: () => {
-          // @ts-ignore
-          window.renderPage("chat"); // временно вместо роутера
+          Router.getInstance().go("/chat");
         },
       },
     });
@@ -67,9 +63,7 @@ export default class IndexPage extends Block {
       secondary: true,
       events: {
         click: () => {
-          window.history.pushState({}, "Profile", "/profile");
-          // @ts-ignore
-          window.renderPage("profile"); // временно вместо роутера
+          Router.getInstance().go("/profile");
         },
       },
     });

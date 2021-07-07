@@ -1,89 +1,83 @@
-import Block from "../../core/Block";
-import { compile } from "pug";
-import { IComponentProps } from "../../core/interfaces";
-import { Button } from "../../components/Button";
-import template from "./LoginPage.template";
-import "./LoginPage.scss";
-import { Input } from "../../components/Input";
-import { checkEmail } from "../../utils/validation";
+import Block from '../../core/Block';
+import { compile } from 'pug';
+import { IComponentProps } from '../../core/interfaces';
+import { Button } from '../../components/Button';
+import template from './LoginPage.template';
+import './LoginPage.scss';
+import { Input } from '../../components/Input';
+import { login } from '../../services/auth';
+import Router from '../../utils/Router';
 
 export default class LoginPage extends Block {
-  private emailField: Input;
-  constructor(props: IComponentProps) {
-    const submitButton = new Button({
-      child: "Войти",
-      primary: true,
-    });
+	private loginField: Input;
 
-    const registrationButton = new Button({
-      child: "Зарегистрироваться",
-      secondary: true,
-      events: {
-        click: () => {
-          // @ts-ignore
-          window.renderPage("registration"); // временно вместо роутера
-        },
-      },
-    });
+	constructor(props: IComponentProps) {
+		const submitButton = new Button({
+			child: 'Войти',
+			primary: true,
+		});
 
-    const emailField = new Input({
-      placeholder: "Email",
-      value: "какой-то неправильный email",
-      name: "email",
-      events: {
-        blur: (e) => {
-          checkEmail(e.currentTarget.value, emailField);
-        },
-        focus: () => {
-          console.log("focus");
-        },
-      },
-    });
+		const registrationButton = new Button({
+			child: 'Зарегистрироваться',
+			secondary: true,
+			events: {
+				click: () => {
+					Router.getInstance().go('/registration');
+				},
+			},
+		});
 
-    const passwordField = new Input({
-      placeholder: "Пароль",
-      name: "password",
-      type: "password",
-    });
+		const loginField = new Input({
+			placeholder: 'Логин',
+			name: 'login',
+		});
 
-    super({
-      ...props,
-      children: {
-        submitButton: submitButton.content,
-        registrationButton: registrationButton.content,
-        emailField: emailField.content,
-        passwordField: passwordField.content,
-      },
-    });
-    this.emailField = emailField;
-  }
+		const passwordField = new Input({
+			placeholder: 'Пароль',
+			name: 'password',
+			type: 'password',
+		});
 
-  protected customiseComponent() {
-    const form: HTMLFormElement = <HTMLFormElement>(
-      this.node.querySelector("form.login-form")
-    );
+		super({
+			...props,
+			children: {
+				submitButton: submitButton.content,
+				registrationButton: registrationButton.content,
+				loginField: loginField.content,
+				passwordField: passwordField.content,
+			},
+		});
+		this.loginField = loginField;
+	}
 
-    if (form) {
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const formData = new FormData(form);
-        console.log(Object.fromEntries(formData.entries()));
-        const email = formData.get("email");
+	render() {
+		return compile(template)();
+	}
 
-        let isValid = true;
-        if (email) {
-          isValid = checkEmail(<string>email, this.emailField);
-        }
+	protected customiseComponent() {
+		const form: HTMLFormElement = <HTMLFormElement>(
+			this.node.querySelector('form.login-form')
+		);
 
-        if (isValid) {
-          // @ts-ignore
-          window.renderPage("chat"); // временно вместо роутера
-        }
-      });
-    }
-  }
+		if (form) {
+			form.addEventListener('submit', (e) => {
+				e.preventDefault();
+				const formData = new FormData(form);
+				const username = <string>formData.get('login');
+				const password = <string>formData.get('password');
 
-  render() {
-    return compile(template)();
-  }
+				login({ login: username, password })
+					.then(() => {
+						Router.getInstance().go('/chat');
+					})
+					.catch(() => {
+						this.loginField.setProps({
+							value: username,
+							helper: 'Неверная комбинация',
+							error: true,
+						});
+					});
+			});
+		}
+	}
 }

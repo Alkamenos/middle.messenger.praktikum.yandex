@@ -37,6 +37,7 @@
       color: $color-light-grey;
       //display: box;
       -webkit-line-clamp: 2;
+      max-height: 30px;
       max-width: 180px;
       overflow: hidden;
     }

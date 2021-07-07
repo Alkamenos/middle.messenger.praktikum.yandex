@@ -8,7 +8,8 @@ div.registration-page
             input(data-child="lastNameField")
             input(data-child="emailField")
             input(data-child="phoneField")
-            input(data-child="chatNameField")
+            input(data-child="loginField")
+            input(data-child="passwordField")
             button(data-child="submitButton") 
 
     div.login

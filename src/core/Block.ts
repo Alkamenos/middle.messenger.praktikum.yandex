@@ -15,6 +15,7 @@ export default abstract class Block implements IComponent {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
     FLOW_CDU: "flow:component-did-update",
+    FLOW_CWU: "flow:component-will-unmount",
     FLOW_RENDER: "flow:render",
   };
 
@@ -23,11 +24,12 @@ export default abstract class Block implements IComponent {
   protected eventDispatcher: EventDispatcher;
 
   protected node: HTMLElement;
-  protected _proplist: Proplist = [];
 
   get content(): HTMLElement {
     return this.node;
   }
+
+  protected _proplist: Proplist = [];
 
   protected get proplist(): Proplist {
     return this._proplist;
@@ -49,6 +51,8 @@ export default abstract class Block implements IComponent {
 
   componentDidMount(): void {}
 
+  componentWillUnmount(): void {}
+
   abstract render(): string;
 
   setProps = (nextProps: IComponentProps) => {
@@ -59,12 +63,6 @@ export default abstract class Block implements IComponent {
     Object.assign(this.props, nextProps);
     this.eventBus().emit(Block.EVENTS.FLOW_CDU);
   };
-
-  protected init() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-  }
-
-  protected customiseComponent() {}
 
   bindProps() {
     this.proplist.forEach(({ name, selector, attribute, isValue }) => {
@@ -83,6 +81,20 @@ export default abstract class Block implements IComponent {
     });
   }
 
+  protected show() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+  }
+
+  protected leave() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+  }
+
+  protected init() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+  }
+
+  protected customiseComponent() {}
+
   protected componentDidUpdate() {
     // console.log(oldProps, newProps);
     return true;
@@ -92,6 +104,7 @@ export default abstract class Block implements IComponent {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
@@ -107,11 +120,15 @@ export default abstract class Block implements IComponent {
     }
   }
 
+  private _componentWillUnmount() {
+    this.componentWillUnmount();
+  }
+
   private _render(): void {
+    console.log('_Block___render',this.props.children);
     let renderedNode = null;
     if (this.node) {
       const nodeId = this.node.getAttribute("id");
-
       if (nodeId) {
         renderedNode = document.getElementById(nodeId);
       }
@@ -120,17 +137,26 @@ export default abstract class Block implements IComponent {
     const html = this.render();
     const div = document.createElement("div");
     div.innerHTML = html.trim();
-    div.querySelectorAll("[data-child]").forEach((el) => {
-      const name = el.getAttribute("data-child");
-      if (this.props.children && name) {
-        // @ts-ignore
-        el.replaceWith(this.props.children[name]);
-      }
-    });
-    this.node = <HTMLElement>div.firstChild;
+    if(Array.isArray(this.props.children)) {
+      const container = div.firstChild;
+      this.props.children.forEach((child)=>{
+        container.appendChild(<HTMLElement>child.content)
+      })
+      this.node = <HTMLElement>container;
+    } else {
+      div.querySelectorAll("[data-child]").forEach((el) => {
+        const name = el.getAttribute("data-child");
+        if (this.props.children && name) {
+          // @ts-ignore
+          el.replaceWith(this.props.children[name]);
+        }
+      });
+      this.node = (<HTMLElement>div.firstChild);
+    }
+
+
     const id = v4();
     this.node.setAttribute("id", id);
-
     this.eventDispatcher.clear();
     this.eventDispatcher.node = this.node;
     this.bindProps();

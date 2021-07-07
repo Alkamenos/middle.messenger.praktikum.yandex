@@ -6,6 +6,8 @@ import template from "./RegistrationPage.template";
 import "./RegistrationPage.scss";
 import { Input } from "../../components/Input";
 import { checkEmail } from "../../utils/validation";
+import { login, register } from "../../services/auth";
+import Router from "../../utils/Router";
 
 export default class RegistrationPage extends Block {
   private emailField: Input;
@@ -42,7 +44,6 @@ export default class RegistrationPage extends Block {
     const emailField = new Input({
       placeholder: "Email",
       name: "email",
-      value: "какой-то неправильный email",
       events: {
         blur: (e) => {
           checkEmail(e.currentTarget.value, emailField);
@@ -52,9 +53,14 @@ export default class RegistrationPage extends Block {
         },
       },
     });
-    const chatNameField = new Input({
-      placeholder: "Имя в чате",
-      name: "chat_name",
+    const loginField = new Input({
+      placeholder: "Логин",
+      name: "login",
+    });
+    const passwordField = new Input({
+      placeholder: "Пароль",
+      name: "password",
+      type: "password",
     });
 
     super({
@@ -66,7 +72,8 @@ export default class RegistrationPage extends Block {
         lastNameField: lastNameField.content,
         emailField: emailField.content,
         phoneField: phoneField.content,
-        chatNameField: chatNameField.content,
+        loginField: loginField.content,
+        passwordField: passwordField.content,
       },
     });
     this.emailField = emailField;
@@ -85,16 +92,37 @@ export default class RegistrationPage extends Block {
       form.addEventListener("submit", (e) => {
         e.preventDefault();
         const formData = new FormData(form);
-        console.log(Object.fromEntries(formData.entries()));
-        const email = formData.get("email");
+        const firstName = <string>formData.get("first_name");
+        const lastName = <string>formData.get("last_name");
+        const login = <string>formData.get("login");
+        const email = <string>formData.get("email");
+        const password = <string>formData.get("password");
+        const phone = <string>formData.get("phone");
+
         let isValid = true;
         if (email) {
           isValid = checkEmail(<string>email, this.emailField);
         }
 
         if (isValid) {
-          // @ts-ignore
-          window.renderPage("chat"); // временно вместо роутера
+          register({
+            first_name: firstName,
+            second_name: lastName,
+            login,
+            email,
+            password,
+            phone,
+          })
+            .then(() => {
+              Router.getInstance().go("/chat");
+            })
+            .catch(() => {
+              this.emailField.setProps({
+                value: email,
+                helper: "Что-то пошло не так",
+                error: true,
+              });
+            });
         }
       });
     }

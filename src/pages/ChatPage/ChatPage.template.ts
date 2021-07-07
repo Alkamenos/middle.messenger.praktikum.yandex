@@ -9,13 +9,11 @@ div
                         i(class="fa fa-chevron-right")._icon
             div.contacts-search
                 input(placeholder= '  Поиск').search-input
-            ul.contacts-list
-                li(data-child="contact")
+            ul(data-child="contacts")
+                
 
         section.chat-messages
-            ul.messages
-                li(data-child="message")
-                li(data-child="imageMessage")
+            div(data-child="messages")
 
         section.chat-header
             div.content
@@ -25,13 +23,8 @@ div
                     i(class="fa fa-ellipsis-v")
 
 
-        form.chat-input-message
-            div.content
-                button._attach
-                    i(class="fa fa-paperclip")
-                input(placeholder="Сообщение" name="message")._input
-                button(type="submit")._send
-                    i(class="fa fa-long-arrow-right")
+				div(data-child="messageInput")
+        
 
 
     

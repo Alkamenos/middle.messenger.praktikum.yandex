@@ -11,24 +11,26 @@ type Options = {
   data?: any;
 };
 
+const baseUrl = "https://ya-praktikum.tech/api/v2";
+
 class Http {
-  get<TResponse>(url: string, data: {}): Promise<TResponse> {
+  async get<TResponse>(url: string, data?: {}): Promise<TResponse> {
     return this.request(url, { method: METHOD.GET, data });
   }
 
-  post<TResponse>(url: string, data: {}): Promise<TResponse> {
+  async post<TResponse>(url: string, data: {}): Promise<TResponse> {
     return this.request(url, { method: METHOD.POST, data });
   }
 
-  put<TResponse>(url: string, data: {}): Promise<TResponse> {
+  async put<TResponse>(url: string, data: {}): Promise<TResponse> {
     return this.request(url, { method: METHOD.PUT, data });
   }
 
-  delete<TResponse>(url: string, data: {}): Promise<TResponse> {
+  async delete<TResponse>(url: string, data: {}): Promise<TResponse> {
     return this.request(url, { method: METHOD.DELETE, data });
   }
 
-  request<TResponse>(
+  async request<TResponse>(
     url: string,
     options: Options = { method: METHOD.GET }
   ): Promise<TResponse> {
@@ -38,18 +40,25 @@ class Http {
       const xhr = new XMLHttpRequest();
 
       if (method === METHOD.GET) {
-        url = `${url}?${Object.entries(data)
-          .map(([key, value]: [key: string, value: any]): string => {
-            return `${key}=${value}`;
-          })
-          .join("&")}`;
+        if (data) {
+          url = `${url}?${Object.entries(data)
+            .map(([key, value]: [key: string, value: any]): string => {
+              return `${key}=${value}`;
+            })
+            .join("&")}`;
+        }
       }
 
-      xhr.open(method, url);
-      xhr.setRequestHeader("Content-Type", "text/plain");
+      xhr.open(method, baseUrl + url);
+      xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+      xhr.withCredentials = true;
 
       xhr.onload = function () {
-        resolve(xhr.response);
+        if (xhr.status === 200) {
+          resolve(JSON.parse(xhr.response));
+        } else {
+          reject(JSON.parse(xhr.response));
+        }
       };
 
       xhr.onabort = reject;
