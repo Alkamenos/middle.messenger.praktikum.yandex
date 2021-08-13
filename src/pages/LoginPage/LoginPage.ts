@@ -22,7 +22,7 @@ export default class LoginPage extends Block {
 			secondary: true,
 			events: {
 				click: () => {
-					Router.getInstance().go('/registration');
+					Router.getInstance().go('/sign-up');
 				},
 			},
 		});
@@ -68,9 +68,11 @@ export default class LoginPage extends Block {
 
 				login({ login: username, password })
 					.then(() => {
-						Router.getInstance().go('/chat');
+						console.log('then')
+						Router.getInstance().go('/messenger');
 					})
 					.catch(() => {
+						console.log('catch')
 						this.loginField.setProps({
 							value: username,
 							helper: 'Неверная комбинация',

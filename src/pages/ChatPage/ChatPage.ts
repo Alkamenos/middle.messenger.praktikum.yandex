@@ -21,6 +21,7 @@ export default class ChatPage extends Block {
   private contacts: ChatContacts;
   private chatItems: ChatContact[];
   constructor(props: IComponentProps) {
+    console.log('constructor')
     const message = new ChatMessage({
       time: "10:22",
       text: "🤣🤣🤣🤣",
@@ -81,10 +82,8 @@ export default class ChatPage extends Block {
     return false;
   }
 
-
-
-
   componentDidMount() {
+    console.log('componentDidMount')
     user()
       .then((res: {}) => {
         this.user = res;
@@ -98,7 +97,7 @@ export default class ChatPage extends Block {
                 img: "deer",
                 events: {
                   click: () => {
-                    Router.getInstance().go(`/chat?id=${item.id}`);
+                    Router.getInstance().go(`/messenger?id=${item.id}`);
                   },
                 },
               })
@@ -108,7 +107,7 @@ export default class ChatPage extends Block {
         });
       })
       .catch(() => {
-        Router.getInstance().go("/login");
+        Router.getInstance().go("/");
       });
   }
 

@@ -13,15 +13,14 @@ interface IChild {
 
 export interface IComponentProps {
   [key: string]: any;
-  className?: string;
-  children?: {};
+  attributes?:any,
   child?: IChild | HTMLElement | string;
   events?: Record<string, (...args: any) => void>;
 }
 
 export interface IButtonProps extends IComponentProps {
-  primary?: boolean;
-  secondary?: boolean;
+  type?: string;
+  color?: 'primary'|'secondary';
   link?: boolean;
   href?: string;
 }

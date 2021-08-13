@@ -4,7 +4,6 @@ export async function chats() {
 	return http.get("/chats");
 }
 
-
 export async function createChat(data:{title:string}) {
 	return http.post("/chats", data);
 }

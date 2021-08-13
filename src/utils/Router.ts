@@ -51,6 +51,7 @@ export class Route<T> {
 		if (!this._block) {
 			this._block = <T>new this._blockClass({ ...this._componentProps, router: { params: this._params} });
 			render(this._props.rootQuery, this._block);
+			this._block.init();
 		} else {
 			render(this._props.rootQuery, this._block);
 			this._block.show();
@@ -78,6 +79,7 @@ export default class Router<T> {
 	}
 
 	static getInstance() {
+		console.log('getInstance')
 		return this.__instance;
 	}
 
@@ -113,6 +115,7 @@ export default class Router<T> {
 	}
 
 	go(pathname: string) {
+		console.log('navigate', pathname)
 		this.history.pushState({}, '', pathname);
 		this._onRoute(pathname);
 	}

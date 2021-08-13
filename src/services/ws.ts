@@ -30,7 +30,7 @@ export default class WS extends EventBus{
 		});
 
 		this.socket.addEventListener('error', event => {
-			console.log('Ошибка', event.message);
+			console.log('Ошибка', event);
 		});
 
 

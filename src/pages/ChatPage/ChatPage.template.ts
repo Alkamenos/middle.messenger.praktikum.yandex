@@ -3,7 +3,7 @@ div
     div.chat
         section.chat-contacts
             div.contacts-profile-link
-                a(href="/pages/profile")._link
+                a(href="/settings")._link
                     span._text Профиль
                     span
                         i(class="fa fa-chevron-right")._icon
@@ -21,11 +21,4 @@ div
                 span="Steve Rogers"
                 div.menu
                     i(class="fa fa-ellipsis-v")
-
-
-				div(data-child="messageInput")
-        
-
-
-    
-`;
+        div(data-child="messageInput")`;

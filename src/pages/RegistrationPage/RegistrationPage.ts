@@ -6,11 +6,11 @@ import template from "./RegistrationPage.template";
 import "./RegistrationPage.scss";
 import { Input } from "../../components/Input";
 import { checkEmail } from "../../utils/validation";
-import { login, register } from "../../services/auth";
+import { register } from "../../services/auth";
 import Router from "../../utils/Router";
 
 export default class RegistrationPage extends Block {
-  private emailField: Input;
+  private readonly emailField: Input;
 
   constructor(props: IComponentProps) {
     const submitButton = new Button({
@@ -22,8 +22,7 @@ export default class RegistrationPage extends Block {
       secondary: true,
       events: {
         click: () => {
-          // @ts-ignore
-          window.renderPage("login"); // временно вместо роутера
+          Router.getInstance().go("/")
         },
       },
     });
@@ -114,7 +113,7 @@ export default class RegistrationPage extends Block {
             phone,
           })
             .then(() => {
-              Router.getInstance().go("/chat");
+              Router.getInstance().go("/messenger");
             })
             .catch(() => {
               this.emailField.setProps({

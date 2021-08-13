@@ -1,4 +1,4 @@
-import Block from "../core/Block";
+import Block from "../core/Block2";
 
 function removeAllChildNodes(parent: Element) {
   while (parent.firstChild) {
@@ -10,7 +10,7 @@ export function render(query: string, block: Block) {
   const root = document.querySelector(query);
   if (root) {
     removeAllChildNodes(root);
-    root.appendChild(block.content);
+    root.appendChild(block.element);
   }
   return root;
 }
