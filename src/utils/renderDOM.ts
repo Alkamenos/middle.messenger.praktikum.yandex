@@ -1,4 +1,4 @@
-import Block from "../core/Block2";
+import Block from "../core/Block";
 
 function removeAllChildNodes(parent: Element) {
   while (parent.firstChild) {

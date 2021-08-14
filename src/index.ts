@@ -1,5 +1,5 @@
 import { RegistrationPage } from "./pages/RegistrationPage";
-import { LoginPage } from "./pages/LoginPage2";
+import { LoginPage } from "./pages/LoginPage";
 import { ChatPage } from "./pages/ChatPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { ErrorPage } from "./pages/ErrorPage";
@@ -44,4 +44,4 @@ import RegistrationForm from "./components/RegistrationForm/RegistrationForm";
 // });
 
 
-render('#root', new LoginPage({}))
+render('#root', new RegistrationPage({}))

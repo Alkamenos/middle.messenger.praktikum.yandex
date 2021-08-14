@@ -50,10 +50,10 @@ export class Route<T> {
 	render() {
 		if (!this._block) {
 			this._block = <T>new this._blockClass({ ...this._componentProps, router: { params: this._params} });
-			render(this._props.rootQuery, this._block);
-			this._block.init();
+			render(this._props.rootQuery, this._block.element);
+			this._block.leave();
 		} else {
-			render(this._props.rootQuery, this._block);
+			render(this._props.rootQuery, this._block.element);
 			this._block.show();
 		}
 	}

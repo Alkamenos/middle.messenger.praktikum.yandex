@@ -3,13 +3,6 @@ import {IComponent, IComponentProps} from "./interfaces";
 import EventDispatcher from "./EventDispatcher";
 import {v4} from "uuid";
 
-type Proplist = {
-    name: string;
-    selector: string;
-    attribute: string;
-    isValue?: boolean;
-}[];
-
 export default abstract class Block implements IComponent {
     static EVENTS = {
         INIT: "init",
@@ -18,90 +11,28 @@ export default abstract class Block implements IComponent {
         FLOW_CWU: "flow:component-will-unmount",
         FLOW_RENDER: "flow:render",
     };
+    private _meta: { tagName: string; props: IComponentProps };
+    private _element: any;
 
     protected props: IComponentProps;
     protected eventBus: () => EventBus;
     protected eventDispatcher: EventDispatcher;
     protected node: HTMLElement;
+    private _id: string;
 
-    get content(): HTMLElement {
-        return this.node;
-    }
-
-    protected _proplist: Proplist = [];
-
-    protected get proplist(): Proplist {
-        return this._proplist;
-    }
-
-    protected get className(): string {
-        return this.props.className || "";
-    }
-
-    constructor(props: IComponentProps) {
+    constructor(tagName = 'div', props: IComponentProps) {
         const eventBus = new EventBus();
-        this.eventDispatcher = new EventDispatcher();
-
-        this.props = this._makePropsProxy(props);
+        this._id = v4();
+        this._meta = {
+            tagName,
+            props
+        };
+        this.props = this._makePropsProxy({...props, __id: this._id});
         this.eventBus = () => eventBus;
         this._registerEvents(eventBus);
+        this.eventDispatcher = new EventDispatcher();
+
         eventBus.emit(Block.EVENTS.INIT);
-    }
-
-    componentDidMount(): void {
-    }
-
-    componentWillUnmount(): void {
-    }
-
-    abstract render(): string;
-
-    setProps = (nextProps: IComponentProps) => {
-        if (!nextProps) {
-            return;
-        }
-
-        Object.assign(this.props, nextProps);
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
-    };
-
-    bindProps() {
-        this.proplist.forEach(({name, selector, attribute, isValue}) => {
-            const prop = this.props[name];
-            if (prop) {
-                const element = this.node.querySelector(selector);
-                if (element) {
-                    if (isValue) {
-                        // @ts-ignore
-                        element[attribute] = prop;
-                    } else {
-                        element.setAttribute(attribute, prop);
-                    }
-                }
-            }
-        });
-    }
-
-    protected show() {
-        console.info('event:show');
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
-    }
-
-    protected hide() {
-        console.info('event:hide');
-        this.eventBus().emit(Block.EVENTS.FLOW_CWU);
-    }
-
-    protected init() {
-        console.info('event:init');
-    }
-
-    protected customiseComponent() {
-    }
-
-    protected componentDidUpdate() {
-        // console.log(oldProps, newProps);
-        return true;
     }
 
     private _registerEvents(eventBus: EventBus) {
@@ -112,83 +43,21 @@ export default abstract class Block implements IComponent {
         eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
     }
 
-    private _componentDidMount() {
-        this.componentDidMount();
-        this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    private _createResources() {
+        const {tagName} = this._meta;
+        this._element = this._createDocumentElement(tagName);
+        this.eventDispatcher.node = this._element;
     }
 
-    private _componentDidUpdate() {
-        const response = this.componentDidUpdate();
-        if (response) {
-            this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
-        }
-    }
-
-    private _componentWillUnmount() {
-        this.componentWillUnmount();
-    }
-
-    private _render(): void {
-        let renderedNode = null;
-
-        if (this.node) {
-            const nodeId = this.node.getAttribute("id");
-            if (nodeId) {
-                renderedNode = document.getElementById(nodeId);
-            }
-        }
-
-        const html = this.render();
-        const div = document.createElement("div");
-        div.innerHTML = html.trim();
-
-        if (Array.isArray(this.props.children)) {
-            const container = div.firstChild!;
-            this.props.children.forEach((child) => {
-                container.appendChild(<HTMLElement>child.content)
-            })
-            this.node = <HTMLElement>container;
-        } else {
-            div.querySelectorAll("[data-child]").forEach((el) => {
-                const name = el.getAttribute("data-child");
-                if (this.props.children && name) {
-                    // @ts-ignore
-                    el.replaceWith(this.props.children[name]);
-                }
-            });
-            this.node = (<HTMLElement>div.firstChild);
-        }
-
-
-        const id = v4();
-        this.node.setAttribute("id", id);
-        this.eventDispatcher.clear();
-        this.eventDispatcher.node = this.node;
-        this.bindProps();
-        this.customiseComponent();
-
-        if (this.className) {
-            this.node.setAttribute("class", this.className);
-        }
-
-        if (renderedNode) {
-            renderedNode.replaceWith(this.node);
-        }
-
-        if (this.props?.events) {
-            // this.eventDispatcher.node = this.node;
-            Object.entries(this.props.events).forEach(
-                ([eventName, callback]: [string, () => void]) => {
-                    this.eventDispatcher.add(eventName, callback);
-                }
-            );
-        }
+    private _createDocumentElement(tagName: string) {
+        const element = document.createElement(tagName);
+        return element;
     }
 
     private _makePropsProxy(props: IComponentProps) {
         const self = this;
         return new Proxy(props, {
-            get(target:IComponentProps, prop:string) {
+            get(target: IComponentProps, prop: string) {
                 const value = target[prop];
                 return typeof value === 'function' ? value.bind(target) : value;
             },
@@ -202,7 +71,101 @@ export default abstract class Block implements IComponent {
             },
         });
     }
+
+    private _componentDidMount() {
+        this.componentDidMount();
+        this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    }
+
+    private _componentDidUpdate() {
+        const response = this.componentDidUpdate();
+        console.log('componentDidUpdate')
+        if (response) {
+            this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+        }
+    }
+
+    private _componentWillUnmount() {
+        this.componentWillUnmount();
+    }
+
+    private _render(): void {
+        const block = this.render();
+        this._element.innerHTML = block;
+        this.eventDispatcher.clear();
+        this._addEvents();
+        console.log('render')
+        this._updateAttributes();
+        this._updateChildren();
+    }
+
+    private _addEvents() {
+        const {events = {}} = this.props;
+        Object.keys(events).forEach(eventName => {
+            this.eventDispatcher.add(eventName, events[eventName]);
+        });
+    }
+
+    private _updateAttributes(){
+        const {attributes = {}} = this.props;
+        this._element.setAttribute('data-id', this._id);
+        Object.keys(attributes).forEach(attributeName => {
+            if (attributes[attributeName]) {
+                this._element.setAttribute(attributeName, attributes[attributeName]);
+            }
+        });
+    }
+
+    private _updateChildren(){
+        const {children = {}} = this.props;
+        Object.keys(children).forEach(childName => {
+            const oldEl = this._element.querySelector(`[data-id='${children[childName]._id}']`)
+            if (oldEl) {
+                oldEl.replaceWith(children[childName].element)
+            }
+        });
+    }
+    protected init() {
+        this._createResources();
+        this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    }
+
+    protected show() {
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+    }
+
+    protected leave() {
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+    }
+
+    protected componentDidUpdate() {
+        return true;
+    }
+
+    setProps(nextProps:IComponentProps)  {
+        if (!nextProps) {
+            return;
+        }
+        Object.assign(this.props, nextProps);
+
+    };
+
+    getContent() {
+        return this.element.outerHTML;
+    }
+
+    get element() {
+        return this._element;
+    }
+
+
+    componentDidMount(): void {
+    }
+
+    componentWillUnmount(): void {
+    }
+
+    abstract render(): string;
+
+
 }
-/*
-* Props, State, Events, Template
-* */

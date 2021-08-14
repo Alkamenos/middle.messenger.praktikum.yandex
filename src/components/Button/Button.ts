@@ -1,4 +1,4 @@
-import Block from "../../core/Block2";
+import Block from "../../core/Block";
 import {render} from "pug";
 import "./button.scss";
 import {IButtonProps} from "../../core/interfaces";

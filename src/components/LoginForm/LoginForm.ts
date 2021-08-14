@@ -1,4 +1,4 @@
-import Block from "../../core/Block2";
+import Block from "../../core/Block";
 import {render} from "pug";
 import {IComponentProps} from "../../core/interfaces";
 import {Button} from "../Button";

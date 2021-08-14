@@ -1,4 +1,4 @@
-import Block from "../../core/Block2";
+import Block from "../../core/Block";
 import {render} from "pug";
 import {IComponentProps} from "../../core/interfaces";
 import {Button} from "../Button";
@@ -22,35 +22,37 @@ export default class RegistrationForm extends Block implements IComponentProps {
         super("form", {
             ...props,
             title: "Регистрация",
-            submitButton: new Button({
-                child: "Зарегистрировать",
-                type: 'submit',
-            }),
-            firstname: new FormInput({
-                placeholder: 'Имя',
-                name:'firstname',
-            }),
-            lastname: new FormInput({
-                placeholder: 'Фамилия',
-                name:'lastname',
-            }),
-            email: new FormInput({
-                placeholder: 'Email',
-                name:'email',
-            }),
-            phone: new FormInput({
-                placeholder: 'Телефон',
-                name:'phone',
-            }),
-            login: new FormInput({
-                placeholder: 'Логин',
-                name:'login',
-            }),
-            password: new FormInput({
-                placeholder: 'Пароль',
-                name:'password',
-                type: 'password',
-            }),
+            children: {
+                submitButton: new Button({
+                    child: "Зарегистрировать",
+                    type: 'submit',
+                }),
+                firstname: new FormInput({
+                    placeholder: 'Имя',
+                    name: 'firstname',
+                }),
+                lastname: new FormInput({
+                    placeholder: 'Фамилия',
+                    name: 'lastname',
+                }),
+                email: new FormInput({
+                    placeholder: 'Email',
+                    name: 'email',
+                }),
+                phone: new FormInput({
+                    placeholder: 'Телефон',
+                    name: 'phone',
+                }),
+                login: new FormInput({
+                    placeholder: 'Логин',
+                    name: 'login',
+                }),
+                password: new FormInput({
+                    placeholder: 'Пароль',
+                    name: 'password',
+                    type: 'password',
+                }),
+            }
             // events: {
             //     submit: (e) => {
             //         e.preventDefault();
@@ -65,13 +67,13 @@ export default class RegistrationForm extends Block implements IComponentProps {
     render() {
         return render(template, {
             title: this.props.title,
-            firstname: this.props.firstname.getContent(),
-            lastname: this.props.lastname.getContent(),
-            email: this.props.email.getContent(),
-            phone: this.props.phone.getContent(),
-            login: this.props.login.getContent(),
-            password: this.props.password.getContent(),
-            submitButton: this.props.submitButton.getContent(),
+            firstname: this.props.children.firstname.getContent(),
+            lastname: this.props.children.lastname.getContent(),
+            email: this.props.children.email.getContent(),
+            phone: this.props.children.phone.getContent(),
+            login: this.props.children.login.getContent(),
+            password: this.props.children.password.getContent(),
+            submitButton: this.props.children.submitButton.getContent(),
         });
     }
 }
