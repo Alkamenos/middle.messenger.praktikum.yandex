@@ -2,7 +2,6 @@ import EventBus from "./EventBus";
 import {IComponent, IComponentProps} from "./interfaces";
 import EventDispatcher from "./EventDispatcher";
 import {v4} from "uuid";
-import {isEqual} from "../utils/helpers";
 
 export default abstract class Block implements IComponent {
     static EVENTS = {
@@ -79,8 +78,8 @@ export default abstract class Block implements IComponent {
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
-    private _componentDidUpdate(oldProps, nextProps) {
-        const response = this.componentDidUpdate(oldProps, nextProps);
+    private _componentDidUpdate() {
+        const response = this.componentDidUpdate();
         if (response) {
             this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
         }
@@ -153,12 +152,12 @@ export default abstract class Block implements IComponent {
         this.eventBus().emit(Block.EVENTS.FLOW_CDU);
     }
 
-    protected leave() {
+    leave() {
         this.eventBus().emit(Block.EVENTS.FLOW_CDU);
     }
 
-    protected componentDidUpdate(oldProps, nextProps) {
-        return true //isEqual(oldProps, nextProps)
+    protected componentDidUpdate() {
+        return true;
     }
 
     setProps(nextProps: IComponentProps) {
@@ -178,7 +177,7 @@ export default abstract class Block implements IComponent {
     }
 
 
-    componentDidMount(oldProps): void {
+    componentDidMount(): void {
     }
 
     componentWillUnmount(): void {

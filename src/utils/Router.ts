@@ -1,17 +1,18 @@
 import {render} from './renderDOM';
 import {IComponentProps, IRouterProps} from '../core/interfaces';
+import Block from "../core/Block";
 
-export class Route<T> {
+export class Route {
     private _pathname: string;
-    private _blockClass: T;
-    private _block: T;
+    private _blockClass: Block;
+    private _block: Block;
     private _props: IRouterProps;
     private _componentProps: IComponentProps;
     private _params: {};
 
     constructor(
         pathname: string,
-        view: T,
+        view: Block,
         props: IRouterProps,
         componentProps: IComponentProps,
     ) {
@@ -19,7 +20,7 @@ export class Route<T> {
         this._blockClass = view;
         this._props = props;
         this._componentProps = componentProps;
-        this._params = this.getParams(pathname);
+        this._params = this.getParams();
     }
 
     getParams(): {} {
@@ -32,13 +33,13 @@ export class Route<T> {
     navigate(pathname: string) {
         if (this.match(pathname)) {
             this._pathname = pathname;
-            this._params = this.getParams(pathname);
+            this._params = this.getParams();
             this.render();
         }
     }
 
     leave() {
-        this._block?.hide();
+        this._block?.leave();
     }
 
     match(pathname: string) {
@@ -52,7 +53,8 @@ export class Route<T> {
 
     render() {
         if (!this._block) {
-            this._block = <T>new this._blockClass({...this._componentProps, router: {params: this.getParams()}});
+            // @ts-ignore
+            this._block = new this._blockClass({...this._componentProps, router: {params: this.getParams()}});
             render(this._props.rootQuery, this._block);
         } else {
             this._block.setProps({...this._componentProps, router: {params: this._params}})
@@ -61,12 +63,12 @@ export class Route<T> {
     }
 }
 
-export default class Router<T> {
-    private static __instance: any;
-    private routes: any[];
-    private history: History;
-    private _currentRoute: T;
-    private _rootQuery: any;
+export default class Router {
+    private static __instance: Router;
+    private routes: Route[];
+    public history: History;
+    private _currentRoute: Route;
+    private _rootQuery: string;
 
     constructor(rootQuery: string) {
         if (Router.__instance) {
@@ -84,8 +86,9 @@ export default class Router<T> {
         return this.__instance;
     }
 
-    use<T>(pathname: string, block: T, props: IComponentProps = {}, exact = true) {
-        const route = new Route<T>(
+    use(pathname: string, block: any, props: IComponentProps = {}, exact = true) {
+
+        const route = new Route(
             pathname,
             block,
             {rootQuery: this._rootQuery, exact},
@@ -96,7 +99,7 @@ export default class Router<T> {
     }
 
     start() {
-        window.onpopstate = (event: PopStateEvent) => {
+        window.onpopstate = (event: any) => {
             this._onRoute(event.currentTarget?.location.pathname);
         };
 
@@ -112,7 +115,7 @@ export default class Router<T> {
         this._currentRoute?.leave();
 
         this._currentRoute = route;
-        route.render(route, pathname);
+        route.render();
     }
 
     go(pathname: string) {
