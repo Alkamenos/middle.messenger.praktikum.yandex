@@ -50,7 +50,6 @@ class Http {
             }
 
             xhr.open(method, baseUrl + url);
-            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             xhr.withCredentials = true;
 
             xhr.onload = function () {
@@ -75,7 +74,14 @@ class Http {
             if (method === METHOD.GET || !data) {
                 xhr.send();
             } else {
-                xhr.send(JSON.stringify(data));
+                if(data instanceof FormData){
+                    // xhr.setRequestHeader("Content-Type", "multipart/form-data");
+                    xhr.send(data);
+                } else {
+                    xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                    xhr.send(JSON.stringify(data));
+                }
+
             }
         });
     }

@@ -3,7 +3,6 @@ import {render} from 'pug';
 import {IComponentProps} from '../../core/interfaces';
 import {Button} from '../../components/Button';
 import './RegistrationPage.scss';
-import {LoginForm} from "../../components/LoginForm";
 import {register} from "../../services/auth";
 import Router from "../../utils/Router";
 import {RegistrationForm} from "../../components/RegistrationForm";

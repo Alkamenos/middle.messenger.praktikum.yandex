@@ -1,7 +1,6 @@
 import Block from "../../core/Block";
-import { compile } from "pug";
+import {compile, render} from "pug";
 import { IComponentProps } from "../../core/interfaces";
-import template from "./ChatPage.template";
 import "./ChatPage.scss";
 import { ChatContact } from "../../components/ChatContact";
 import { ChatMessage } from "../../components/ChatMessage";
@@ -16,55 +15,56 @@ function getChatId(){
   return new URLSearchParams(window.location.search).get('id');
 }
 
+const template = `
+div
+    div.chat
+        !=chatContacts
+                
+
+        section.chat-messages
+            div(data-child="messages")
+
+        section.chat-header
+            div.content
+                div.avatar.deer
+                span="Steve Rogers"
+                div.menu
+                    i(class="fa fa-ellipsis-v")
+        div(data-child="messageInput")
+`
+/*
+* 1. Компонент chat-item
+* 2. Компонент списка с поиском
+* 3. Компонент сообщения
+* 4. Компонент окна чата
+* 5. Компонент отправки сообщений
+* */
+
 export default class ChatPage extends Block {
-  private user: {};
-  private contacts: ChatContacts;
-  private chatItems: ChatContact[];
   constructor(props: IComponentProps) {
-    console.log('constructor')
-    const message = new ChatMessage({
-      time: "10:22",
-      text: "🤣🤣🤣🤣",
-    });
-    const imageMessage = new ChatMessage({
-      time: "10:22",
-      text: "🤣🤣🤣🤣",
-      img: "chat-demo-image",
-    });
-
-    const contacts = new ChatContacts({
-      children:[],
-    });
-
-    const messages = new ChatMessages({
-      children:[message, imageMessage],
-    });
-
-    const messageInput = new ChatMessages({
-      children:[message, imageMessage],
-    });
-
-    console.log('_ChatPage__constructor', messages.content);
-
-    const chatId= getChatId();
-
-    super({
+    super('div',{
       ...props,
-      chatId,
-      children: {
-        contacts: contacts.content,
-        messages: messages.content,
-        messageInput:messageInput.content,
-      },
+      contacts: new ChatContacts({
+        items:[],
+      })
     });
-    this.contacts = contacts;
-    this.user = {};
-    // this.props = props;
+  }
 
+  private async getChats() {
+    const userChats = await chats();
+    this.setProps({
+      contacts: new ChatContacts({
+        items:userChats,
+      })
+    })
+  }
 
-
+  componentDidMount() {
+  this.getChats();
 
   }
+
+
 
   private connect(){
     const id = getChatId()
@@ -74,46 +74,9 @@ export default class ChatPage extends Block {
     })
   }
 
-  protected componentDidUpdate(): boolean {
-    if(this.props.chatId !== getChatId()){
-      this.connect();
-    }
-
-    return false;
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount')
-    user()
-      .then((res: {}) => {
-        this.user = res;
-        chats().then((res:[])=>{
-          this.setProps({user:this.user})
-          this.contacts.setProps({
-            children:res.map((item:{title:string,last_message:string,id:number})=> {
-              return new ChatContact({
-                name: item.title,
-                messagePreview: item.last_message,
-                img: "deer",
-                events: {
-                  click: () => {
-                    Router.getInstance().go(`/messenger?id=${item.id}`);
-                  },
-                },
-              })
-            }),
-          });
-
-        });
-      })
-      .catch(() => {
-        Router.getInstance().go("/");
-      });
-  }
-
-
-
   render() {
-    return compile(template)();
+    return render(template,{
+      chatContacts:this.props.contacts.getContent(),
+    });
   }
 }

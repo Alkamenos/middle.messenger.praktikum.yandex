@@ -53,6 +53,7 @@
   "dependencies": {
     "@svgr/parcel-plugin-svgr": "^5.5.0",
     "clsx": "^1.1.1",
+    "dayjs": "^1.10.6",
     "normalize.css": "^8.0.1",
     "uuid": "^8.3.2"
   }

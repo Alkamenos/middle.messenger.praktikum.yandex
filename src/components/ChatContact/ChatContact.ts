@@ -1,23 +1,32 @@
 import Block from "../../core/Block";
-import { compile } from "pug";
+import {render} from "pug";
 import "./ChatContact.scss";
-import { IChatContactProps } from "../../core/interfaces";
+import {IComponentProps} from "../../core/interfaces";
 
 const template = `
-li
-    div.contacts-item
-        div.contacts-item-avatar
-            div
-            
-        div.contacts-item-info
-            div.info-name
-            div.info-message-preview
-            div.info-time
-            div.info-counter`;
-
+div.contacts-item
+    div.contacts-item-avatar
+        div
+    div.contacts-item-info
+        div.info-name=name
+        div.info-message-preview=preview
+        div.info-time=time
+        div.info-counter=count`;
 export default class ChatContact extends Block {
-  props: IChatContactProps;
+  constructor(props?: IComponentProps) {
+    super('li',{
+      events:{
+        click:()=>{
+          console.log('int')
+        }
+      },
+      ...props
+    });
 
+  }
+
+
+/*
   protected get proplist() {
     return [
       // { name: "img", selector: ".contacts-item-avatar img", attribute: "src" },
@@ -62,10 +71,14 @@ export default class ChatContact extends Block {
         .classList.add(this.props.img);
     }
   }
+*/
 
   render() {
-    return compile(template)({
-      child: this.props.child,
+    return render(template, {
+      name:this.props.name,
+      preview:this.props.preview,
+      time:this.props.time,
+      count:this.props.count,
     });
   }
 }

@@ -79,7 +79,6 @@ export default abstract class Block implements IComponent {
 
     private _componentDidUpdate() {
         const response = this.componentDidUpdate();
-        console.log('componentDidUpdate')
         if (response) {
             this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
         }
@@ -93,20 +92,23 @@ export default abstract class Block implements IComponent {
         const block = this.render();
         this._element.innerHTML = block;
         this.eventDispatcher.clear();
-        this._addEvents();
-        console.log('render')
-        this._updateAttributes();
         this._updateChildren();
+        this._updateAttributes();
+        this._addEvents();
     }
 
     private _addEvents() {
         const {events = {}} = this.props;
+        if(events){
+            console.log(this.element,events)
+        }
         Object.keys(events).forEach(eventName => {
             this.eventDispatcher.add(eventName, events[eventName]);
         });
     }
 
-    private _updateAttributes(){
+
+    private _updateAttributes() {
         const {attributes = {}} = this.props;
         this._element.setAttribute('data-id', this._id);
         Object.keys(attributes).forEach(attributeName => {
@@ -116,15 +118,25 @@ export default abstract class Block implements IComponent {
         });
     }
 
-    private _updateChildren(){
+    private _updateChildren() {
         const {children = {}} = this.props;
-        Object.keys(children).forEach(childName => {
-            const oldEl = this._element.querySelector(`[data-id='${children[childName]._id}']`)
-            if (oldEl) {
-                oldEl.replaceWith(children[childName].element)
-            }
-        });
+        if (Array.isArray(children)) {
+            // this._element.innerHTML='';
+            children.forEach(child => {
+                console.log('child',child, child.element)
+                this._element.appendChild(child.element)
+            })
+        } else {
+            Object.keys(children).forEach(childName => {
+                const oldEl = this._element.querySelector(`[data-id='${children[childName]._id}']`)
+                if (oldEl) {
+                    oldEl.replaceWith(children[childName].element)
+                }
+            });
+        }
+
     }
+
     protected init() {
         this._createResources();
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
@@ -142,7 +154,7 @@ export default abstract class Block implements IComponent {
         return true;
     }
 
-    setProps(nextProps:IComponentProps)  {
+    setProps(nextProps: IComponentProps) {
         if (!nextProps) {
             return;
         }

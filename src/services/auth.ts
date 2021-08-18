@@ -21,3 +21,4 @@ export async function register(data: {
 }) {
   return http.post("/auth/signup", data);
 }
+

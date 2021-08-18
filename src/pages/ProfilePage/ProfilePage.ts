@@ -1,128 +1,95 @@
-import Block from "../../core/Block";
-import { compile } from "pug";
-import { IComponentProps } from "../../core/interfaces";
-import { Button } from "../../components/Button";
-import template from "./ProfilePage.template";
-import "./ProfilePage.scss";
-import { Input } from "../../components/Input";
-import { checkEmail } from "../../utils/validation";
+import Block from '../../core/Block';
+import {render} from 'pug';
+import {IComponentProps} from '../../core/interfaces';
+import {Button} from '../../components/Button';
+import './ProfilePage.scss';
+import {register, user} from "../../services/auth";
+import Router from "../../utils/Router";
+import {RegistrationForm} from "../../components/RegistrationForm";
+import {UserForm} from "../../components/UserForm";
+import {PasswordForm} from "../../components/PasswordForm";
+import {changeProfile, changePassword} from "../../services/user";
+
+const template = `
+div.profile
+             
+    div.content
+        !=userForm
+        !=passwordForm
+
+`;
 
 export default class ProfilePage extends Block {
-  private emailField: Input;
-
-  constructor(props: IComponentProps) {
-    const submitButton = new Button({
-      child: "Сохранить",
-    });
-
-    const submitPasswordButton = new Button({
-      child: "Изменить пароль",
-    });
-
-    const firstNameField = new Input({
-      placeholder: "Имя",
-      value: "Richard",
-      name: "first_name",
-    });
-
-    const lastNameField = new Input({
-      placeholder: "Фамилия",
-      value: "Nixon",
-      name: "last_name",
-    });
-    const phoneField = new Input({
-      placeholder: "Телефон",
-      name: "phone",
-    });
-    const emailField = new Input({
-      placeholder: "Email",
-      name: "email",
-      value: "какой-то неправильный email",
-      events: {
-        blur: (e) => {
-          checkEmail(e.currentTarget.value, emailField);
-        },
-        focus: () => {
-          console.log("focus");
-        },
-      },
-    });
-    const chatNameField = new Input({
-      placeholder: "Имя в чате",
-      name: "chat_name",
-    });
-
-    const passwordField = new Input({
-      placeholder: "Текущий пароль",
-      type: "password",
-      name: "password",
-    });
-
-    const newPasswordField = new Input({
-      placeholder: "Новый пароль",
-      type: "password",
-      name: "new_password",
-    });
-    const newPasswordRetypeField = new Input({
-      placeholder: "Повторите новый пароль",
-      type: "password",
-      name: "new_password_retype",
-    });
-
-    super({
+  constructor(props?: IComponentProps) {
+    super("div", {
       ...props,
       children: {
-        firstNameField: firstNameField.content,
-        lastNameField: lastNameField.content,
-        emailField: emailField.content,
-        phoneField: phoneField.content,
-        chatNameField: chatNameField.content,
-        passwordField: passwordField.content,
-        newPasswordField: newPasswordField.content,
-        newPasswordRetypeField: newPasswordRetypeField.content,
-        submitButton: submitButton.content,
-        submitPasswordButton: submitPasswordButton.content,
+        userForm: new UserForm({
+          attributes: {
+            class: 'user-form',
+          },
+        }),
+        passwordForm: new PasswordForm({
+          attributes: {
+            class: 'password-form',
+          },
+        }),
       },
     });
 
-    this.emailField = emailField;
+
   }
 
-  protected customiseComponent() {
-    const generalForm: HTMLFormElement = <HTMLFormElement>(
-      this.node.querySelector(".settings-general-form")
-    );
-    const securityForm: HTMLFormElement = <HTMLFormElement>(
-      this.node.querySelector(".settings-security-form")
-    );
-
-    if (generalForm) {
-      generalForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const formData = new FormData(generalForm);
-        console.log(Object.fromEntries(formData.entries()));
-        const email = formData.get("email");
-        if (email) {
-          checkEmail(<string>email, this.emailField);
+  componentDidMount() {
+    user().then(res=>{
+      this.element.querySelector('[name="first_name"]').value=res.first_name;
+      this.element.querySelector('[name="second_name"]').value=res.second_name;
+      this.element.querySelector('[name="display_name"]').value=res.display_name;
+      this.element.querySelector('[name="email"]').value=res.email;
+      this.element.querySelector('[name="phone"]').value=res.phone;
+      this.element.querySelector('[name="login"]').value=res.login;
+      this.props.children.userForm.setProps({avatar:`https://ya-praktikum.tech/api/v2/resources/${res.avatar}`})
+    })
+    this.props.children.userForm.setProps({
+      events: {
+        submit: async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.currentTarget);
+          const data = Object.fromEntries(formData.entries())
+          console.log(data);
+          try {
+            await changeProfile(data)
+            // Router.getInstance().go("/messenger");
+          } catch (e) {
+            this.props.children.userForm.props.children.login.setError(true, 'Неверная комбинация');
+          }
         }
-
-        // @ts-ignore
-        window.renderPage("chat"); // временно вместо роутера
-      });
-    }
-
-    if (securityForm) {
-      securityForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const formData = new FormData(securityForm);
-        console.log(Object.fromEntries(formData.entries()));
-        // @ts-ignore
-        window.renderPage("chat"); // временно вместо роутера
-      });
-    }
+      },
+    });
+    this.props.children.passwordForm.setProps({
+      events: {
+        submit: async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.currentTarget);
+          const data = Object.fromEntries(formData.entries())
+          console.log(data);
+          try {
+            await changePassword(data)
+            // Router.getInstance().go("/messenger");
+          } catch (e) {
+            this.props.children.form.props.children.login.setError(true, 'Неверная комбинация');
+          }
+        }
+      },
+    })
   }
+
 
   render() {
-    return compile(template)();
+    return render(template, {
+      userForm: this.props.children.userForm.getContent(),
+      passwordForm: this.props.children.passwordForm.getContent()
+    });
   }
+
 }

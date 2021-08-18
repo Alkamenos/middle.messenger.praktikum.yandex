@@ -30,6 +30,12 @@
 
     .info-name {
       margin-bottom: 5px;
+      margin-top: 10px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 200px;
+      height: 1.2em;
+      white-space: nowrap;
     }
 
     .info-message-preview {

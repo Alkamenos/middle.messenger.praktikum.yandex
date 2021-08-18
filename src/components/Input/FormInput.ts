@@ -28,15 +28,17 @@ export default class FormInput extends Block implements IComponentProps {
                 ...props?.attributes,
                 class: clsx('form-input', {'error': error}, props?.attributes?.class),
             },
-            input: new Input({
-                ...inputProps,
-                attributes: {
-                    ...inputProps?.attributes,
-                    placeholder,
-                    type,
-                    name,
-                },
-            })
+            children:{
+                input: new Input({
+                    ...inputProps,
+                    attributes: {
+                        ...inputProps?.attributes,
+                        placeholder,
+                        type,
+                        name,
+                    },
+                })
+            },
         });
     }
 
@@ -53,7 +55,7 @@ export default class FormInput extends Block implements IComponentProps {
 
     render() {
         return render(template, {
-            input: this.props.input.getContent(),
+            input: this.props.children.input.getContent(),
             helper: this.props.helper,
         });
     }
