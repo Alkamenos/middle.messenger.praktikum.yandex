@@ -1,25 +1,38 @@
 import Block from "../../core/Block";
-import { compile } from "pug";
+import {render} from "pug";
 import "./ChatMessages.scss";
-import { IChatContactProps, IComponentProps } from '../../core/interfaces';
+import {IChatContactProps, IComponentProps} from '../../core/interfaces';
+import {ChatMessage} from "../ChatMessage";
+import dayjs from "dayjs";
 
 const template = `
-ul.messages(data-child="messages")
+
     
 `;
 
 export default class ChatMessages extends Block {
-  props: IChatContactProps;
+    props: IChatContactProps;
 
-  constructor(props:IComponentProps) {
-    super({
-      ...props,
+    constructor(props: IComponentProps) {
+        super('ul', {
+            ...props,
+        });
+    }
 
-    });
+    setItems(items) {
+        this.setProps({
+            children: items.map(item =>
+                new ChatMessage({
+                    attributes: {class: item.my ? 'chat-message _my' : 'chat-message'},
+                    text: item.content,
+                    time: dayjs(item?.time).fromNow(),
+                }),
+            )
+        })
+    }
 
-  }
 
-  render() {
-    return compile(template)();
-  }
+    render() {
+        return render(template, {});
+    }
 }

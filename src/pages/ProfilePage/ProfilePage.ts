@@ -9,6 +9,7 @@ import {RegistrationForm} from "../../components/RegistrationForm";
 import {UserForm} from "../../components/UserForm";
 import {PasswordForm} from "../../components/PasswordForm";
 import {changeProfile, changePassword} from "../../services/user";
+import {getAvatarUrl} from "../../utils/helpers";
 
 const template = `
 div.profile
@@ -48,7 +49,7 @@ export default class ProfilePage extends Block {
       this.element.querySelector('[name="email"]').value=res.email;
       this.element.querySelector('[name="phone"]').value=res.phone;
       this.element.querySelector('[name="login"]').value=res.login;
-      this.props.children.userForm.setProps({avatar:`https://ya-praktikum.tech/api/v2/resources/${res.avatar}`})
+      this.props.children.userForm.setProps({avatar:getAvatarUrl(res.avatar)})
     })
     this.props.children.userForm.setProps({
       events: {

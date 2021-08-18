@@ -10,44 +10,16 @@
     "contacts header"
     "contacts messages"
     "contacts input-message";
-  grid-template-columns: 310px auto;
-  grid-template-rows: 75px auto 60px;
+  grid-template-columns: 330px auto;
+  grid-template-rows: 100px auto 60px;
   height: 100vh;
   max-height: 100vh;
   min-height: 100vh;
   overflow: hidden;
 
-
-  .chat-header {
-    box-shadow: 0 6px 20px 4px #1e1e1eb0;
-    grid-area: header;
-    z-index: 1;
-
-    .content {
-      align-items: center;
-      border-bottom: 1px solid $color-chat-border;
-      display: flex;
-      margin: 0 20px;
-      padding: 15px 0;
-
-      .avatar {
-        height: 47px;
-        margin-right: 15px;
-        max-width: 42px;
-        width: 47px;
-        background-repeat: no-repeat;
-      }
-
-      .menu {
-        cursor: pointer;
-        font-size: 18px;
-        margin-left: auto;
-      }
-    }
-  }
-
   .chat-messages {
     grid-area: messages;
+    overflow: auto;
 
     .messages {
       height: calc(100vh - 135px);
@@ -89,42 +61,5 @@
     }
   }
 
-  .chat-input-message {
-    box-shadow: 0 -6px 20px 4px #1e1e1eb0;
-    grid-area: input-message;
-    z-index: 1;
 
-    .content {
-      align-items: center;
-      border-top: 1px solid $color-chat-border;
-      display: flex;
-      justify-content: space-between;
-      margin: 0 20px;
-      padding: 10px 0;
-
-      ._attach {
-        color: $color-light-grey;
-        font-size: 32px;
-      }
-
-      ._input {
-        border-radius: 30px;
-        border-style: none;
-        font-size: 18px;
-        height: 100%;
-        margin: 0 20px;
-        outline: none;
-        padding: 10px 30px;
-        width: 100%;
-      }
-
-      ._send {
-        background-color: $color-primary;
-        border-radius: 50%;
-        color: $color-white;
-        height: 42px;
-        width: 42px;
-      }
-    }
-  }
 }

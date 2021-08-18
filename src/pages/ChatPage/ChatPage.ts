@@ -1,82 +1,109 @@
 import Block from "../../core/Block";
-import {compile, render} from "pug";
-import { IComponentProps } from "../../core/interfaces";
+import {render} from "pug";
+import {IComponentProps} from "../../core/interfaces";
 import "./ChatPage.scss";
-import { ChatContact } from "../../components/ChatContact";
-import { ChatMessage } from "../../components/ChatMessage";
-import { login, user } from "../../services/auth";
-import { chats, createChat, getToken } from '../../services/chat';
-import Router from "../../utils/Router";
-import { ChatContacts } from '../../components/ChatContacts';
-import { ChatMessages } from '../../components/ChatMessages';
+import {chats, getToken} from '../../services/chat';
+import {ChatContacts} from '../../components/ChatContacts';
 import WS from '../../services/ws';
+import {ChatHeader} from "../../components/ChatHeader";
+import {getAvatarUrl, isArray} from "../../utils/helpers";
+import {user} from "../../services/auth";
+import {MessageForm} from "../../components/MessageForm";
+import {ChatMessages} from "../../components/ChatMessages";
 
-function getChatId(){
-  return new URLSearchParams(window.location.search).get('id');
+function getChatId() {
+    return new URLSearchParams(window.location.search).get('id');
 }
 
 const template = `
 div
     div.chat
+    
         !=chatContacts
-                
-
+        !=header
         section.chat-messages
-            div(data-child="messages")
+            !=messages
+        !=message
 
-        section.chat-header
-            div.content
-                div.avatar.deer
-                span="Steve Rogers"
-                div.menu
-                    i(class="fa fa-ellipsis-v")
-        div(data-child="messageInput")
+       
+
 `
 /*
-* 1. Компонент chat-item
-* 2. Компонент списка с поиском
+
 * 3. Компонент сообщения
 * 4. Компонент окна чата
 * 5. Компонент отправки сообщений
 * */
 
 export default class ChatPage extends Block {
-  constructor(props: IComponentProps) {
-    super('div',{
-      ...props,
-      contacts: new ChatContacts({
-        items:[],
-      })
-    });
-  }
+    private user: {};
+    private socket: WebSocket;
 
-  private async getChats() {
-    const userChats = await chats();
-    this.setProps({
-      contacts: new ChatContacts({
-        items:userChats,
-      })
-    })
-  }
+    constructor(props: IComponentProps) {
+        super('div', {
+            ...props,
+            contacts: new ChatContacts({
+                items: [],
+            }),
+            header: new ChatHeader({}),
+            messages: new ChatMessages({}),
+            message: new MessageForm({}),
+            title: '',
+        });
+    }
 
-  componentDidMount() {
-  this.getChats();
+    private async getData() {
+        const userChats = await chats();
+        this.props.contacts.setItems(userChats)
+        const chat = userChats.find(c => c.id === 280)
+        this.props.header.setProps({...chat, avatar: getAvatarUrl(chat.avatar)})
 
-  }
+        const id = 280;
+        this.user = await user();
+        const {token} = await getToken({id});
+        const ws = new WS({userId: this.user.id, chatId: id, token})
+        this.socket = ws.getSocket();
+        const messages = [];
+        this.socket.addEventListener('message', event => {
+            const data = JSON.parse(event.data)
+            if (isArray(data)) {
+                const old = data
+                    .filter(message => message.type === 'message')
+                    .map(message => ({...message, my:this.user.id===message.user_id}))
+                messages.push(...old);
+            } else {
+                if(data.type==="message"){
+                    messages.push({...data,my:this.user.id===data.user_id});
+                }
+            }
+            this.props.messages.setItems(messages)
+        });
 
+        this.socket.addEventListener('open', event => {
+            ws.getOld('10')
+        });
 
+        this.props.message.setProps({
+            events: {
+                submit: (e) => {
+                    const fd = new FormData(e.currentTarget);
+                    e.preventDefault();
+                    ws.sendMessage(fd.get('message') as string)
+                }
+            }
+        })
+    }
 
-  private connect(){
-    const id = getChatId()
-    getToken({id}).then((res)=>{
-      const ws = new WS({userId:this.props.user.id,chatId:id,token:res.token})
-      this.setProps({chatId:id, token:res, ws})
-    })
-  }
+    componentDidMount() {
+        this.getData();
+    }
 
-  render() {
-    return render(template,{
-      chatContacts:this.props.contacts.getContent(),
-    });
-  }
+    render() {
+        return render(template, {
+            chatContacts: this.props.contacts.getContent(),
+            header: this.props.header.getContent(),
+            messages: this.props.messages.getContent(),
+            message: this.props.message.getContent(),
+        });
+    }
 }

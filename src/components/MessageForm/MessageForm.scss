@@ -1,0 +1,40 @@
+@import "/src/styles/colors";
+
+.chat-input-message {
+  box-shadow: 0 -6px 20px 4px #1e1e1eb0;
+  grid-area: input-message;
+  z-index: 1;
+
+  .content {
+    align-items: center;
+    border-top: 1px solid $color-chat-border;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px;
+    padding: 10px 0;
+
+    ._attach {
+      color: $color-light-grey;
+      font-size: 32px;
+    }
+
+    ._input {
+      border-radius: 30px;
+      border-style: none;
+      font-size: 18px;
+      height: 100%;
+      margin: 0 20px;
+      outline: none;
+      padding: 10px 30px;
+      width: 100%;
+    }
+
+    ._send {
+      background-color: $color-primary;
+      border-radius: 50%;
+      color: $color-white;
+      height: 42px;
+      width: 42px;
+    }
+  }
+}

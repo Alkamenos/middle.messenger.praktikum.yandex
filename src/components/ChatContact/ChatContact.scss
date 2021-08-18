@@ -25,6 +25,17 @@
     }
   }
 
+  .avatar {
+    width: 47px;
+    height: 47px;
+    overflow: hidden;
+    border-radius: 50%;
+
+    img {
+      width: 47px;
+    }
+  }
+
   .contacts-item-info {
     height: 100%;
 

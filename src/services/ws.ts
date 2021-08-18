@@ -9,10 +9,6 @@ export default class WS extends EventBus{
 		this.socket.addEventListener('open', () => {
 			console.log('Соединение установлено');
 
-			this.socket.send(JSON.stringify({
-				content: 'Моё первое сообщение миру!',
-				type: 'message',
-			}));
 		});
 
 		this.socket.addEventListener('close', event => {
@@ -34,6 +30,24 @@ export default class WS extends EventBus{
 		});
 
 
+	}
+
+	getSocket(){
+		return this.socket;
+	}
+
+	sendMessage(content:string){
+		this.socket.send(JSON.stringify({
+			content,
+			type: 'message',
+		}));
+	}
+
+	getOld(count:string|number){
+		this.socket.send(JSON.stringify({
+			content:count,
+			type: 'get old',
+		}));
 	}
 
 }

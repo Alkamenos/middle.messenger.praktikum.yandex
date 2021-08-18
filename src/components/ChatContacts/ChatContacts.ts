@@ -5,6 +5,7 @@ import {IComponentProps} from '../../core/interfaces';
 import {ChatContact} from "../ChatContact";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import {getAvatarUrl} from "../../utils/helpers";
 
 dayjs.extend(relativeTime)
 const template = `
@@ -24,28 +25,25 @@ export default class ChatContacts extends Block {
 
     }
 
-    componentDidMount() {
-        const filter = ''
-        console.log('ChatContacts_componentDidMount',this.props.items)
-        if(this.props.items){
-            this.setProps({
-                children:this.props.items.map(item=>
-                    new ChatContact({
-                        name: item.title,
-                        preview: item.last_message?.content,
-                        time: dayjs(item.last_message?.time).fromNow(),
-                        count: item.unread_count,
-                        events:{
-                            click:()=>{
-                                console.log('dsad', item)
-                            }
+    setItems(items){
+        this.setProps({
+            children:items.map(item=>
+                new ChatContact({
+                    name: item.title,
+                    preview: item.last_message?.content,
+                    time: dayjs(item.last_message?.time).fromNow(),
+                    count: item.unread_count,
+                    avatar: getAvatarUrl(item.avatar),
+                    events:{
+                        click:()=>{
+                            console.log('dsad', item)
                         }
-                    }),
-                )
-            })
-        }
-
+                    }
+                }),
+            )
+        })
     }
+
 
     render() {
         return render(template, {

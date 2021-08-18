@@ -2,10 +2,15 @@ import Block from "../../core/Block";
 import {render} from "pug";
 import "./ChatContact.scss";
 import {IComponentProps} from "../../core/interfaces";
+import {getAvatarUrl} from "../../utils/helpers";
 
 const template = `
 div.contacts-item
-    div.contacts-item-avatar
+    if avatar
+      div.avatar
+        img(src=avatar)
+    else
+      div.contacts-item-avatar
         div
     div.contacts-item-info
         div.info-name=name
@@ -15,11 +20,6 @@ div.contacts-item
 export default class ChatContact extends Block {
   constructor(props?: IComponentProps) {
     super('li',{
-      events:{
-        click:()=>{
-          console.log('int')
-        }
-      },
       ...props
     });
 
@@ -79,6 +79,7 @@ export default class ChatContact extends Block {
       preview:this.props.preview,
       time:this.props.time,
       count:this.props.count,
+      avatar: this.props.avatar
     });
   }
 }

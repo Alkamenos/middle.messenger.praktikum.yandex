@@ -2,6 +2,7 @@ import EventBus from "./EventBus";
 import {IComponent, IComponentProps} from "./interfaces";
 import EventDispatcher from "./EventDispatcher";
 import {v4} from "uuid";
+import {isEqual} from "../utils/helpers";
 
 export default abstract class Block implements IComponent {
     static EVENTS = {
@@ -57,11 +58,8 @@ export default abstract class Block implements IComponent {
     private _makePropsProxy(props: IComponentProps) {
         const self = this;
         return new Proxy(props, {
-            get(target: IComponentProps, prop: string) {
-                const value = target[prop];
-                return typeof value === 'function' ? value.bind(target) : value;
-            },
             set(target: IComponentProps, prop: string, value) {
+                console.log(target, prop)
                 target[prop] = value;
                 self.eventBus().emit(Block.EVENTS.FLOW_CDU);
                 return true;
@@ -72,13 +70,19 @@ export default abstract class Block implements IComponent {
         });
     }
 
+    protected init() {
+        this._createResources();
+        this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    }
+
     private _componentDidMount() {
         this.componentDidMount();
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
-    private _componentDidUpdate() {
-        const response = this.componentDidUpdate();
+    private _componentDidUpdate(oldProps, nextProps) {
+        console.log('_componentDidUpdate',oldProps, nextProps)
+        const response = this.componentDidUpdate(oldProps, nextProps);
         if (response) {
             this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
         }
@@ -90,17 +94,25 @@ export default abstract class Block implements IComponent {
 
     private _render(): void {
         const block = this.render();
-        this._element.innerHTML = block;
+
+        if (this._element) {
+            this._element.innerHTML = block;
+            const currentElement = document.querySelector(`[data-id='${this._id}']`)
+            console.log(currentElement)
+            currentElement?.parentNode?.replaceChild(this.element, currentElement);
+        }
+
         this.eventDispatcher.clear();
         this._updateChildren();
         this._updateAttributes();
         this._addEvents();
+        // this.eventBus().emit(Block.EVENTS.FLOW_CDM);
     }
 
     private _addEvents() {
         const {events = {}} = this.props;
         if(events){
-            console.log(this.element,events)
+            // console.log(this.element,events)
         }
         Object.keys(events).forEach(eventName => {
             this.eventDispatcher.add(eventName, events[eventName]);
@@ -118,10 +130,17 @@ export default abstract class Block implements IComponent {
         });
     }
 
+
+
+
     private _updateChildren() {
         const {children = {}} = this.props;
+
+
+
+
         if (Array.isArray(children)) {
-            // this._element.innerHTML='';
+            this._element.innerHTML='';
             children.forEach(child => {
                 console.log('child',child, child.element)
                 this._element.appendChild(child.element)
@@ -137,11 +156,6 @@ export default abstract class Block implements IComponent {
 
     }
 
-    protected init() {
-        this._createResources();
-        this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-    }
-
     protected show() {
         this.eventBus().emit(Block.EVENTS.FLOW_CDU);
     }
@@ -150,16 +164,17 @@ export default abstract class Block implements IComponent {
         this.eventBus().emit(Block.EVENTS.FLOW_CDU);
     }
 
-    protected componentDidUpdate() {
-        return true;
+    protected componentDidUpdate(oldProps, nextProps) {
+        return true
     }
 
     setProps(nextProps: IComponentProps) {
+        console.log('setProps', nextProps)
         if (!nextProps) {
             return;
         }
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU, this.props, nextProps);
         Object.assign(this.props, nextProps);
-
     };
 
     getContent() {
@@ -171,7 +186,7 @@ export default abstract class Block implements IComponent {
     }
 
 
-    componentDidMount(): void {
+    componentDidMount(oldProps): void {
     }
 
     componentWillUnmount(): void {
