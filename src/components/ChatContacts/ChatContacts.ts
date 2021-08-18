@@ -6,6 +6,7 @@ import {ChatContact} from "../ChatContact";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import {getAvatarUrl} from "../../utils/helpers";
+import Router from "../../utils/Router";
 
 dayjs.extend(relativeTime)
 const template = `
@@ -36,7 +37,7 @@ export default class ChatContacts extends Block {
                     avatar: getAvatarUrl(item.avatar),
                     events:{
                         click:()=>{
-                            console.log('dsad', item)
+                            Router.getInstance().go(`/messenger/?chat_id=${item.id}`)
                         }
                     }
                 }),

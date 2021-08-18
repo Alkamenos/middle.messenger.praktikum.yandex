@@ -14,89 +14,14 @@
   min-height: 100vh;
   overflow: hidden;
 
-  .settings {
-    grid-area: menu;
+  .settings-menu {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
 
-    .settings-title {
-      align-items: center;
-      display: flex;
+    ._back {
+      color: #FFFFFF;
       font-size: 24px;
-      height: 58px;
-      justify-content: center;
-      position: relative;
-      width: 100%;
-
-      .back-button {
-        cursor: pointer;
-        left: 10px;
-        position: absolute;
-      }
-    }
-
-    .settings-user {
-      align-items: center;
-      border-bottom: 1px solid $color-chat-border;
-      border-top: 1px solid $color-chat-border;
-      display: flex;
-      font-size: 12px;
-      height: 96px;
-      margin-bottom: 40px;
-      max-height: 96px;
-      padding: 20px 10px;
-      user-select: none;
-
-      .settings-user_avatar {
-        background-color: $color-light-grey;
-        border-radius: 50%;
-        height: 47px;
-        margin-right: 15px;
-        width: 47px;
-      }
-
-      ._name {
-        margin-bottom: 5px;
-      }
-
-      ._email {
-        color: $color-light-grey;
-      }
-    }
-
-    .settings-menu {
-      .menu-item {
-        .menu-item-button {
-          align-items: center;
-          color: inherit;
-          cursor: pointer;
-          display: flex;
-          font-size: 16px;
-          height: 52px;
-          padding: 10px 20px;
-          width: 100%;
-
-          ._icon {
-            margin-right: 10px;
-            text-align: center;
-            width: 25px;
-
-            i {
-              font-size: 24px;
-            }
-          }
-
-          ._title {
-          }
-
-          ._chevron {
-            margin-left: auto;
-          }
-
-          &:hover,
-          &._active {
-            background-color: $color-primary;
-          }
-        }
-      }
     }
   }
 
@@ -127,19 +52,20 @@
     margin-bottom: 30px;
     color: $color-dark-grey;
   }
-  .header{
+
+  .header {
     display: flex;
     align-items: center;
     justify-content: flex-end;
   }
 
-  .avatar{
+  .avatar {
     width: 120px;
     height: 120px;
     overflow: hidden;
     border-radius: 50%;
 
-    img{
+    img {
       width: 120px;
     }
   }

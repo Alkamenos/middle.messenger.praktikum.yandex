@@ -4,6 +4,7 @@ import "./ChatMessages.scss";
 import {IChatContactProps, IComponentProps} from '../../core/interfaces';
 import {ChatMessage} from "../ChatMessage";
 import dayjs from "dayjs";
+import Router from "../../utils/Router";
 
 const template = `
 
@@ -26,6 +27,7 @@ export default class ChatMessages extends Block {
                     attributes: {class: item.my ? 'chat-message _my' : 'chat-message'},
                     text: item.content,
                     time: dayjs(item?.time).fromNow(),
+
                 }),
             )
         })

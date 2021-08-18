@@ -23,10 +23,16 @@ export default class MessageForm extends Block implements IComponentProps {
                 submitButton: new Button({
                     child: "Отправить",
                     type: 'submit',
+                    attributes:{
+                        class:'_send'
+                    }
                 }),
                 message: new FormInput({
                     placeholder: ' Сообщение',
                     name:'message',
+                    attributes:{
+                        class:'_input'
+                    }
                 }),
             },
         });

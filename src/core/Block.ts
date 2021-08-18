@@ -59,7 +59,6 @@ export default abstract class Block implements IComponent {
         const self = this;
         return new Proxy(props, {
             set(target: IComponentProps, prop: string, value) {
-                console.log(target, prop)
                 target[prop] = value;
                 self.eventBus().emit(Block.EVENTS.FLOW_CDU);
                 return true;
@@ -81,7 +80,6 @@ export default abstract class Block implements IComponent {
     }
 
     private _componentDidUpdate(oldProps, nextProps) {
-        console.log('_componentDidUpdate',oldProps, nextProps)
         const response = this.componentDidUpdate(oldProps, nextProps);
         if (response) {
             this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
@@ -98,7 +96,6 @@ export default abstract class Block implements IComponent {
         if (this._element) {
             this._element.innerHTML = block;
             const currentElement = document.querySelector(`[data-id='${this._id}']`)
-            console.log(currentElement)
             currentElement?.parentNode?.replaceChild(this.element, currentElement);
         }
 
@@ -111,9 +108,6 @@ export default abstract class Block implements IComponent {
 
     private _addEvents() {
         const {events = {}} = this.props;
-        if(events){
-            // console.log(this.element,events)
-        }
         Object.keys(events).forEach(eventName => {
             this.eventDispatcher.add(eventName, events[eventName]);
         });
@@ -142,7 +136,6 @@ export default abstract class Block implements IComponent {
         if (Array.isArray(children)) {
             this._element.innerHTML='';
             children.forEach(child => {
-                console.log('child',child, child.element)
                 this._element.appendChild(child.element)
             })
         } else {
@@ -165,11 +158,10 @@ export default abstract class Block implements IComponent {
     }
 
     protected componentDidUpdate(oldProps, nextProps) {
-        return true
+        return true //isEqual(oldProps, nextProps)
     }
 
     setProps(nextProps: IComponentProps) {
-        console.log('setProps', nextProps)
         if (!nextProps) {
             return;
         }

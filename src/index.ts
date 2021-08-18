@@ -13,7 +13,7 @@ import {user} from "./services/auth";
 import {ChatContact} from "./components/ChatContact";
 import {ChatContacts} from "./components/ChatContacts";
 
-// const router = new Router("#root");
+const router = new Router("#root");
 
 user().then(res=>{
     if(res){
@@ -23,14 +23,14 @@ user().then(res=>{
     }
 })
 
-// router
-//   .use("/", LoginPage)
-//   .use("/messenger", ChatPage,{},false)
-//   .use("/settings", ProfilePage)
-//   .use("/sign-up", RegistrationPage)
-//   .use("/500", ErrorPage, { code: 404 })
-//   .use("/404", ErrorPage, { code: 500 })
-//   .start();
+router
+  .use("/", LoginPage)
+  .use("/messenger", ChatPage,{},false)
+  .use("/settings", ProfilePage)
+  .use("/sign-up", RegistrationPage)
+  .use("/500", ErrorPage, { code: 404 })
+  .use("/404", ErrorPage, { code: 500 })
+  .start();
 
 
 
@@ -46,7 +46,7 @@ user().then(res=>{
 // });
 
 
-render('#root', new ChatPage({}))
+// render('#root', new ChatPage({}))
 
 
 

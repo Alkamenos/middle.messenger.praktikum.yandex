@@ -11,30 +11,32 @@
     display: flex;
     justify-content: space-between;
     margin: 0 20px;
-    padding: 10px 0;
+    //padding: 10px 0;
 
     ._attach {
       color: $color-light-grey;
       font-size: 32px;
     }
 
-    ._input {
+    ._input input {
       border-radius: 30px;
       border-style: none;
       font-size: 18px;
       height: 100%;
-      margin: 0 20px;
+      margin: 0;
       outline: none;
-      padding: 10px 30px;
+      //padding: 10px 30px;
       width: 100%;
+      color: #FFF;
     }
 
     ._send {
       background-color: $color-primary;
-      border-radius: 50%;
+      border-radius: 5px;
+      padding: 10px;
       color: $color-white;
       height: 42px;
-      width: 42px;
+      //width: 42px;
     }
   }
 }

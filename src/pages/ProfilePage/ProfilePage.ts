@@ -10,10 +10,12 @@ import {UserForm} from "../../components/UserForm";
 import {PasswordForm} from "../../components/PasswordForm";
 import {changeProfile, changePassword} from "../../services/user";
 import {getAvatarUrl} from "../../utils/helpers";
+import {Element} from "../../components/Element";
 
 const template = `
 div.profile
-             
+    div.settings-menu
+      !=backButton   
     div.content
         !=userForm
         !=passwordForm
@@ -25,6 +27,19 @@ export default class ProfilePage extends Block {
     super("div", {
       ...props,
       children: {
+        backButton: new Button({
+          children: [
+            new Element('i', {attributes: {class: 'fa fa-long-arrow-left'}})
+          ],
+          attributes: {
+            class: '_back'
+          },
+          events:{
+            click:()=>{
+              Router.getInstance().back();
+            }
+          }
+        }),
         userForm: new UserForm({
           attributes: {
             class: 'user-form',
@@ -89,7 +104,8 @@ export default class ProfilePage extends Block {
   render() {
     return render(template, {
       userForm: this.props.children.userForm.getContent(),
-      passwordForm: this.props.children.passwordForm.getContent()
+      passwordForm: this.props.children.passwordForm.getContent(),
+      backButton: this.props.children.backButton.getContent(),
     });
   }
 
