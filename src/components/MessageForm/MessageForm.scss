@@ -21,21 +21,21 @@
     ._input input {
       border-radius: 30px;
       border-style: none;
+      color: #FFF;
       font-size: 18px;
       height: 100%;
       margin: 0;
       outline: none;
       //padding: 10px 30px;
       width: 100%;
-      color: #FFF;
     }
 
     ._send {
       background-color: $color-primary;
       border-radius: 5px;
-      padding: 10px;
       color: $color-white;
       height: 42px;
+      padding: 10px;
       //width: 42px;
     }
   }

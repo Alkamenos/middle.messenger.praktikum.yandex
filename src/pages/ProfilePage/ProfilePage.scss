@@ -15,12 +15,12 @@
   overflow: hidden;
 
   .settings-menu {
-    display: flex;
     align-items: flex-start;
+    display: flex;
     padding: 20px;
 
     ._back {
-      color: #FFFFFF;
+      color: #FFF;
       font-size: 24px;
     }
   }
@@ -49,21 +49,21 @@
   }
 
   .form-title {
-    margin-bottom: 30px;
     color: $color-dark-grey;
+    margin-bottom: 30px;
   }
 
   .header {
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: flex-end;
   }
 
   .avatar {
-    width: 120px;
+    border-radius: 50%;
     height: 120px;
     overflow: hidden;
-    border-radius: 50%;
+    width: 120px;
 
     img {
       width: 120px;

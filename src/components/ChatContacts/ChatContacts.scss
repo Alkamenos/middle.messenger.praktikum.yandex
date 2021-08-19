@@ -2,8 +2,8 @@
 
 .chat-contacts {
   grid-area: contacts;
-  padding: 0 10px;
   overflow: auto;
+  padding: 0 10px;
 
   .contacts-profile-link {
     color: $color-light-grey;
@@ -25,27 +25,6 @@
     }
   }
 
-  .contacts-search {
-    .search-input {
-      background-color: $color-grey;
-      border: none;
-      border-radius: 5px;
-      color: inherit;
-      height: 40px;
-      outline: none;
-      padding: 0 20px;
-      width: 100%;
-
-      &:focus::input-placeholder {
-        visibility: hidden;
-      }
-
-      &::input-placeholder {
-        color: $color-light-grey;
-        text-align: center;
-      }
-    }
-  }
 
   .contacts-list {
     margin-left: -10px;
@@ -76,7 +55,7 @@
       background-color: $color-primary;
 
       .contacts-item {
-        border: none;
+        border: 0;
 
         ._counter {
           background-color: $color-dark-grey;
@@ -84,9 +63,9 @@
         }
       }
 
-      & + li {
+      li + li {
         .contacts-item {
-          border-top: none;
+          border-top: 0;
         }
       }
     }

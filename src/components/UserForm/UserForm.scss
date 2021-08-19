@@ -1,19 +1,21 @@
 .personal-image {
+  align-items: center;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  
+  input {
+    display: none;
+  }
 }
 
-.personal-image input[type="file"] {
-  display: none;
-}
+
 
 .personal-figure {
-  position: relative;
-  width: 120px;
+  border-radius: 50%;
   height: 120px;
   overflow: hidden;
-  border-radius: 50%;
+  position: relative;
+  width: 120px;
 
   img {
     width: 120px;
@@ -21,44 +23,44 @@
 }
 
 .personal-avatar {
-  cursor: pointer;
-  width: 120px;
-  height: 120px;
-  box-sizing: border-box;
-  border-radius: 100%;
   border: 2px solid transparent;
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  cursor: pointer;
+  height: 120px;
   transition: all ease-in-out .3s;
+  width: 120px;
 }
 
 .personal-avatar:hover {
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 }
 
 .personal-figcaption {
-  cursor: pointer;
-  position: absolute;
-  top: 0px;
-  width: inherit;
-  height: inherit;
-  border-radius: 100%;
-  opacity: 0;
-  background-color: rgba(0, 0, 0, 0);
-  transition: all ease-in-out .3s;
-  display: flex;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 100%;
+  cursor: pointer;
+  display: flex;
+  height: inherit;
   justify-content: center;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  transition: all ease-in-out .3s;
+  width: inherit;
 }
 
 .personal-figcaption:hover {
-  opacity: 1;
   background-color: rgba(0, 0, 0, .5);
+  opacity: 1;
 }
 
 .personal-figcaption > img {
+  height: 50px;
   margin-top: 32.5px;
   width: 50px;
-  height: 50px;
 }
 
 .personal-figcaption i {

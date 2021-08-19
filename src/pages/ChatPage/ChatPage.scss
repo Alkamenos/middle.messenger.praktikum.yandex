@@ -18,11 +18,11 @@
   overflow: hidden;
 
   .chat-controls{
-    grid-area: controls;
-    overflow: auto;
-    display: flex;
     align-items: center;
+    display: flex;
+    grid-area: controls;
     justify-content: center;
+    overflow: auto;
   }
 
   .chat-messages {
