@@ -2,7 +2,7 @@ import Block from '../../core/Block';
 import {render} from 'pug';
 import {IComponentProps} from '../../core/interfaces';
 import './ChatPage.scss';
-import {chats, getToken} from '../../services/chat';
+import {chats, createChat, getToken} from '../../services/chat';
 import {ChatContacts} from '../../components/ChatContacts';
 import WS from '../../services/ws';
 import {ChatHeader} from '../../components/ChatHeader';
@@ -11,6 +11,7 @@ import {user} from '../../services/auth';
 import {MessageForm} from '../../components/MessageForm';
 import {ChatMessages} from '../../components/ChatMessages';
 import Router from '../../utils/Router';
+import {Button} from '../../components/Button';
 
 function getChatId() {
     return new URLSearchParams(window.location.search).get('chat_id');
@@ -19,7 +20,8 @@ function getChatId() {
 const template = `
 div
     div.chat
-    
+        section.chat-controls
+            !=addChat
         !=chatContacts
         !=header
         section.chat-messages
@@ -43,7 +45,26 @@ export default class ChatPage extends Block {
             messages: new ChatMessages({}),
             message: new MessageForm({}),
             title: '',
+            children: {
+                addChat: new Button({
+                    child: 'Создать чат',
+                    color: 'secondary',
+
+                }),
+            },
+
         });
+
+        this.props.children.addChat.setProps({
+            events: {
+                click: async () => {
+                    const title = prompt('Название чата', 'Чат123');
+                    await createChat({title});
+                    this.getData();
+
+                },
+            },
+        })
 
     }
 
@@ -57,6 +78,7 @@ export default class ChatPage extends Block {
             header: this.props.header.getContent(),
             messages: this.props.messages.getContent(),
             message: this.props.message.getContent(),
+            addChat: this.props.children.addChat.getContent(),
         });
     }
 

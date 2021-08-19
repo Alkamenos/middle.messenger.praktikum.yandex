@@ -3,6 +3,7 @@
 .chat-contacts {
   grid-area: contacts;
   padding: 0 10px;
+  overflow: auto;
 
   .contacts-profile-link {
     color: $color-light-grey;

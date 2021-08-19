@@ -7,7 +7,7 @@
   font-size: 12px;
   gap: 0 0;
   grid-template-areas:
-    "contacts header"
+    "controls header"
     "contacts messages"
     "contacts input-message";
   grid-template-columns: 330px auto;
@@ -16,6 +16,14 @@
   max-height: 100vh;
   min-height: 100vh;
   overflow: hidden;
+
+  .chat-controls{
+    grid-area: controls;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .chat-messages {
     grid-area: messages;
