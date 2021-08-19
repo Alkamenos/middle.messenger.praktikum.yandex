@@ -1,23 +1,21 @@
-import EventBus from "./EventBus";
-import {IComponent, IComponentProps} from "./interfaces";
-import EventDispatcher from "./EventDispatcher";
-import {v4} from "uuid";
+import EventBus from './EventBus';
+import {IComponent, IComponentProps} from './interfaces';
+import EventDispatcher from './EventDispatcher';
+import {v4} from 'uuid';
 
 export default abstract class Block implements IComponent {
     static EVENTS = {
-        INIT: "init",
-        FLOW_CDM: "flow:component-did-mount",
-        FLOW_CDU: "flow:component-did-update",
-        FLOW_CWU: "flow:component-will-unmount",
-        FLOW_RENDER: "flow:render",
+        INIT: 'init',
+        FLOW_CDM: 'flow:component-did-mount',
+        FLOW_CDU: 'flow:component-did-update',
+        FLOW_CWU: 'flow:component-will-unmount',
+        FLOW_RENDER: 'flow:render',
     };
-    private _meta: { tagName: string; props: IComponentProps };
-    private _element: any;
-
     protected props: IComponentProps;
     protected eventBus: () => EventBus;
     protected eventDispatcher: EventDispatcher;
     protected node: HTMLElement;
+    private _meta: { tagName: string; props: IComponentProps };
     private _id: string;
 
     constructor(tagName = 'div', props: IComponentProps) {
@@ -25,7 +23,7 @@ export default abstract class Block implements IComponent {
         this._id = v4();
         this._meta = {
             tagName,
-            props
+            props,
         };
         this.props = this._makePropsProxy({...props, __id: this._id});
         this.eventBus = () => eventBus;
@@ -33,6 +31,49 @@ export default abstract class Block implements IComponent {
         this.eventDispatcher = new EventDispatcher();
 
         eventBus.emit(Block.EVENTS.INIT);
+    }
+
+    private _element: any;
+
+    get element() {
+        return this._element;
+    }
+
+    leave() {
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+    }
+
+    setProps(nextProps: IComponentProps) {
+        if (!nextProps) {
+            return;
+        }
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU, this.props, nextProps);
+        Object.assign(this.props, nextProps);
+    };
+
+    getContent() {
+        return this.element.outerHTML;
+    }
+
+    componentDidMount(): void {
+    }
+
+    componentWillUnmount(): void {
+    }
+
+    abstract render(): string;
+
+    protected init() {
+        this._createResources();
+        this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    }
+
+    protected show() {
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+    }
+
+    protected componentDidUpdate() {
+        return true;
     }
 
     private _registerEvents(eventBus: EventBus) {
@@ -63,14 +104,9 @@ export default abstract class Block implements IComponent {
                 return true;
             },
             deleteProperty() {
-                throw new Error("Отказано в доступе");
+                throw new Error('Отказано в доступе');
             },
         });
-    }
-
-    protected init() {
-        this._createResources();
-        this.eventBus().emit(Block.EVENTS.FLOW_CDM);
     }
 
     private _componentDidMount() {
@@ -112,7 +148,6 @@ export default abstract class Block implements IComponent {
         });
     }
 
-
     private _updateAttributes() {
         const {attributes = {}} = this.props;
         this._element.setAttribute('data-id', this._id);
@@ -123,17 +158,12 @@ export default abstract class Block implements IComponent {
         });
     }
 
-
-
-
     private _updateChildren() {
         const {children = {}} = this.props;
 
 
-
-
         if (Array.isArray(children)) {
-            this._element.innerHTML='';
+            this._element.innerHTML = '';
             children.forEach(child => {
                 this._element.appendChild(child.element)
             })
@@ -147,43 +177,6 @@ export default abstract class Block implements IComponent {
         }
 
     }
-
-    protected show() {
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
-    }
-
-    leave() {
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
-    }
-
-    protected componentDidUpdate() {
-        return true;
-    }
-
-    setProps(nextProps: IComponentProps) {
-        if (!nextProps) {
-            return;
-        }
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU, this.props, nextProps);
-        Object.assign(this.props, nextProps);
-    };
-
-    getContent() {
-        return this.element.outerHTML;
-    }
-
-    get element() {
-        return this._element;
-    }
-
-
-    componentDidMount(): void {
-    }
-
-    componentWillUnmount(): void {
-    }
-
-    abstract render(): string;
 
 
 }

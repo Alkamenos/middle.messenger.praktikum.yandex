@@ -1,6 +1,6 @@
 import {render} from './renderDOM';
 import {IComponentProps, IRouterProps} from '../core/interfaces';
-import Block from "../core/Block";
+import Block from '../core/Block';
 
 export class Route {
     private _pathname: string;
@@ -27,7 +27,6 @@ export class Route {
         // return Object.fromEntries(new URLSearchParams(pathname).entries())
         return Object.fromEntries((new URLSearchParams(document.location.search)).entries())
     }
-
 
 
     navigate(pathname: string) {
@@ -65,8 +64,8 @@ export class Route {
 
 export default class Router {
     private static __instance: Router;
-    private routes: Route[];
     public history: History;
+    private routes: Route[];
     private _currentRoute: Route;
     private _rootQuery: string;
 

@@ -1,39 +1,39 @@
 export default class EventBus {
-  protected listeners: Record<string, ((...args: any) => void)[]>;
+    protected listeners: Record<string, ((...args: any) => void)[]>;
 
-  constructor() {
-    this.listeners = {};
-  }
-
-  on(event: string, callback: (...args: any) => void): void {
-    if (!this.listeners[event]) {
-      this.listeners[event] = [];
+    constructor() {
+        this.listeners = {};
     }
 
-    this.listeners[event].push(callback);
-  }
+    on(event: string, callback: (...args: any) => void): void {
+        if (!this.listeners[event]) {
+            this.listeners[event] = [];
+        }
 
-  off(event: string, callback: (...args: any) => void): void {
-    if (!this.listeners[event]) {
-      throw new Error(`Нет события: ${event}`);
+        this.listeners[event].push(callback);
     }
 
-    this.listeners[event] = this.listeners[event].filter(
-      (listener) => listener !== callback
-    );
-  }
+    off(event: string, callback: (...args: any) => void): void {
+        if (!this.listeners[event]) {
+            throw new Error(`Нет события: ${event}`);
+        }
 
-  emit(event: string, ...args: any): void {
-    if (!this.listeners[event]) {
-      throw new Error(`Нет события: ${event}`);
+        this.listeners[event] = this.listeners[event].filter(
+            (listener) => listener !== callback,
+        );
     }
 
-    this.listeners[event].forEach(function (listener) {
-      listener(...args);
-    });
-  }
+    emit(event: string, ...args: any): void {
+        if (!this.listeners[event]) {
+            throw new Error(`Нет события: ${event}`);
+        }
 
-  removeAll(event: string): void {
-    delete this.listeners[event];
-  }
+        this.listeners[event].forEach(function (listener) {
+            listener(...args);
+        });
+    }
+
+    removeAll(event: string): void {
+        delete this.listeners[event];
+    }
 }

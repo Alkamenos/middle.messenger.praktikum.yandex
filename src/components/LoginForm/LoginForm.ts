@@ -1,8 +1,8 @@
-import Block from "../../core/Block";
-import {render} from "pug";
-import {IComponentProps} from "../../core/interfaces";
-import {Button} from "../Button";
-import FormInput from "../Input/FormInput";
+import Block from '../../core/Block';
+import {render} from 'pug';
+import {IComponentProps} from '../../core/interfaces';
+import {Button} from '../Button';
+import FormInput from '../Input/FormInput';
 
 const template = `
 h1(class="form-title") #{title}
@@ -15,21 +15,21 @@ h1(class="form-title") #{title}
 export default class LoginForm extends Block implements IComponentProps {
 
     constructor(props?: IComponentProps) {
-        super("form", {
+        super('form', {
             ...props,
-            title: "Вход",
-            children:{
+            title: 'Вход',
+            children: {
                 submitButton: new Button({
-                    child: "Войти",
+                    child: 'Войти',
                     type: 'submit',
                 }),
                 login: new FormInput({
                     placeholder: 'Логин',
-                    name:'login',
+                    name: 'login',
                 }),
                 password: new FormInput({
                     placeholder: 'Пароль',
-                    name:'password',
+                    name: 'password',
                     type: 'password',
                 }),
             },

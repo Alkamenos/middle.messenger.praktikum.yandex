@@ -1,1 +1,1 @@
-export { default as ChatContacts } from "./ChatContacts";
+export {default as ChatContacts} from './ChatContacts';

@@ -1,11 +1,11 @@
-import Block from "../../core/Block";
-import {render} from "pug";
-import {IComponentProps} from "../../core/interfaces";
-import {Button} from "../Button";
-import FormInput from "../Input/FormInput";
-import "./UserForm.scss"
-import {Input} from "../Input";
-import {changeAvatar} from "../../services/user";
+import Block from '../../core/Block';
+import {render} from 'pug';
+import {IComponentProps} from '../../core/interfaces';
+import {Button} from '../Button';
+import FormInput from '../Input/FormInput';
+import './UserForm.scss'
+import {Input} from '../Input';
+import {changeAvatar} from '../../services/user';
 
 const template = `
 div.personal-image
@@ -29,18 +29,18 @@ div.personal-image
 export default class UserForm extends Block implements IComponentProps {
 
     constructor(props?: IComponentProps) {
-        super("form", {
+        super('form', {
             ...props,
-            title: "Информация о пользователе",
-            avatar:null,
+            title: 'Информация о пользователе',
+            avatar: null,
             children: {
                 fileInput: new Input({
-                    attributes:{
-                        type:"file"
+                    attributes: {
+                        type: 'file',
                     },
                 }),
                 submitButton: new Button({
-                    child: "Сохранить",
+                    child: 'Сохранить',
                     type: 'submit',
                 }),
                 firstname: new FormInput({
@@ -67,21 +67,21 @@ export default class UserForm extends Block implements IComponentProps {
                     placeholder: 'Логин',
                     name: 'login',
                 }),
-            }
+            },
         });
     }
 
     componentDidMount() {
         this.props.children.fileInput.setProps({
-            events:{
-                change:(e)=>{
+            events: {
+                change: (e) => {
                     const fd = new FormData()
-                    fd.append('avatar',e.currentTarget.files[0]);
-                    changeAvatar(fd).then(data=>{
-                        this.setProps({avatar:`https://ya-praktikum.tech/api/v2/resources/${data.avatar}`})
+                    fd.append('avatar', e.currentTarget.files[0]);
+                    changeAvatar(fd).then(data => {
+                        this.setProps({avatar: `https://ya-praktikum.tech/api/v2/resources/${data.avatar}`})
                     })
-                }
-            }
+                },
+            },
         })
     }
 

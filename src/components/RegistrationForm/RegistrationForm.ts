@@ -1,8 +1,8 @@
-import Block from "../../core/Block";
-import {render} from "pug";
-import {IComponentProps} from "../../core/interfaces";
-import {Button} from "../Button";
-import FormInput from "../Input/FormInput";
+import Block from '../../core/Block';
+import {render} from 'pug';
+import {IComponentProps} from '../../core/interfaces';
+import {Button} from '../Button';
+import FormInput from '../Input/FormInput';
 
 const template = `
 h1(class="form-title") #{title}
@@ -19,21 +19,21 @@ h1(class="form-title") #{title}
 export default class RegistrationForm extends Block implements IComponentProps {
 
     constructor(props?: IComponentProps) {
-        super("form", {
+        super('form', {
             ...props,
-            title: "Регистрация",
+            title: 'Регистрация',
             children: {
                 submitButton: new Button({
-                    child: "Зарегистрировать",
+                    child: 'Зарегистрировать',
                     type: 'submit',
                 }),
                 firstname: new FormInput({
                     placeholder: 'Имя',
-                    name: 'firstname',
+                    name: 'first_name',
                 }),
                 lastname: new FormInput({
                     placeholder: 'Фамилия',
-                    name: 'lastname',
+                    name: 'second_name',
                 }),
                 email: new FormInput({
                     placeholder: 'Email',
@@ -52,7 +52,7 @@ export default class RegistrationForm extends Block implements IComponentProps {
                     name: 'password',
                     type: 'password',
                 }),
-            }
+            },
         });
     }
 

@@ -1,9 +1,9 @@
-import Block from "../../core/Block";
-import {render} from "pug";
-import "./input.scss";
-import {IComponentProps} from "../../core/interfaces";
-import Input from "./Input";
-import clsx from "clsx";
+import Block from '../../core/Block';
+import {render} from 'pug';
+import './input.scss';
+import {IComponentProps} from '../../core/interfaces';
+import Input from './Input';
+import clsx from 'clsx';
 
 const template = `
 !=input
@@ -28,7 +28,7 @@ export default class FormInput extends Block implements IComponentProps {
                 ...props?.attributes,
                 class: clsx('form-input', {'error': error}, props?.attributes?.class),
             },
-            children:{
+            children: {
                 input: new Input({
                     ...inputProps,
                     attributes: {
@@ -37,7 +37,7 @@ export default class FormInput extends Block implements IComponentProps {
                         type,
                         name,
                     },
-                })
+                }),
             },
         });
     }
@@ -46,10 +46,13 @@ export default class FormInput extends Block implements IComponentProps {
         this.setProps({attributes: Object.assign(this.props.attributes, attributes)})
     }
 
-    setError(value: boolean, helper:string) {
+    setError(value: boolean, helper: string) {
         this.setProps({
             helper,
-            attributes: {...this.props.attributes, class: clsx(this.props.attributes.class.replace('error','').trim(), {'error': value})}
+            attributes: {
+                ...this.props.attributes,
+                class: clsx(this.props.attributes.class.replace('error', '').trim(), {'error': value}),
+            },
         })
     }
 

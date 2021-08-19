@@ -1,8 +1,8 @@
-import Block from "../../core/Block";
-import {render} from "pug";
-import {IComponentProps} from "../../core/interfaces";
-import {Button} from "../Button";
-import FormInput from "../Input/FormInput";
+import Block from '../../core/Block';
+import {render} from 'pug';
+import {IComponentProps} from '../../core/interfaces';
+import {Button} from '../Button';
+import FormInput from '../Input/FormInput';
 import './MessageForm.scss'
 
 const template = `
@@ -14,25 +14,25 @@ div.content
 export default class MessageForm extends Block implements IComponentProps {
 
     constructor(props?: IComponentProps) {
-        super("form", {
+        super('form', {
             ...props,
-            attributes:{
-              class:'chat-input-message'
+            attributes: {
+                class: 'chat-input-message',
             },
-            children:{
+            children: {
                 submitButton: new Button({
-                    child: "Отправить",
+                    child: 'Отправить',
                     type: 'submit',
-                    attributes:{
-                        class:'_send'
-                    }
+                    attributes: {
+                        class: '_send',
+                    },
                 }),
                 message: new FormInput({
                     placeholder: ' Сообщение',
-                    name:'message',
-                    attributes:{
-                        class:'_input'
-                    }
+                    name: 'message',
+                    attributes: {
+                        class: '_input',
+                    },
                 }),
             },
         });

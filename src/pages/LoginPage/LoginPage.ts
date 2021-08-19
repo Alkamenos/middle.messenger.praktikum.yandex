@@ -3,9 +3,9 @@ import {render} from 'pug';
 import {IComponentProps} from '../../core/interfaces';
 import {Button} from '../../components/Button';
 import './LoginPage.scss';
-import {LoginForm} from "../../components/LoginForm";
-import {login} from "../../services/auth";
-import Router from "../../utils/Router";
+import {LoginForm} from '../../components/LoginForm';
+import {login} from '../../services/auth';
+import Router from '../../utils/Router';
 
 const template = `
 div.login-page
@@ -19,7 +19,7 @@ div.login-page
 
 export default class LoginPage extends Block {
     constructor(props?: IComponentProps) {
-        super("div", {
+        super('div', {
             ...props,
             children: {
                 form: new LoginForm({
@@ -29,14 +29,14 @@ export default class LoginPage extends Block {
                     // events:
                 }),
                 registrationButton: new Button({
-                    child: "Регистрация",
+                    child: 'Регистрация',
                     color: 'secondary',
                     events: {
                         click: () => {
-                            console.log('route to reg')
+                            Router.getInstance().go('/sign-up');
                         },
-                    }
-                })
+                    },
+                }),
             },
         });
 
@@ -54,11 +54,11 @@ export default class LoginPage extends Block {
                     console.log(data);
                     try {
                         await login(data)
-                        Router.getInstance().go("/messenger");
+                        Router.getInstance().go('/messenger');
                     } catch (e) {
                         this.props.children.form.props.children.login.setError(true, 'Неверная комбинация');
                     }
-                }
+                },
             },
         })
     }
@@ -67,7 +67,7 @@ export default class LoginPage extends Block {
     render() {
         return render(template, {
             form: this.props.children.form.getContent(),
-            registrationButton: this.props.children.registrationButton.getContent()
+            registrationButton: this.props.children.registrationButton.getContent(),
         });
     }
 

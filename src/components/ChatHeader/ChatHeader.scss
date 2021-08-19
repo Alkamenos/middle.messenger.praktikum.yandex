@@ -1,4 +1,5 @@
 @import "/src/styles/colors";
+
 .chat-header {
   box-shadow: 0 6px 20px 4px #1e1e1eb0;
   grid-area: header;
@@ -11,14 +12,14 @@
     margin: 0 20px;
     padding: 15px 0;
 
-    .avatar{
+    .avatar {
       width: 60px;
       height: 60px;
       overflow: hidden;
       border-radius: 50%;
       margin-right: 10px;
 
-      img{
+      img {
         width: 60px;
       }
     }
@@ -28,6 +29,7 @@
       position: absolute;
       right: 22px;
       top: 33px;
+
       i {
         font-size: 24px;
         color: #FFFFFF;

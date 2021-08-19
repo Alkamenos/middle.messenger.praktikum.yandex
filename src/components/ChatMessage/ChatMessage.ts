@@ -1,7 +1,7 @@
-import Block from "../../core/Block";
-import {compile} from "pug";
-import "./ChatMessage.scss";
-import {IComponentProps} from "../../core/interfaces";
+import Block from '../../core/Block';
+import {compile} from 'pug';
+import './ChatMessage.scss';
+import {IComponentProps} from '../../core/interfaces';
 
 const template = `
 div.message-text=text
@@ -13,7 +13,7 @@ export default class ChatMessage extends Block {
 
     constructor(props?: IComponentProps) {
         super('li', {
-            ...props
+            ...props,
         });
 
     }
@@ -22,7 +22,7 @@ export default class ChatMessage extends Block {
         return compile(template)({
             text: this.props.text,
             time: this.props.time,
-            image: this.props.image
+            image: this.props.image,
         });
     }
 }

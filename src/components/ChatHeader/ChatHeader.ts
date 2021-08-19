@@ -1,10 +1,10 @@
-import Block from "../../core/Block";
-import {render} from "pug";
-import "./ChatHeader.scss";
-import {IComponentProps} from "../../core/interfaces";
-import {Button} from "../Button";
-import {Element} from "../Element";
-import Router from "../../utils/Router";
+import Block from '../../core/Block';
+import {render} from 'pug';
+import './ChatHeader.scss';
+import {IComponentProps} from '../../core/interfaces';
+import {Button} from '../Button';
+import {Element} from '../Element';
+import Router from '../../utils/Router';
 
 const template = `
 
@@ -26,17 +26,17 @@ export default class ChatHeader extends Block {
             children: {
                 profileButton: new Button({
                     children: [
-                        new Element('i', {attributes: {class: 'fa fa-cog'}})
+                        new Element('i', {attributes: {class: 'fa fa-cog'}}),
                     ],
                     attributes: {
-                        class: '_send'
+                        class: '_send',
                     },
-                    events:{
-                        click:()=>{
+                    events: {
+                        click: () => {
                             Router.getInstance().go(`/settings`)
-                        }
-                    }
-                })
+                        },
+                    },
+                }),
             },
         });
 

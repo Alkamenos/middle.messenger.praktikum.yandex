@@ -1,8 +1,8 @@
-import Block from "../../core/Block";
-import {render} from "pug";
-import "./button.scss";
-import {IButtonProps} from "../../core/interfaces";
-import clsx from "clsx";
+import Block from '../../core/Block';
+import {render} from 'pug';
+import './button.scss';
+import {IButtonProps} from '../../core/interfaces';
+import clsx from 'clsx';
 
 const template = `!=child`;
 
@@ -16,7 +16,7 @@ export default class Button extends Block implements IButtonProps {
                 type,
                 ...props.attributes,
             },
-            ...props
+            ...props,
         });
     }
 

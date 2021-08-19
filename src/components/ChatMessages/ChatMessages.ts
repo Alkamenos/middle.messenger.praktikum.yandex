@@ -1,10 +1,9 @@
-import Block from "../../core/Block";
-import {render} from "pug";
-import "./ChatMessages.scss";
+import Block from '../../core/Block';
+import {render} from 'pug';
+import './ChatMessages.scss';
 import {IChatContactProps, IComponentProps} from '../../core/interfaces';
-import {ChatMessage} from "../ChatMessage";
-import dayjs from "dayjs";
-import Router from "../../utils/Router";
+import {ChatMessage} from '../ChatMessage';
+import dayjs from 'dayjs';
 
 const template = `
 
@@ -20,7 +19,7 @@ export default class ChatMessages extends Block {
         });
     }
 
-    setItems(items) {
+    setItems(items: any[]) {
         this.setProps({
             children: items.map(item =>
                 new ChatMessage({
@@ -29,7 +28,7 @@ export default class ChatMessages extends Block {
                     time: dayjs(item?.time).fromNow(),
 
                 }),
-            )
+            ),
         })
     }
 

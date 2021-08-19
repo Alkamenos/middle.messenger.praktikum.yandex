@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import {expect} from 'chai';
 
 describe('Проверяем переходы у Роута', () => {
     it('Переход на новую страницу должен менять состояние сущности history', () => {

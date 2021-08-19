@@ -42,4 +42,4 @@ export function isEqual(lhs: PlainObject, rhs: PlainObject) {
     return true;
 }
 
-export const getAvatarUrl = (link:string)=>link?`https://ya-praktikum.tech/api/v2/resources/${link}`:null
+export const getAvatarUrl = (link: string) => link ? `https://ya-praktikum.tech/api/v2/resources/${link}` : null

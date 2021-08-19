@@ -1,14 +1,13 @@
-import {RegistrationPage} from "./pages/RegistrationPage";
-import {LoginPage} from "./pages/LoginPage";
-import {ChatPage} from "./pages/ChatPage";
-import {ProfilePage} from "./pages/ProfilePage";
-import {ErrorPage} from "./pages/ErrorPage";
-import "./index.scss";
-import Router from "./utils/Router";
-import {user} from "./services/auth";
+import {RegistrationPage} from './pages/RegistrationPage';
+import {LoginPage} from './pages/LoginPage';
+import {ChatPage} from './pages/ChatPage';
+import {ProfilePage} from './pages/ProfilePage';
+import {ErrorPage} from './pages/ErrorPage';
+import './index.scss';
+import Router from './utils/Router';
 
 
-const router = new Router("#root");
+const router = new Router('#root');
 
 // user().then(res => {
 //     if (res) {
@@ -19,17 +18,10 @@ const router = new Router("#root");
 // })
 
 router
-    .use("/", LoginPage)
-    .use("/messenger", ChatPage, {}, false)
-    .use("/settings", ProfilePage)
-    .use("/sign-up", RegistrationPage)
-    .use("/500", ErrorPage, {code: 404})
-    .use("/404", ErrorPage, {code: 500})
+    .use('/', LoginPage)
+    .use('/messenger', ChatPage, {}, false)
+    .use('/settings', ProfilePage)
+    .use('/sign-up', RegistrationPage)
+    .use('/500', ErrorPage, {code: 404})
+    .use('/404', ErrorPage, {code: 500})
     .start();
-
-
-/*
-* логаут
-* новый чат
-* добавить пользователя
-* */

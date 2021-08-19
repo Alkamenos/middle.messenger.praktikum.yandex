@@ -1,9 +1,9 @@
 enum METHOD {
-    GET = "GET",
-    POST = "POST",
-    PUT = "PUT",
-    PATCH = "PATCH",
-    DELETE = "DELETE",
+    GET = 'GET',
+    POST = 'POST',
+    PUT = 'PUT',
+    PATCH = 'PATCH',
+    DELETE = 'DELETE',
 }
 
 type Options = {
@@ -11,7 +11,7 @@ type Options = {
     data?: any;
 };
 
-const baseUrl = "https://ya-praktikum.tech/api/v2";
+const baseUrl = 'https://ya-praktikum.tech/api/v2';
 
 class Http {
     async get<TResponse>(url: string, data?: {}): Promise<TResponse> {
@@ -32,7 +32,7 @@ class Http {
 
     async request<TResponse>(
         url: string,
-        options: Options = {method: METHOD.GET}
+        options: Options = {method: METHOD.GET},
     ): Promise<TResponse> {
         return new Promise((resolve, reject) => {
             const {method, data} = options;
@@ -45,7 +45,7 @@ class Http {
                         .map(([key, value]: [key: string, value: any]): string => {
                             return `${key}=${value}`;
                         })
-                        .join("&")}`;
+                        .join('&')}`;
                 }
             }
 
@@ -74,11 +74,11 @@ class Http {
             if (method === METHOD.GET || !data) {
                 xhr.send();
             } else {
-                if(data instanceof FormData){
+                if (data instanceof FormData) {
                     // xhr.setRequestHeader("Content-Type", "multipart/form-data");
                     xhr.send(data);
                 } else {
-                    xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
                     xhr.send(JSON.stringify(data));
                 }
 

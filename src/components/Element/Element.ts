@@ -1,5 +1,5 @@
-import Block from "../../core/Block";
-import {render} from "pug";
+import Block from '../../core/Block';
+import {render} from 'pug';
 
 export default class Element extends Block {
 
