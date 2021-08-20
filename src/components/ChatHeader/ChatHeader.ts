@@ -1,13 +1,12 @@
-import Block from '../../core/Block';
 import {render} from 'pug';
-import './ChatHeader.scss';
+import Block from '../../core/Block';
 import {IComponentProps} from '../../core/interfaces';
+import Router from '../../utils/Router';
 import {Button} from '../Button';
 import {Element} from '../Element';
-import Router from '../../utils/Router';
+import './ChatHeader.scss';
 
 const template = `
-
 section.chat-header
     div.content
         if avatar
@@ -38,6 +37,7 @@ export default class ChatHeader extends Block {
                     },
                 }),
             },
+            ...props,
         });
 
     }

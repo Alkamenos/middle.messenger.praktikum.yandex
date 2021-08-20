@@ -30,7 +30,7 @@
   .registration {
     align-items: center;
     background-color: $color-dark-grey;
-    box-shadow: 2px 0 18px 9px #1e1e1e63;
+    box-shadow: 2px 0 18px 9px $color-shadow;
     display: flex;
     flex-direction: column;
     grid-area: registration;

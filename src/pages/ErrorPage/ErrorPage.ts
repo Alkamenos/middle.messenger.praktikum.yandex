@@ -1,7 +1,7 @@
-import Block from '../../core/Block';
 import {compile} from 'pug';
-import {IErrorProps} from '../../core/interfaces';
 import {Button} from '../../components/Button';
+import Block from '../../core/Block';
+import {IErrorProps} from '../../core/interfaces';
 import error404 from './error404.template';
 import error500 from './error500.template';
 import './ErrorPage.scss';

@@ -1,17 +1,11 @@
-import Block from '../../core/Block';
-import {render} from 'pug';
-import './ChatMessages.scss';
-import {IChatContactProps, IComponentProps} from '../../core/interfaces';
-import {ChatMessage} from '../ChatMessage';
 import dayjs from 'dayjs';
-
-const template = `
-
-    
-`;
+import {render} from 'pug';
+import Block from '../../core/Block';
+import { IComponentProps} from '../../core/interfaces';
+import {ChatMessage} from '../ChatMessage';
+import './ChatMessages.scss';
 
 export default class ChatMessages extends Block {
-    props: IChatContactProps;
 
     constructor(props: IComponentProps) {
         super('ul', {
@@ -29,11 +23,10 @@ export default class ChatMessages extends Block {
 
                 }),
             ),
-        })
+        });
     }
 
-
     render() {
-        return render(template, {});
+        return render('', {});
     }
 }

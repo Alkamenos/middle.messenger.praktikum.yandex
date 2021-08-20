@@ -1,7 +1,7 @@
-import Block from '../../core/Block';
 import {render} from 'pug';
-import './ChatContact.scss';
+import Block from '../../core/Block';
 import {IComponentProps} from '../../core/interfaces';
+import './ChatContact.scss';
 
 const template = `
 div.contacts-item
@@ -16,61 +16,13 @@ div.contacts-item
         div.info-message-preview=preview
         div.info-time=time
         div.info-counter=count`;
+
 export default class ChatContact extends Block {
     constructor(props?: IComponentProps) {
         super('li', {
             ...props,
         });
-
     }
-
-
-    /*
-      protected get proplist() {
-        return [
-          // { name: "img", selector: ".contacts-item-avatar img", attribute: "src" },
-          {
-            name: "name",
-            selector: ".info-name",
-            attribute: "innerText",
-            isValue: true,
-          },
-          {
-            name: "messagePreview",
-            selector: ".info-message-preview",
-            attribute: "innerText",
-            isValue: true,
-          },
-          {
-            name: "time",
-            selector: ".info-time",
-            attribute: "innerText",
-            isValue: true,
-          },
-          {
-            name: "count",
-            selector: ".info-counter",
-            attribute: "innerText",
-            isValue: true,
-          },
-        ];
-      }
-
-      protected customiseComponent() {
-        const element = this.node.querySelector(".info-counter");
-        if (element) {
-          if (this.props.count && this.props.count > 0) {
-            element.classList.add("show");
-          }
-        }
-        if (this.props.img) {
-          // @ts-ignore
-          this.node
-            .querySelector(".contacts-item-avatar>div")
-            .classList.add(this.props.img);
-        }
-      }
-    */
 
     render() {
         return render(template, {

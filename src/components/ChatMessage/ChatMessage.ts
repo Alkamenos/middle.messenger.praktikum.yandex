@@ -1,7 +1,7 @@
-import Block from '../../core/Block';
 import {compile} from 'pug';
-import './ChatMessage.scss';
+import Block from '../../core/Block';
 import {IComponentProps} from '../../core/interfaces';
+import './ChatMessage.scss';
 
 const template = `
 div.message-text=text

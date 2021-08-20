@@ -1,6 +1,6 @@
-import {render} from './renderDOM';
-import {IComponentProps, IRouterProps} from '../core/interfaces';
 import Block from '../core/Block';
+import {IComponentProps, IRouterProps} from '../core/interfaces';
+import {render} from './renderDOM';
 
 export class Route {
     private _pathname: string;
@@ -9,16 +9,26 @@ export class Route {
     private _props: IRouterProps;
     private _componentProps: IComponentProps;
     private _params: {};
+    private _needAuth: boolean;
+    private _isAuth:  boolean;
+    private _onUnautorized: any;
 
     constructor(
         pathname: string,
         view: Block,
         props: IRouterProps,
         componentProps: IComponentProps,
+        needAuth:boolean,
+        isAuth:boolean,
+        onUnautorized:boolean,
+
     ) {
         this._pathname = pathname;
         this._blockClass = view;
         this._props = props;
+        this._needAuth = needAuth;
+        this._isAuth = isAuth;
+        this._onUnautorized = onUnautorized;
         this._componentProps = componentProps;
         this._params = this.getParams();
     }
@@ -51,13 +61,19 @@ export class Route {
     }
 
     render() {
-        if (!this._block) {
-            // @ts-ignore
-            this._block = new this._blockClass({...this._componentProps, router: {params: this.getParams()}});
-            render(this._props.rootQuery, this._block);
+        if(!this._needAuth || this._needAuth && this._isAuth) {
+            if (!this._block) {
+                // @ts-ignore
+                this._block = new this._blockClass({...this._componentProps, router: {params: this.getParams()}});
+                render(this._props.rootQuery, this._block);
+            } else {
+                this._block.setProps({...this._componentProps, router: {params: this._params}})
+                render(this._props.rootQuery, this._block);
+            }
         } else {
-            this._block.setProps({...this._componentProps, router: {params: this._params}})
-            render(this._props.rootQuery, this._block);
+            if(typeof this._onUnautorized==='function'){
+                this._onUnautorized();
+            }
         }
     }
 }
@@ -85,13 +101,15 @@ export default class Router {
         return this.__instance;
     }
 
-    use(pathname: string, block: any, props: IComponentProps = {}, exact = true) {
-
+    use({pathname, block, props = {}, exact = true, needAuth=false, isAuth=false, onUnautorized}) {
         const route = new Route(
             pathname,
             block,
             {rootQuery: this._rootQuery, exact},
             props,
+            needAuth,
+            isAuth,
+            onUnautorized,
         );
         this.routes.push(route);
         return this;
@@ -101,7 +119,6 @@ export default class Router {
         window.onpopstate = (event: any) => {
             this._onRoute(event.currentTarget?.location.pathname);
         };
-
         this._onRoute(window.location.pathname);
     }
 
@@ -110,15 +127,12 @@ export default class Router {
         if (!route) {
             return;
         }
-        console.log('_Router___onRoute', pathname, this._currentRoute, route);
         this._currentRoute?.leave();
-
         this._currentRoute = route;
         route.render();
     }
 
     go(pathname: string) {
-        console.log('navigate', pathname)
         this.history.pushState({}, '', pathname);
         this._onRoute(pathname);
     }

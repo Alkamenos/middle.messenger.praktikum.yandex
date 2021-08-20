@@ -6,7 +6,6 @@ export default class WS extends EventBus {
     constructor({userId, chatId, token}: { userId: number, chatId: number, token: string }) {
         super();
         this.socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${token}`);
-
         this.socket.addEventListener('open', () => {
             console.log('Соединение установлено');
 
@@ -29,8 +28,6 @@ export default class WS extends EventBus {
         this.socket.addEventListener('error', event => {
             console.log('Ошибка', event);
         });
-
-
     }
 
     getSocket() {
@@ -50,16 +47,4 @@ export default class WS extends EventBus {
             type: 'get old',
         }));
     }
-
 }
-
-
-/*
-* ws event bus
-* профиль смена пароля
-* смена информации
-* логаут
-* тесты апи
-* тесты роутера
-*
-* */

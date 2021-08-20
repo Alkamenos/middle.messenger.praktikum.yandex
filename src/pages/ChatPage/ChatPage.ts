@@ -1,17 +1,17 @@
-import Block from '../../core/Block';
 import {render} from 'pug';
-import {IComponentProps} from '../../core/interfaces';
-import './ChatPage.scss';
-import {chats, createChat, getToken} from '../../services/chat';
-import {ChatContacts} from '../../components/ChatContacts';
-import WS from '../../services/ws';
-import {ChatHeader} from '../../components/ChatHeader';
-import {getAvatarUrl, isArray} from '../../utils/helpers';
-import {user} from '../../services/auth';
-import {MessageForm} from '../../components/MessageForm';
-import {ChatMessages} from '../../components/ChatMessages';
-import Router from '../../utils/Router';
 import {Button} from '../../components/Button';
+import {ChatContacts} from '../../components/ChatContacts';
+import {ChatHeader} from '../../components/ChatHeader';
+import {ChatMessages} from '../../components/ChatMessages';
+import {MessageForm} from '../../components/MessageForm';
+import Block from '../../core/Block';
+import {IComponentProps} from '../../core/interfaces';
+import {user} from '../../services/auth';
+import {chats, createChat, getToken} from '../../services/chat';
+import WS from '../../services/ws';
+import {getAvatarUrl, isArray} from '../../utils/helpers';
+import Router from '../../utils/Router';
+import './ChatPage.scss';
 
 function getChatId() {
     return new URLSearchParams(window.location.search).get('chat_id');
@@ -59,9 +59,12 @@ export default class ChatPage extends Block {
             events: {
                 click: async () => {
                     const title = prompt('Название чата', 'Чат123');
-                    await createChat({title});
-                    this.getData();
-
+                    try{
+                        await createChat({title});
+                        this.getData();
+                    } catch (e){
+                        console.error(e)
+                    }
                 },
             },
         })

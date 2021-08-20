@@ -1,7 +1,7 @@
-import EventBus from './EventBus';
-import {IComponent, IComponentProps} from './interfaces';
-import EventDispatcher from './EventDispatcher';
 import {v4} from 'uuid';
+import EventBus from './EventBus';
+import EventDispatcher from './EventDispatcher';
+import {IComponent, IComponentProps} from './interfaces';
 
 export default abstract class Block implements IComponent {
     static EVENTS = {
@@ -11,26 +11,26 @@ export default abstract class Block implements IComponent {
         FLOW_CWU: 'flow:component-will-unmount',
         FLOW_RENDER: 'flow:render',
     };
-    protected props: IComponentProps;
-    protected eventBus: () => EventBus;
+
+    public props: IComponentProps;
     protected eventDispatcher: EventDispatcher;
     protected node: HTMLElement;
     private _meta: { tagName: string; props: IComponentProps };
     private _id: string;
+    protected eventBus: EventBus;
 
     constructor(tagName = 'div', props: IComponentProps) {
-        const eventBus = new EventBus();
         this._id = v4();
         this._meta = {
             tagName,
             props,
         };
         this.props = this._makePropsProxy({...props, __id: this._id});
-        this.eventBus = () => eventBus;
-        this._registerEvents(eventBus);
+        this.eventBus = new EventBus();
+        this._registerEvents(this.eventBus);
         this.eventDispatcher = new EventDispatcher();
 
-        eventBus.emit(Block.EVENTS.INIT);
+        this.eventBus.emit(Block.EVENTS.INIT);
     }
 
     private _element: any;
@@ -40,14 +40,15 @@ export default abstract class Block implements IComponent {
     }
 
     leave() {
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+        this.eventBus.emit(Block.EVENTS.FLOW_CDU);
     }
 
     setProps(nextProps: IComponentProps) {
         if (!nextProps) {
             return;
         }
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU, this.props, nextProps);
+        this.eventBus.emit(Block.EVENTS.FLOW_CDU, this.props, nextProps);
+
         Object.assign(this.props, nextProps);
     };
 
@@ -65,11 +66,11 @@ export default abstract class Block implements IComponent {
 
     protected init() {
         this._createResources();
-        this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+        this.eventBus.emit(Block.EVENTS.FLOW_CDM);
     }
 
     protected show() {
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+        this.eventBus.emit(Block.EVENTS.FLOW_CDU);
     }
 
     protected componentDidUpdate() {
@@ -100,7 +101,7 @@ export default abstract class Block implements IComponent {
         return new Proxy(props, {
             set(target: IComponentProps, prop: string, value) {
                 target[prop] = value;
-                self.eventBus().emit(Block.EVENTS.FLOW_CDU);
+                self.eventBus.emit(Block.EVENTS.FLOW_CDU);
                 return true;
             },
             deleteProperty() {
@@ -111,13 +112,13 @@ export default abstract class Block implements IComponent {
 
     private _componentDidMount() {
         this.componentDidMount();
-        this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+        this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
 
     private _componentDidUpdate() {
         const response = this.componentDidUpdate();
         if (response) {
-            this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+            this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
         }
     }
 
@@ -130,7 +131,7 @@ export default abstract class Block implements IComponent {
 
         if (this._element) {
             this._element.innerHTML = block;
-            const currentElement = document.querySelector(`[data-id='${this._id}']`)
+            const currentElement = document.querySelector(`[data-id='${this._id}']`);
             currentElement?.parentNode?.replaceChild(this.element, currentElement);
         }
 
@@ -165,13 +166,13 @@ export default abstract class Block implements IComponent {
         if (Array.isArray(children)) {
             this._element.innerHTML = '';
             children.forEach(child => {
-                this._element.appendChild(child.element)
-            })
+                this._element.appendChild(child.element);
+            });
         } else {
             Object.keys(children).forEach(childName => {
-                const oldEl = this._element.querySelector(`[data-id='${children[childName]._id}']`)
+                const oldEl = this._element.querySelector(`[data-id='${children[childName]._id}']`);
                 if (oldEl) {
-                    oldEl.replaceWith(children[childName].element)
+                    oldEl.replaceWith(children[childName].element);
                 }
             });
         }

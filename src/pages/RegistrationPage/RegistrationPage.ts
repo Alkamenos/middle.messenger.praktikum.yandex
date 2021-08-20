@@ -1,11 +1,11 @@
-import Block from '../../core/Block';
 import {render} from 'pug';
-import {IComponentProps} from '../../core/interfaces';
 import {Button} from '../../components/Button';
-import './RegistrationPage.scss';
-import {register} from '../../services/auth';
-import Router from '../../utils/Router';
 import {RegistrationForm} from '../../components/RegistrationForm';
+import Block from '../../core/Block';
+import {IComponentProps} from '../../core/interfaces';
+import {register, user} from '../../services/auth';
+import Router from '../../utils/Router';
+import './RegistrationPage.scss';
 
 const template = `
 div.registration-page
@@ -40,16 +40,19 @@ export default class LoginPage extends Block {
                 }),
             },
         });
-
-
     }
 
     componentDidMount() {
-        console.log(this.props)
+        if(this.props.user){
+            Router.getInstance().go('/messenger');
+        }
         this.props.children.form.setProps({
             events: {
                 submit: async (e) => {
                     e.preventDefault();
+                    if(!this.props.children.form.isValid()){
+                        return;
+                    }
                     const formData = new FormData(e.currentTarget);
                     const data = Object.fromEntries(formData.entries()) as {
                         first_name: string | null;
@@ -63,14 +66,17 @@ export default class LoginPage extends Block {
                     try {
                         await register(data)
                         Router.getInstance().go('/messenger');
-                    } catch (e) {
-                        this.props.children.form.props.children.login.setError(true, 'Неверная комбинация');
+                    } catch ({reason}) {
+                        if(reason==='User already in system'){
+                            Router.getInstance().go('/messenger');
+                        } else {
+                            this.props.children.form.props.children.login.setError(true, reason);
+                        }
                     }
                 },
             },
         })
     }
-
 
     render() {
         return render(template, {
@@ -78,5 +84,4 @@ export default class LoginPage extends Block {
             loginButton: this.props.children.loginButton.getContent(),
         });
     }
-
 }

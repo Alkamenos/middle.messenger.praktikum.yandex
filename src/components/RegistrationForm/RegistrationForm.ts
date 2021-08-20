@@ -1,7 +1,7 @@
-import Block from '../../core/Block';
 import {render} from 'pug';
 import {IComponentProps} from '../../core/interfaces';
 import {Button} from '../Button';
+import {Form} from '../Form';
 import FormInput from '../Input/FormInput';
 
 const template = `
@@ -13,13 +13,11 @@ h1(class="form-title") #{title}
 !=login
 !=password
 !=submitButton
-
 `;
 
-export default class RegistrationForm extends Block implements IComponentProps {
-
+export default class RegistrationForm extends Form implements IComponentProps {
     constructor(props?: IComponentProps) {
-        super('form', {
+        super({
             ...props,
             title: 'Регистрация',
             children: {
@@ -30,27 +28,73 @@ export default class RegistrationForm extends Block implements IComponentProps {
                 firstname: new FormInput({
                     placeholder: 'Имя',
                     name: 'first_name',
+                    inputProps: {
+                        attributes: {
+                            minlength: '1',
+                            maxlength: '50',
+                            required: true,
+                        },
+                    },
                 }),
                 lastname: new FormInput({
                     placeholder: 'Фамилия',
                     name: 'second_name',
+                    inputProps: {
+                        attributes: {
+                            minlength: '1',
+                            maxlength: '50',
+                            required: true,
+                        },
+                    },
                 }),
                 email: new FormInput({
                     placeholder: 'Email',
                     name: 'email',
+                    inputProps: {
+                        attributes: {
+                            minlength: '1',
+                            maxlength: '50',
+                            required: true,
+                            type: 'email',
+                            pattern: '[^@\\s]+@[^@\\s]+\\.[^@\\s]+',
+                        },
+                    },
                 }),
                 phone: new FormInput({
                     placeholder: 'Телефон',
                     name: 'phone',
+                    inputProps: {
+                        attributes: {
+                            minlength: '1',
+                            maxlength: '50',
+                            required: true,
+                            type: 'tel',
+                            pattern: '[/+]{0,1}[0-9]{11}',
+                        },
+                    },
                 }),
                 login: new FormInput({
                     placeholder: 'Логин',
                     name: 'login',
+                    inputProps: {
+                        attributes: {
+                            minlength: '1',
+                            maxlength: '50',
+                            required: true,
+                        },
+                    },
                 }),
                 password: new FormInput({
                     placeholder: 'Пароль',
                     name: 'password',
-                    type: 'password',
+                    inputProps: {
+                        attributes: {
+                            minlength: '1',
+                            maxlength: '50',
+                            required: true,
+                            type: 'password',
+                        },
+                    },
                 }),
             },
         });

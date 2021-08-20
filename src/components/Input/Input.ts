@@ -1,9 +1,7 @@
-import Block from '../../core/Block';
 import {render} from 'pug';
-import './input.scss';
+import Block from '../../core/Block';
 import {IComponentProps} from '../../core/interfaces';
-
-const template = ``;
+import './input.scss';
 
 export default class Input extends Block implements IComponentProps {
     constructor(props: IComponentProps) {
@@ -13,6 +11,6 @@ export default class Input extends Block implements IComponentProps {
     }
 
     render() {
-        return render(template, {});
+        return render('', {});
     }
 }

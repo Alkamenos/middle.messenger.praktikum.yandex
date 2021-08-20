@@ -1,11 +1,11 @@
-import Block from '../../core/Block';
 import {render} from 'pug';
-import {IComponentProps} from '../../core/interfaces';
 import {Button} from '../../components/Button';
-import './LoginPage.scss';
 import {LoginForm} from '../../components/LoginForm';
-import {login} from '../../services/auth';
+import Block from '../../core/Block';
+import {IComponentProps} from '../../core/interfaces';
+import {login, user} from '../../services/auth';
 import Router from '../../utils/Router';
+import './LoginPage.scss';
 
 const template = `
 div.login-page
@@ -26,7 +26,6 @@ export default class LoginPage extends Block {
                     attributes: {
                         class: 'login-form',
                     },
-                    // events:
                 }),
                 registrationButton: new Button({
                     child: 'Регистрация',
@@ -39,30 +38,37 @@ export default class LoginPage extends Block {
                 }),
             },
         });
-
-
     }
 
     componentDidMount() {
-        console.log(this.props)
+        if(this.props.user){
+            Router.getInstance().go('/messenger');
+        }
         this.props.children.form.setProps({
             events: {
                 submit: async (e) => {
                     e.preventDefault();
+                    if(!this.props.children.form.isValid()){
+                        return;
+                    }
+
                     const formData = new FormData(e.currentTarget);
                     const data = Object.fromEntries(formData.entries()) as { login: string, password: string };
-                    console.log(data);
                     try {
                         await login(data)
                         Router.getInstance().go('/messenger');
-                    } catch (e) {
-                        this.props.children.form.props.children.login.setError(true, 'Неверная комбинация');
+                    } catch ({reason}) {
+                        if(reason==='User already in system'){
+                            Router.getInstance().go('/messenger');
+                        } else{
+                            this.props.children.form.props.children.login.setError(true, reason);
+                        }
+
                     }
                 },
             },
         })
     }
-
 
     render() {
         return render(template, {

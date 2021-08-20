@@ -1,10 +1,10 @@
-import Block from '../../core/Block';
 import {compile} from 'pug';
-import {IComponentProps} from '../../core/interfaces';
 import {Button} from '../../components/Button';
-import template from './IndexPage.template';
-import './IndexPage.scss';
+import Block from '../../core/Block';
+import {IComponentProps} from '../../core/interfaces';
 import Router from '../../utils/Router';
+import './IndexPage.scss';
+import template from './IndexPage.template';
 
 export default class IndexPage extends Block {
     constructor(props: IComponentProps) {

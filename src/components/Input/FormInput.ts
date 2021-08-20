@@ -1,9 +1,9 @@
-import Block from '../../core/Block';
+import clsx from 'clsx';
 import {render} from 'pug';
-import './input.scss';
+import Block from '../../core/Block';
 import {IComponentProps} from '../../core/interfaces';
 import Input from './Input';
-import clsx from 'clsx';
+import './input.scss';
 
 const template = `
 !=input
@@ -13,13 +13,7 @@ span.form-input-helper!=helper
 
 export default class FormInput extends Block implements IComponentProps {
     constructor({
-                    inputProps,
-                    name,
-                    type = 'text',
-                    placeholder = '',
-                    helper = '',
-                    error = false,
-                    ...props
+                    inputProps, name, placeholder = '', helper = '', error = false, ...props
                 }: IComponentProps) {
         super('div', {
             ...props,
@@ -34,7 +28,6 @@ export default class FormInput extends Block implements IComponentProps {
                     attributes: {
                         ...inputProps?.attributes,
                         placeholder,
-                        type,
                         name,
                     },
                 }),
@@ -42,8 +35,20 @@ export default class FormInput extends Block implements IComponentProps {
         });
     }
 
+    componentDidMount() {
+        this.props.children.input.setProps({
+            events: {
+                blur: (e) => {
+
+
+                    this.setError(...this.checkValid(e.currentTarget));
+                },
+            },
+        });
+    }
+
     setAttributes(attributes = this.props.attributes) {
-        this.setProps({attributes: Object.assign(this.props.attributes, attributes)})
+        this.setProps({attributes: {...this.props.attributes, attributes}});
     }
 
     setError(value: boolean, helper: string) {
@@ -53,7 +58,31 @@ export default class FormInput extends Block implements IComponentProps {
                 ...this.props.attributes,
                 class: clsx(this.props.attributes.class.replace('error', '').trim(), {'error': value}),
             },
-        })
+        });
+    }
+
+    checkValid({validity, type}) {
+        if (validity.valid) {
+            return [false, ''];
+        } else if (validity.valueMissing) {
+            return [true, 'Обязательно для заполнения'];
+        } else if (validity.tooShort) {
+            return [true, 'Слишком короткое'];
+        } else if (validity.tooLong) {
+            return [true, 'Слишком длинное'];
+        } else if (validity.patternMismatch) {
+            console.log(type);
+            switch (type) {
+                case 'tel':
+                    return [true, 'Введите номер телефона в формате +71234567890'];
+                case 'email':
+                    return [true, 'Введите email'];
+                default:
+                    return [true, 'Неправильный формат'];
+            }
+        }
+
+
     }
 
     render() {

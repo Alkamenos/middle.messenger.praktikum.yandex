@@ -1,15 +1,15 @@
-import Block from '../../core/Block';
 import {render} from 'pug';
-import {IComponentProps} from '../../core/interfaces';
 import {Button} from '../../components/Button';
-import './ProfilePage.scss';
-import {logout, user} from '../../services/auth';
-import Router from '../../utils/Router';
-import {UserForm} from '../../components/UserForm';
+import {Element} from '../../components/Element';
 import {PasswordForm} from '../../components/PasswordForm';
+import {UserForm} from '../../components/UserForm';
+import Block from '../../core/Block';
+import {IComponentProps} from '../../core/interfaces';
+import {logout, user} from '../../services/auth';
 import {changePassword, changeProfile} from '../../services/user';
 import {getAvatarUrl} from '../../utils/helpers';
-import {Element} from '../../components/Element';
+import Router from '../../utils/Router';
+import './ProfilePage.scss';
 
 const template = `
 div.profile

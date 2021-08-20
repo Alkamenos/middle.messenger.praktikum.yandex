@@ -23,4 +23,9 @@ describe('Block', () => {
     it('можно устанавливать аттрибуты', () => {
         assert.equal(block.element.getAttribute('class'), 'test-class');
     });
+
+    it('меняет props при вызове setProps', () => {
+        block.setProps({__id:'test'})
+        assert.deepEqual(block.props, {__id:'test', attributes:{class:'test-class'}});
+    });
 });

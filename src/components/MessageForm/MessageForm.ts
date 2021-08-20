@@ -1,9 +1,9 @@
-import Block from '../../core/Block';
 import {render} from 'pug';
 import {IComponentProps} from '../../core/interfaces';
 import {Button} from '../Button';
+import {Form} from '../Form';
 import FormInput from '../Input/FormInput';
-import './MessageForm.scss'
+import './MessageForm.scss';
 
 const template = `
 div.content
@@ -11,10 +11,9 @@ div.content
     !=submitButton
 `;
 
-export default class MessageForm extends Block implements IComponentProps {
-
+export default class MessageForm extends Form implements IComponentProps {
     constructor(props?: IComponentProps) {
-        super('form', {
+        super({
             ...props,
             attributes: {
                 class: 'chat-input-message',
