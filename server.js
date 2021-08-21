@@ -6,6 +6,10 @@ const path = require('path');
 
 app.use(express.static('./dist'));
 
+app.use('*', (req, res) => {
+	res.redirect('/');
+});
+
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + './dist/index.html');
 });
