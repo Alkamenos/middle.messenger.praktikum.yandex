@@ -41,9 +41,6 @@ export default class LoginPage extends Block {
     }
 
     componentDidMount() {
-        if(this.props.user){
-            Router.getInstance().go('/messenger');
-        }
         this.props.children.form.setProps({
             events: {
                 submit: async (e) => {
@@ -58,12 +55,7 @@ export default class LoginPage extends Block {
                         await login(data)
                         Router.getInstance().go('/messenger');
                     } catch ({reason}) {
-                        if(reason==='User already in system'){
-                            Router.getInstance().go('/messenger');
-                        } else{
                             this.props.children.form.props.children.login.setError(true, reason);
-                        }
-
                     }
                 },
             },

@@ -10,7 +10,7 @@ export class Route {
     private _componentProps: IComponentProps;
     private _params: {};
     private _needAuth: boolean;
-    private _isAuth:  boolean;
+    private _isAuth: boolean;
     private _onUnautorized: any;
 
     constructor(
@@ -18,10 +18,9 @@ export class Route {
         view: Block,
         props: IRouterProps,
         componentProps: IComponentProps,
-        needAuth:boolean,
-        isAuth:boolean,
-        onUnautorized:boolean,
-
+        needAuth: boolean,
+        isAuth: boolean,
+        onUnautorized: boolean,
     ) {
         this._pathname = pathname;
         this._blockClass = view;
@@ -35,7 +34,7 @@ export class Route {
 
     getParams(): {} {
         // return Object.fromEntries(new URLSearchParams(pathname).entries())
-        return Object.fromEntries((new URLSearchParams(document.location.search)).entries())
+        return Object.fromEntries((new URLSearchParams(document.location.search)).entries());
     }
 
 
@@ -60,19 +59,24 @@ export class Route {
 
     }
 
+    checkAuth() {
+        if (this._needAuth) {
+            if (typeof this._onUnautorized === 'function') {
+                return this._onUnautorized(this._pathname);
+            }
+        }
+        return true;
+    }
+
     render() {
-        if(!this._needAuth || this._needAuth && this._isAuth) {
+        if (this.checkAuth()) {
             if (!this._block) {
                 // @ts-ignore
                 this._block = new this._blockClass({...this._componentProps, router: {params: this.getParams()}});
                 render(this._props.rootQuery, this._block);
             } else {
-                this._block.setProps({...this._componentProps, router: {params: this._params}})
+                this._block.setProps({...this._componentProps, router: {params: this._params}});
                 render(this._props.rootQuery, this._block);
-            }
-        } else {
-            if(typeof this._onUnautorized==='function'){
-                this._onUnautorized();
             }
         }
     }
@@ -101,7 +105,7 @@ export default class Router {
         return this.__instance;
     }
 
-    use({pathname, block, props = {}, exact = true, needAuth=false, isAuth=false, onUnautorized}) {
+    use({pathname, block, props = {}, exact = true, needAuth = false, isAuth = false, onUnautorized}) {
         const route = new Route(
             pathname,
             block,

@@ -10,42 +10,42 @@ import {user} from './services/auth';
 import Router from './utils/Router';
 
 dayjs.extend(relativeTime);
-
 const router = new Router('#root');
 
-
 async function init() {
-    let currentUser = null
+    let currentUser = null;
 
     const checkAuth = async () => {
-        try{
-            currentUser= await user();
-            Router.getInstance().go('/messenger');
-        } catch (e){
+        try {
+            currentUser = await user();
+            return true
+        } catch (e) {
             Router.getInstance().go('/');
+            return false
         }
     };
 
     await checkAuth();
 
     router
-        .use({pathname: '/', block: LoginPage, props: {user: currentUser}})
-        .use({pathname: '/sign-up', block: RegistrationPage, props: {user: currentUser}})
         .use({
-            pathname: '/messenger', block:ChatPage, props: {},
-            exact: false, needAuth: true, isAuth: !!currentUser, onUnautorized:checkAuth,
+            pathname: '/', block: LoginPage, props: {user: currentUser}
+        })
+        .use({
+            pathname: '/sign-up', block: RegistrationPage, props: {user: currentUser}
+        })
+        .use({
+            pathname: '/messenger', block: ChatPage, props: {},
+            exact: false, needAuth: true, isAuth: !!currentUser, onUnautorized: checkAuth,
         })
         .use({
             pathname: '/settings', block: ProfilePage,
-            exact: false, needAuth: true, isAuth: !!currentUser, onUnautorized:checkAuth,
+            exact: false, needAuth: true, isAuth: !!currentUser, onUnautorized: checkAuth,
         })
         .use({pathname: '/500', block: ErrorPage, props: {code: 404}})
         .use({pathname: '/404', block: ErrorPage, props: {code: 500}})
         .start();
 
-    if (currentUser) {
-        Router.getInstance().go('/messenger');
-    }
 }
 
 init();

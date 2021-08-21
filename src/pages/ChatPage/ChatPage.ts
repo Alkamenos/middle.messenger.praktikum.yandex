@@ -38,14 +38,14 @@ export default class ChatPage extends Block {
     constructor(props: IComponentProps) {
         super('div', {
             ...props,
-            contacts: new ChatContacts({
-                items: [],
-            }),
-            header: new ChatHeader({}),
-            messages: new ChatMessages({}),
-            message: new MessageForm({}),
             title: '',
             children: {
+                contacts: new ChatContacts({
+                    items: [],
+                }),
+                header: new ChatHeader({}),
+                messages: new ChatMessages({}),
+                message: new MessageForm({}),
                 addChat: new Button({
                     child: 'Создать чат',
                     color: 'secondary',
@@ -54,6 +54,14 @@ export default class ChatPage extends Block {
             },
 
         });
+
+        this.props.children.header.setProps({
+            events: {
+                click: () => {
+                    Router.getInstance().go(`/settings`)
+                },
+            },
+        })
 
         this.props.children.addChat.setProps({
             events: {
@@ -77,10 +85,10 @@ export default class ChatPage extends Block {
 
     render() {
         return render(template, {
-            chatContacts: this.props.contacts.getContent(),
-            header: this.props.header.getContent(),
-            messages: this.props.messages.getContent(),
-            message: this.props.message.getContent(),
+            chatContacts: this.props.children.contacts.getContent(),
+            header: this.props.children.header.getContent(),
+            messages: this.props.children.messages.getContent(),
+            message: this.props.children.message.getContent(),
             addChat: this.props.children.addChat.getContent(),
         });
     }
@@ -101,12 +109,12 @@ export default class ChatPage extends Block {
         }
 
 
-        this.props.contacts.setItems(userChats)
+        this.props.children.contacts.setItems(userChats)
         this.user = await user();
 
         if (id) {
             const chat = userChats.find(c => c.id.toString() === id.toString())
-            this.props.header.setProps({...chat, avatar: getAvatarUrl(chat.avatar)})
+            this.props.children.header.setProps({...chat, avatar: getAvatarUrl(chat.avatar)})
 
             const {token} = await getToken({id});
             const ws = new WS({userId: this.user.id, chatId: id, token})
@@ -125,19 +133,20 @@ export default class ChatPage extends Block {
                         messages.push({...data, my: this.user.id === data.user_id});
                     }
                 }
-                this.props.messages.setItems(messages)
+                this.props.children.messages.setItems(messages)
             });
 
             this.socket.addEventListener('open', () => {
-                ws.getOld('10')
+                ws.getOld('0')
             });
 
-            this.props.message.setProps({
+            this.props.children.message.setProps({
                 events: {
                     submit: (e) => {
                         const fd = new FormData(e.currentTarget);
                         e.preventDefault();
                         ws.sendMessage(fd.get('message') as string)
+                        e.currentTarget.querySelector('input').value=''
                     },
                 },
             })

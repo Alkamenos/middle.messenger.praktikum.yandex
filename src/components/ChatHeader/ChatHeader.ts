@@ -29,12 +29,7 @@ export default class ChatHeader extends Block {
                     ],
                     attributes: {
                         class: '_send',
-                    },
-                    events: {
-                        click: () => {
-                            Router.getInstance().go(`/settings`)
-                        },
-                    },
+                    }
                 }),
             },
             ...props,

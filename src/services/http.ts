@@ -1,3 +1,4 @@
+import md5 from 'md5';
 enum METHOD {
     GET = 'GET',
     POST = 'POST',
@@ -87,4 +88,30 @@ class Http {
     }
 }
 
-export default new Http();
+
+export class CachedRequest extends Http {
+	constructor({ ttl = 1000 } = {}) {
+		super();
+		this.cache = {};
+		this.options = { ttl };
+	}
+
+	get(query, ...args) {
+		const queryChecksum = md5(query);
+		const cachedResponce = this.cache[queryChecksum];
+		if (cachedResponce) {
+			if (Date.now() - cachedResponce.time < this.options.ttl) {
+				return cachedResponce.promise;
+			}
+		}
+		this.cache[queryChecksum] = {
+			promise: super.get(query, ...args),
+			time: Date.now(),
+		};
+		return this.cache[queryChecksum].promise;
+	}
+}
+
+const http = new CachedRequest();
+
+export default http;
