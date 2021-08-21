@@ -65,6 +65,10 @@ export default class LoginPage extends Block {
                         await register(data)
                         Router.getInstance().go('/messenger');
                     } catch ({reason}) {
+                        const isAuth = await user();
+                        if(isAuth){
+                            Router.getInstance().go('/messenger');
+                        }
                             this.props.children.form.props.children.login.setError(true, reason);
                     }
                 },
