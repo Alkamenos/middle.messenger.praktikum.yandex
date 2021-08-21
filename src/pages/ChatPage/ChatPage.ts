@@ -126,7 +126,7 @@ export default class ChatPage extends Block {
                 if (isArray(data)) {
                     const old = data
                         .filter(message => message.type === 'message')
-                        .map(message => ({...message, my: this.user.id === message.user_id}))
+                        .map(message => ({...message, my: this.user.id === message.user_id})).reverse()
                     messages.push(...old);
                 } else {
                     if (data.type === 'message') {
