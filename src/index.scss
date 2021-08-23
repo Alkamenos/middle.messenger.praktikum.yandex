@@ -82,3 +82,10 @@ button {
 .chat-demo-image {
   background-image: url("/src/images/chat/image.jpg");
 }
+
+.no-avatar {
+  background-color: $color-light-grey;
+  border-radius: 50%;
+  height: 80px;
+  width: 80px;
+}

@@ -25,18 +25,36 @@
     }
   }
 
+  .avatar {
+    border-radius: 50%;
+    height: 47px;
+    overflow: hidden;
+    width: 47px;
+
+    img {
+      width: 47px;
+    }
+  }
+
   .contacts-item-info {
     height: 100%;
 
     .info-name {
+      height: 1.2em;
       margin-bottom: 5px;
+      margin-top: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 200px;
     }
 
     .info-message-preview {
       //box-orient: vertical;
       color: $color-light-grey;
       //display: box;
-      -webkit-line-clamp: 2;
+      //-webkit-line-clamp: 2;
+      max-height: 30px;
       max-width: 180px;
       overflow: hidden;
     }

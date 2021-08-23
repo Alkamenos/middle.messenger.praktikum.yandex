@@ -1,0 +1,72 @@
+@import "/src/styles/colors";
+
+.chat-contacts {
+  grid-area: contacts;
+  overflow: auto;
+  padding: 0 10px;
+
+  .contacts-profile-link {
+    color: $color-light-grey;
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0;
+
+    ._link {
+      align-items: center;
+      display: flex;
+    }
+
+    ._icon {
+      font-size: smaller;
+    }
+
+    ._text {
+      margin-right: 5px;
+    }
+  }
+
+  .contacts-list {
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: 20px;
+    max-height: calc(100vh - 120px);
+    overflow: auto;
+
+    li:first-child {
+      .contacts-item {
+        border-top: 1px solid $color-chat-border;
+      }
+    }
+
+    li:last-child {
+      .contacts-item {
+        border-bottom: 1px solid $color-chat-border;
+      }
+    }
+
+    li + li {
+      .contacts-item {
+        border-top: 1px solid $color-chat-border;
+      }
+    }
+
+    li:hover {
+      background-color: $color-primary;
+
+      .contacts-item {
+        border: 0;
+
+        ._counter {
+          background-color: $color-dark-grey;
+          color: $color-white;
+        }
+      }
+
+      li + li {
+        .contacts-item {
+          border-top: 0;
+        }
+      }
+    }
+  }
+}

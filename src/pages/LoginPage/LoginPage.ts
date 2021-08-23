@@ -1,89 +1,76 @@
-import Block from "../../core/Block";
-import { compile } from "pug";
-import { IComponentProps } from "../../core/interfaces";
-import { Button } from "../../components/Button";
-import template from "./LoginPage.template";
-import "./LoginPage.scss";
-import { Input } from "../../components/Input";
-import { checkEmail } from "../../utils/validation";
+import {render} from 'pug';
+import {Button} from '../../components/Button';
+import {LoginForm} from '../../components/LoginForm';
+import Block from '../../core/Block';
+import {IComponentProps} from '../../core/interfaces';
+import {login, user} from '../../services/auth';
+import Router from '../../utils/Router';
+import './LoginPage.scss';
+
+const template = `
+div.login-page
+    !=form
+    div.registration
+        div
+            h3.form-title="регистрация"
+            h5.form-sub-title="Создайте аккаунт"
+            !=registrationButton
+`;
 
 export default class LoginPage extends Block {
-  private emailField: Input;
-  constructor(props: IComponentProps) {
-    const submitButton = new Button({
-      child: "Войти",
-      primary: true,
-    });
-
-    const registrationButton = new Button({
-      child: "Зарегистрироваться",
-      secondary: true,
-      events: {
-        click: () => {
-          // @ts-ignore
-          window.renderPage("registration"); // временно вместо роутера
-        },
-      },
-    });
-
-    const emailField = new Input({
-      placeholder: "Email",
-      value: "какой-то неправильный email",
-      name: "email",
-      events: {
-        blur: (e) => {
-          checkEmail(e.currentTarget.value, emailField);
-        },
-        focus: () => {
-          console.log("focus");
-        },
-      },
-    });
-
-    const passwordField = new Input({
-      placeholder: "Пароль",
-      name: "password",
-      type: "password",
-    });
-
-    super({
-      ...props,
-      children: {
-        submitButton: submitButton.content,
-        registrationButton: registrationButton.content,
-        emailField: emailField.content,
-        passwordField: passwordField.content,
-      },
-    });
-    this.emailField = emailField;
-  }
-
-  protected customiseComponent() {
-    const form: HTMLFormElement = <HTMLFormElement>(
-      this.node.querySelector("form.login-form")
-    );
-
-    if (form) {
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const formData = new FormData(form);
-        console.log(Object.fromEntries(formData.entries()));
-        const email = formData.get("email");
-
-        let isValid = true;
-        if (email) {
-          isValid = checkEmail(<string>email, this.emailField);
-        }
-
-        if (isValid) {
-          // @ts-ignore
-          window.renderPage("chat"); // временно вместо роутера
-        }
-      });
+    constructor(props?: IComponentProps) {
+        super('div', {
+            ...props,
+            children: {
+                form: new LoginForm({
+                    attributes: {
+                        class: 'login-form',
+                    },
+                }),
+                registrationButton: new Button({
+                    child: 'Регистрация',
+                    color: 'secondary',
+                    events: {
+                        click: () => {
+                            Router.getInstance().go('/sign-up');
+                        },
+                    },
+                }),
+            },
+        });
     }
-  }
 
-  render() {
-    return compile(template)();
-  }
+    componentDidMount() {
+        this.props.children.form.setProps({
+            events: {
+                submit: async (e) => {
+                    e.preventDefault();
+                    if(!this.props.children.form.isValid()){
+                        return;
+                    }
+
+                    const formData = new FormData(e.currentTarget);
+                    const data = Object.fromEntries(formData.entries()) as { login: string, password: string };
+                    try {
+                        await login(data)
+                        Router.getInstance().go('/messenger');
+                    } catch ({reason}) {
+                            const isAuth = await user();
+                            if(isAuth){
+                                Router.getInstance().go('/messenger');
+                            }
+                            this.props.children.form.props.children.login.setError(true, reason);
+                    }
+                },
+            },
+        })
+    }
+
+    render() {
+        return render(template, {
+            form: this.props.children.form.getContent(),
+            registrationButton: this.props.children.registrationButton.getContent(),
+        });
+    }
+
 }
