@@ -83,7 +83,6 @@ export default class ProfilePage extends Block {
                     e.preventDefault();
                     const formData = new FormData(e.currentTarget);
                     const data = Object.fromEntries(formData.entries())
-                    console.log(data);
                     try {
                         await changeProfile(data)
                         // Router.getInstance().go("/messenger");
@@ -99,7 +98,6 @@ export default class ProfilePage extends Block {
                     e.preventDefault();
                     const formData = new FormData(e.currentTarget);
                     const data = Object.fromEntries(formData.entries())
-                    console.log(data);
                     try {
                         await changePassword(data)
                         // Router.getInstance().go("/messenger");

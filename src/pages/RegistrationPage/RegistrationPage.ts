@@ -60,7 +60,6 @@ export default class LoginPage extends Block {
                         password: string | null;
                         phone: string | null;
                     };
-                    console.log(data);
                     try {
                         await register(data)
                         Router.getInstance().go('/messenger');

@@ -1,18 +1,24 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     mode: 'development',
-    target: "node",
-    entry: './src/' +
-        'index.ts',
+    // target: "web",
+    entry: './src/index.ts',
+
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'messenger.bundle.js'
+        path: path.resolve(__dirname, 'build'),
+        filename: '[name].[contenthash:5].js'
     },
     resolve: {
-        extensions: ['.ts', '.js', '.json']
+        extensions: ['.ts', '.js', '.json','.scss'],
+        fallback: {
+            path: false,
+            assert: require.resolve('assert/'),
+            fs: false
+        }
     },
     devServer: {
         compress: true,
@@ -27,6 +33,7 @@ module.exports = {
                         loader: 'ts-loader',
                         options: {
                             configFile: path.resolve(__dirname, 'tsconfig.json'),
+
                         },
                     },
                 ],
@@ -43,12 +50,19 @@ module.exports = {
                     'css-loader',
                     'sass-loader',
                 ],
+
             },
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin(),
-        new MiniCssExtractPlugin(),
-
+        new webpack.ProvidePlugin({
+            process: 'process/browser',
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash:5].css'
+        })
     ],
 };

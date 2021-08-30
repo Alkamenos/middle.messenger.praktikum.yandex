@@ -71,7 +71,6 @@ export default class FormInput extends Block implements IComponentProps {
         } else if (validity.tooLong) {
             return [true, 'Слишком длинное'];
         } else if (validity.patternMismatch) {
-            console.log(type);
             switch (type) {
                 case 'tel':
                     return [true, 'Введите номер телефона в формате +71234567890'];

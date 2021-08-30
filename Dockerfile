@@ -8,9 +8,12 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install
+# Disable Husky https://typicode.github.io/husky/#/?id=disable-husky-in-cidocker
+RUN npm set-script prepare ""
+
+#RUN npm install
 # If you are building your code for production
-# RUN npm ci --only=production
+RUN npm ci --only=production
 
 # Bundle app source
 COPY . .
