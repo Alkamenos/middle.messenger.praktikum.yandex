@@ -79,11 +79,10 @@ export default class ProfilePage extends Block {
         })
         this.props.children.userForm.setProps({
             events: {
-                submit: async (e) => {
+                submit: async (e:Event) => {
                     e.preventDefault();
-                    const formData = new FormData(e.currentTarget);
+                    const formData = new FormData(e.currentTarget as HTMLFormElement);
                     const data = Object.fromEntries(formData.entries())
-                    console.log(data);
                     try {
                         await changeProfile(data)
                         // Router.getInstance().go("/messenger");
@@ -95,11 +94,10 @@ export default class ProfilePage extends Block {
         });
         this.props.children.passwordForm.setProps({
             events: {
-                submit: async (e) => {
+                submit: async (e:Event) => {
                     e.preventDefault();
-                    const formData = new FormData(e.currentTarget);
+                    const formData = new FormData(e.currentTarget as HTMLFormElement);
                     const data = Object.fromEntries(formData.entries())
-                    console.log(data);
                     try {
                         await changePassword(data)
                         // Router.getInstance().go("/messenger");

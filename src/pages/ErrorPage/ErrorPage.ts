@@ -7,7 +7,6 @@ import error500 from './error500.template';
 import './ErrorPage.scss';
 
 export default class ErrorPage extends Block {
-    protected props: IErrorProps;
 
     constructor(props: IErrorProps) {
         const toIndexButton = new Button({
@@ -17,10 +16,10 @@ export default class ErrorPage extends Block {
             href: '/',
         });
 
-        super({
+        super('div',{
             ...props,
             children: {
-                toIndexButton: toIndexButton.content,
+                toIndexButton: toIndexButton.getContent(),
             },
         });
     }

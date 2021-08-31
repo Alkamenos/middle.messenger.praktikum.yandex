@@ -10,7 +10,6 @@ export class Route {
     private _componentProps: IComponentProps;
     private _params: {};
     private _needAuth: boolean;
-    private _isAuth: boolean;
     private _onUnautorized: any;
 
     constructor(
@@ -19,14 +18,12 @@ export class Route {
         props: IRouterProps,
         componentProps: IComponentProps,
         needAuth: boolean,
-        isAuth: boolean,
         onUnautorized: boolean,
     ) {
         this._pathname = pathname;
         this._blockClass = view;
         this._props = props;
         this._needAuth = needAuth;
-        this._isAuth = isAuth;
         this._onUnautorized = onUnautorized;
         this._componentProps = componentProps;
         this._params = this.getParams();
@@ -105,14 +102,13 @@ export default class Router {
         return this.__instance;
     }
 
-    use({pathname, block, props = {}, exact = true, needAuth = false, isAuth = false, onUnautorized}) {
+    use({pathname, block, props = {}, exact = true, needAuth = false, onUnautorized}:any) {
         const route = new Route(
             pathname,
             block,
             {rootQuery: this._rootQuery, exact},
             props,
             needAuth,
-            isAuth,
             onUnautorized,
         );
         this.routes.push(route);

@@ -3,11 +3,19 @@ import {render} from 'pug';
 import Block from '../../core/Block';
 import {IComponentProps} from '../../core/interfaces';
 import {getAvatarUrl} from '../../utils/helpers';
-import Router from '../../utils/Router';
 import {ChatContact} from '../ChatContact';
 import './ChatContacts.scss';
-
+type ChatItem = {
+    id:number|string,
+    title:string,
+    // eslint-disable-next-line camelcase
+    last_message:any,
+    // eslint-disable-next-line camelcase
+    unread_count:number,
+    avatar:string,
+}
 export default class ChatContacts extends Block {
+    private handleSelect: (chatId: (string | number)) => {};
     constructor(props?: IComponentProps) {
         super('ul', {
             ...props,
@@ -17,9 +25,13 @@ export default class ChatContacts extends Block {
         });
     }
 
+    onSelect(handler:(chatId:string|number)=>{}){
+        this.handleSelect = handler
+    }
+
     setItems(items:[]) {
         this.setProps({
-            children: items.map(item =>
+            children: items.map((item:ChatItem) =>
                 new ChatContact({
                     name: item.title,
                     preview: item.last_message?.content,
@@ -28,7 +40,7 @@ export default class ChatContacts extends Block {
                     avatar: getAvatarUrl(item.avatar),
                     events: {
                         click: () => {
-                            Router.getInstance().go(`/messenger/?chat_id=${item.id}`);
+                            this.handleSelect(item.id)
                         },
                     },
                 }),

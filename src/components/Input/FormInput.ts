@@ -38,9 +38,9 @@ export default class FormInput extends Block implements IComponentProps {
     componentDidMount() {
         this.props.children.input.setProps({
             events: {
-                blur: (e) => {
+                blur: (e:Event) => {
 
-
+                    // @ts-ignore
                     this.setError(...this.checkValid(e.currentTarget));
                 },
             },
@@ -61,7 +61,7 @@ export default class FormInput extends Block implements IComponentProps {
         });
     }
 
-    checkValid({validity, type}) {
+    checkValid({validity, type}:{validity:ValidityState, type:string}) {
         if (validity.valid) {
             return [false, ''];
         } else if (validity.valueMissing) {
@@ -71,7 +71,6 @@ export default class FormInput extends Block implements IComponentProps {
         } else if (validity.tooLong) {
             return [true, 'Слишком длинное'];
         } else if (validity.patternMismatch) {
-            console.log(type);
             switch (type) {
                 case 'tel':
                     return [true, 'Введите номер телефона в формате +71234567890'];

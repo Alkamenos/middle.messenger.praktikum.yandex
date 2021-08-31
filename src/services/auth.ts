@@ -5,7 +5,7 @@ export async function user() {
 }
 
 export async function logout() {
-    return http.post('/auth/logout');
+    return http.post('/auth/logout',{});
 }
 
 export async function login(data: {
@@ -16,7 +16,9 @@ export async function login(data: {
 }
 
 export async function register(data: {
+    // eslint-disable-next-line camelcase
     first_name: string | null;
+    // eslint-disable-next-line camelcase
     second_name: string | null;
     login: string | null;
     email: string | null;

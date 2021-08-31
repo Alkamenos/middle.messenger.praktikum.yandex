@@ -1,3 +1,4 @@
+// @ts-ignore
 import md5 from 'md5';
 enum METHOD {
     GET = 'GET',
@@ -90,13 +91,15 @@ class Http {
 
 
 export class CachedRequest extends Http {
+	private cache: any;
+	private options: { ttl: number };
 	constructor({ ttl = 1000 } = {}) {
 		super();
 		this.cache = {};
 		this.options = { ttl };
 	}
 
-	get(query, ...args) {
+	get(query: string, ...args: undefined[]) {
 		const queryChecksum = md5(query);
 		const cachedResponce = this.cache[queryChecksum];
 		if (cachedResponce) {
