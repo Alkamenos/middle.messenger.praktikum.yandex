@@ -3,7 +3,6 @@ import {render} from 'pug';
 import Block from '../../core/Block';
 import {IComponentProps} from '../../core/interfaces';
 import {getAvatarUrl} from '../../utils/helpers';
-import Router from '../../utils/Router';
 import {ChatContact} from '../ChatContact';
 import './ChatContacts.scss';
 type ChatItem = {
@@ -16,6 +15,7 @@ type ChatItem = {
     avatar:string,
 }
 export default class ChatContacts extends Block {
+    private handleSelect: (chatId: (string | number)) => {};
     constructor(props?: IComponentProps) {
         super('ul', {
             ...props,
@@ -23,6 +23,10 @@ export default class ChatContacts extends Block {
                 class: 'chat-contacts',
             },
         });
+    }
+
+    onSelect(handler:(chatId:string|number)=>{}){
+        this.handleSelect = handler
     }
 
     setItems(items:[]) {
@@ -36,7 +40,7 @@ export default class ChatContacts extends Block {
                     avatar: getAvatarUrl(item.avatar),
                     events: {
                         click: () => {
-                            Router.getInstance().go(`/messenger/?chat_id=${item.id}`);
+                            this.handleSelect(item.id)
                         },
                     },
                 }),

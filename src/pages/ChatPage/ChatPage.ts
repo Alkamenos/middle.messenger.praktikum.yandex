@@ -13,10 +13,6 @@ import {getAvatarUrl, isArray} from '../../utils/helpers';
 import Router from '../../utils/Router';
 import './ChatPage.scss';
 
-function getChatId() {
-    return new URLSearchParams(window.location.search).get('chat_id');
-}
-
 type ChatMessage = {
     title:string,
     type:string,
@@ -46,6 +42,7 @@ export default class ChatPage extends Block {
         super('div', {
             ...props,
             title: '',
+            chatId: null,
             children: {
                 contacts: new ChatContacts({
                     items: [],
@@ -56,20 +53,19 @@ export default class ChatPage extends Block {
                 addChat: new Button({
                     child: 'Создать чат',
                     color: 'secondary',
-
                 }),
             },
-
         });
-
+        this.props.children.contacts.onSelect((chatId:string|number) => {
+            this.setProps({chatId});
+        });
         this.props.children.header.setProps({
             events: {
                 click: () => {
-                    Router.getInstance().go(`/settings`)
+                    Router.getInstance().go(`/settings`);
                 },
             },
-        })
-
+        });
         this.props.children.addChat.setProps({
             events: {
                 click: async () => {
@@ -106,7 +102,7 @@ export default class ChatPage extends Block {
     }
 
     private async getData() {
-        const id = getChatId();
+        const id = this.props.chatId;
         let userChats;
         try {
             userChats = await chats();
@@ -114,8 +110,6 @@ export default class ChatPage extends Block {
             Router.getInstance().go('/');
             console.error(e)
         }
-
-
         this.props.children.contacts.setItems(userChats)
         this.user = await user();
 
