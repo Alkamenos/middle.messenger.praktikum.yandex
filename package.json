@@ -10,9 +10,12 @@
     "prepare": "husky install",
     "start": "webpack --watch & node ./server.js",
     "stylelint-check": "stylelint-config-prettier-check",
-    "heroku:push":"heroku container:push web",
-    "heroku:release":"heroku container:release web",
+    "heroku:push": "heroku container:push web",
+    "heroku:release": "heroku container:release web",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'src/**/*spec.ts'"
+  },
+  "engines": {
+    "node": "14.17.2"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,4 @@
-export function isArray(value: unknown): value is [] {
+export function isArray(value: any): value is [] {
     return Array.isArray(value);
 }
 
@@ -6,14 +6,14 @@ type PlainObject<T = unknown> = {
     [k in string]: T;
 };
 
-export function isPlainObject(value: unknown): value is PlainObject {
+export function isPlainObject(value: any): value is PlainObject {
     return typeof value === 'object'
         && value !== null
         && value.constructor === Object
         && Object.prototype.toString.call(value) === '[object Object]';
 }
 
-export function isArrayOrObject(value: unknown): value is ([] | PlainObject) {
+export function isArrayOrObject(value: any): value is ([] | PlainObject) {
     return isPlainObject(value) || isArray(value);
 }
 
@@ -28,7 +28,7 @@ export function isEqual(lhs: PlainObject, rhs: PlainObject) {
         if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
             // Здесь value и rightValue может быть только массивом или объектом
             // И TypeScript это обрабатывает
-            if (isEqual(value, rightValue)) {
+            if (isEqual(value as {}, rightValue as {})) {
                 continue;
             }
             return false;

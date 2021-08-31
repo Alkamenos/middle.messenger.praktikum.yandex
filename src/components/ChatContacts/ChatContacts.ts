@@ -6,7 +6,15 @@ import {getAvatarUrl} from '../../utils/helpers';
 import Router from '../../utils/Router';
 import {ChatContact} from '../ChatContact';
 import './ChatContacts.scss';
-
+type ChatItem = {
+    id:number|string,
+    title:string,
+    // eslint-disable-next-line camelcase
+    last_message:any,
+    // eslint-disable-next-line camelcase
+    unread_count:number,
+    avatar:string,
+}
 export default class ChatContacts extends Block {
     constructor(props?: IComponentProps) {
         super('ul', {
@@ -19,7 +27,7 @@ export default class ChatContacts extends Block {
 
     setItems(items:[]) {
         this.setProps({
-            children: items.map(item =>
+            children: items.map((item:ChatItem) =>
                 new ChatContact({
                     name: item.title,
                     preview: item.last_message?.content,

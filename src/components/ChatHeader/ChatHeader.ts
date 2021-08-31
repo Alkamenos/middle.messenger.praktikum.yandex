@@ -1,7 +1,6 @@
 import {render} from 'pug';
 import Block from '../../core/Block';
 import {IComponentProps} from '../../core/interfaces';
-import Router from '../../utils/Router';
 import {Button} from '../Button';
 import {Element} from '../Element';
 import './ChatHeader.scss';

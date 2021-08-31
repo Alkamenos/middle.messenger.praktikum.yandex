@@ -3,7 +3,7 @@ import EventBus from '../core/EventBus';
 export default class WS extends EventBus {
     private socket: WebSocket;
 
-    constructor({userId, chatId, token}: { userId: number, chatId: number, token: string }) {
+    constructor({userId, chatId, token}: { userId: number|string, chatId: number|string, token: string }) {
         super();
         this.socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${token}`);
         this.socket.addEventListener('open', () => {

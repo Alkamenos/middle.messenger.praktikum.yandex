@@ -21,7 +21,7 @@ export interface IComponentProps {
 
 export interface IButtonProps extends IComponentProps {
     type?: string;
-    color?: 'primary' | 'secondary';
+    color?: 'primary' | 'secondary' | 'warn';
     link?: boolean;
     href?: string;
 }

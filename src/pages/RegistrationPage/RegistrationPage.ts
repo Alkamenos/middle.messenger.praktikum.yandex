@@ -45,15 +45,18 @@ export default class LoginPage extends Block {
     componentDidMount() {
         this.props.children.form.setProps({
             events: {
-                submit: async (e) => {
+                submit: async (e: Event) => {
                     e.preventDefault();
                     if(!this.props.children.form.isValid()){
                         return;
                     }
-                    const formData = new FormData(e.currentTarget);
+                    const formData = new FormData(e.currentTarget as HTMLFormElement);
                     const data = Object.fromEntries(formData.entries()) as {
+                        // eslint-disable-next-line camelcase
                         first_name: string | null;
+                        // eslint-disable-next-line camelcase
                         second_name: string | null;
+                        // eslint-disable-next-line camelcase
                         display_name: string | null;
                         login: string | null;
                         email: string | null;

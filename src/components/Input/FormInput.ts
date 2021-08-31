@@ -38,9 +38,9 @@ export default class FormInput extends Block implements IComponentProps {
     componentDidMount() {
         this.props.children.input.setProps({
             events: {
-                blur: (e) => {
+                blur: (e:Event) => {
 
-
+                    // @ts-ignore
                     this.setError(...this.checkValid(e.currentTarget));
                 },
             },
@@ -61,7 +61,7 @@ export default class FormInput extends Block implements IComponentProps {
         });
     }
 
-    checkValid({validity, type}) {
+    checkValid({validity, type}:{validity:ValidityState, type:string}) {
         if (validity.valid) {
             return [false, ''];
         } else if (validity.valueMissing) {

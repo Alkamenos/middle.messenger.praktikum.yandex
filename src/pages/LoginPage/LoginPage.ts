@@ -43,13 +43,13 @@ export default class LoginPage extends Block {
     componentDidMount() {
         this.props.children.form.setProps({
             events: {
-                submit: async (e) => {
+                submit: async (e:Event) => {
                     e.preventDefault();
                     if(!this.props.children.form.isValid()){
                         return;
                     }
 
-                    const formData = new FormData(e.currentTarget);
+                    const formData = new FormData(e.currentTarget as HTMLFormElement);
                     const data = Object.fromEntries(formData.entries()) as { login: string, password: string };
                     try {
                         await login(data)

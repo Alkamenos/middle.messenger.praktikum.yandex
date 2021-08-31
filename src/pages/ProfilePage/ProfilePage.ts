@@ -79,9 +79,9 @@ export default class ProfilePage extends Block {
         })
         this.props.children.userForm.setProps({
             events: {
-                submit: async (e) => {
+                submit: async (e:Event) => {
                     e.preventDefault();
-                    const formData = new FormData(e.currentTarget);
+                    const formData = new FormData(e.currentTarget as HTMLFormElement);
                     const data = Object.fromEntries(formData.entries())
                     try {
                         await changeProfile(data)
@@ -94,9 +94,9 @@ export default class ProfilePage extends Block {
         });
         this.props.children.passwordForm.setProps({
             events: {
-                submit: async (e) => {
+                submit: async (e:Event) => {
                     e.preventDefault();
-                    const formData = new FormData(e.currentTarget);
+                    const formData = new FormData(e.currentTarget as HTMLFormElement);
                     const data = Object.fromEntries(formData.entries())
                     try {
                         await changePassword(data)

@@ -17,6 +17,13 @@ function getChatId() {
     return new URLSearchParams(window.location.search).get('chat_id');
 }
 
+type ChatMessage = {
+    title:string,
+    type:string,
+    // eslint-disable-next-line camelcase
+    user_id:string | number,
+}
+
 const template = `
 div
     div.chat
@@ -32,7 +39,7 @@ div
 
 `
 export default class ChatPage extends Block {
-    private user: {};
+    private user: {id:string};
     private socket: WebSocket;
 
     constructor(props: IComponentProps) {
@@ -66,7 +73,7 @@ export default class ChatPage extends Block {
         this.props.children.addChat.setProps({
             events: {
                 click: async () => {
-                    const title = prompt('Название чата', 'Чат123');
+                    const title = prompt('Название чата', 'Чат123') as string;
                     try{
                         await createChat({title});
                         this.getData();
@@ -113,20 +120,21 @@ export default class ChatPage extends Block {
         this.user = await user();
 
         if (id) {
-            const chat = userChats.find(c => c.id.toString() === id.toString())
+            const chat = userChats.find((c:{id:string}) => c.id.toString() === id.toString())
             this.props.children.header.setProps({...chat, avatar: getAvatarUrl(chat.avatar)})
 
-            const {token} = await getToken({id});
+            const {token} = await getToken({id}) as {token:string};
             const ws = new WS({userId: this.user.id, chatId: id, token})
-            const messages = [];
+            const messages:{type:string}[] = [];
 
             this.socket = ws.getSocket();
             this.socket.addEventListener('message', event => {
                 const data = JSON.parse(event.data)
                 if (isArray(data)) {
                     const old = data
-                        .filter(message => message.type === 'message')
-                        .map(message => ({...message, my: this.user.id === message.user_id})).reverse()
+                        // eslint-disable-next-line camelcase
+                        .filter((message:ChatMessage) => message.type === 'message')
+                        .map((message:ChatMessage) => ({...message, my: this.user.id === message.user_id})).reverse()
                     messages.push(...old);
                 } else {
                     if (data.type === 'message') {
@@ -142,11 +150,13 @@ export default class ChatPage extends Block {
 
             this.props.children.message.setProps({
                 events: {
-                    submit: (e) => {
-                        const fd = new FormData(e.currentTarget);
+                    submit: (e:Event) => {
+                        const fd = new FormData(e.currentTarget as HTMLFormElement);
                         e.preventDefault();
-                        ws.sendMessage(fd.get('message') as string)
-                        e.currentTarget.querySelector('input').value=''
+                        ws.sendMessage(fd.get('message') as string);
+
+                        // @ts-ignore
+                        e.currentTarget.querySelector('input').value=''!;
                     },
                 },
             })

@@ -119,10 +119,11 @@ export default class UserForm extends Form implements IComponentProps {
     componentDidMount() {
         this.props.children.fileInput.setProps({
             events: {
-                change: (e) => {
+                change: (e:Event) => {
                     const fd = new FormData();
+                    // @ts-ignore
                     fd.append('avatar', e.currentTarget.files[0]);
-                    changeAvatar(fd).then(data => {
+                    changeAvatar(fd).then((data:{avatar:string}) => {
                         this.setProps({avatar: `https://ya-praktikum.tech/api/v2/resources/${data.avatar}`});
                     });
                 },
