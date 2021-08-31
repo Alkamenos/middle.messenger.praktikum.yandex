@@ -14,9 +14,7 @@
     "heroku:release": "heroku container:release web",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'src/**/*spec.ts'"
   },
-  "engines": {
-    "node": "14.17.2"
-  },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Alkamenos/middle.messenger.praktikum.yandex.git"
