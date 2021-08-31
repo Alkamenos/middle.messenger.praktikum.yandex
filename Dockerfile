@@ -8,8 +8,6 @@ COPY package*.json ./
 # Disable Husky https://typicode.github.io/husky/#/?id=disable-husky-in-cidocker
 RUN npm set-script prepare ""
 
-#RUN npm install
-# If you are building your code for production
 RUN npm install
 
 # Bundle app source
