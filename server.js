@@ -1,19 +1,17 @@
-const express = require('express');
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
+const express = require("express");
+const path = require("path");
 
 const app = express();
-const PORT = 3000;
-const path = require('path');
+const port = 3000;
 
-app.use(express.static('./build'));
+app.use(express.static("./dist"));
 
-app.use('*/**', (req, res) => {
-	res.redirect('/');
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
-app.get('/', (req, res) => {
-	res.sendFile(__dirname + './build/index.html');
-});
-
-app.listen(PORT, function() {
-	console.log(`Example app listening on port ${PORT}!`);
+app.listen(process.env.PORT || 3000, "0.0.0.0", function () {
+	console.log(`Example app listening on port ${port}!`);
 });

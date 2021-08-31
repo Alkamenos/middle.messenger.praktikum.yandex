@@ -3,5 +3,3 @@ build:
     web: Dockerfile
   config:
     NODE_ENV: production
-run:
-  web: npm start

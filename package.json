@@ -8,7 +8,7 @@
     "build:container": "docker build -t messenger .",
     "dev": "webpack-dev-server ",
     "prepare": "husky install",
-    "start": "webpack --watch & node ./server.js",
+    "start": "webpack  & node ./server.js",
     "stylelint-check": "stylelint-config-prettier-check",
     "heroku:push": "heroku container:push web",
     "heroku:release": "heroku container:release web",
