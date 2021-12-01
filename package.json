@@ -14,7 +14,6 @@
     "heroku:release": "heroku container:release web",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'src/**/*spec.ts'"
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Alkamenos/middle.messenger.praktikum.yandex.git"
@@ -30,6 +29,7 @@
     "@babel/register": "^7.13.16",
     "@parcel/transformer-pug": "^2.0.0-rc.0",
     "@parcel/transformer-sass": "^2.0.0-beta.2",
+    "@testing-library/react": "^12.1.0",
     "@types/chai": "^4.2.17",
     "@types/mocha": "^8.2.2",
     "@types/pug": "^2.0.4",
